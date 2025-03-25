@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_home"
+    android:padding="20dp">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GENRE"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:layout_marginTop="20dp" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/pop_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="POP"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/classical_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="CLASSICAL"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/rock_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="ROCK"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/hiphop_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="HIP HOP"
+            android:textColor="@android:color/white"/>
+
+    </GridLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DIFFICULTY"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:layout_marginTop="20dp" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/easy_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="EASY"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/normal_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="NORMAL"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/hard_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="HARD"
+            android:textColor="@android:color/white"/>
+
+    </GridLayout>
+    <!-- Barre de navigation en bas -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#11293C"
+        android:padding="0dp"
+        android:weightSum="4">
+        <ImageButton
+            android:id="@+id/homeButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/home_button_selector"
+            android:background="@null"
+            android:contentDescription="Home"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"/>
+
+        <ImageButton
+            android:id="@+id/musicButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/music_button_selector"
+            android:background="@null"
+            android:contentDescription="Music"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"/>
+
+        <ImageButton
+            android:id="@+id/favoriteButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="Favorites"
+            android:scaleType="centerInside"
+            android:src="@drawable/favorite_button_selector" />
+
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="Settings"
+            android:scaleType="centerInside"
+            android:src="@drawable/settings_button_selector" />
+
+    </LinearLayout>
+
+</LinearLayout>

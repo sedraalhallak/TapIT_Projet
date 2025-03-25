@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_home"
+    android:padding="10dp">
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:paddingBottom="0dp"
+        android:layout_gravity="center"/>
+
+
+    <!-- Titre -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SELECT A SONG"
+        android:textSize="24sp"
+        android:textColor="#B2C5D7"
+        android:textStyle="bold"
+        android:paddingBottom="10dp"
+        android:layout_gravity="center"/>
+
+    <ListView
+        android:id="@+id/songListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
+        android:padding="10dp"
+        android:background="#00000000"
+        />
+    <!-- Barre de navigation en bas -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#11293C"
+        android:padding="0dp"
+        android:weightSum="4">
+        <ImageButton
+            android:id="@+id/homeButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/home_button_selector"
+            android:background="@null"
+            android:contentDescription="Home"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"/>
+
+        <ImageButton
+            android:id="@+id/musicButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/music_button_selector"
+            android:background="@null"
+            android:contentDescription="Music"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"/>
+
+        <ImageButton
+            android:id="@+id/favoriteButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="Favorites"
+            android:scaleType="centerInside"
+            android:src="@drawable/favorite_button_selector" />
+
+        <ImageButton
+            android:id="@+id/settingsButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:contentDescription="Settings"
+            android:scaleType="centerInside"
+            android:src="@drawable/settings_button_selector" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

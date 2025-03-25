@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Projet"
+        tools:targetApi="31">
+
+        <!-- Définir SplashActivity comme activité principale -->
+        <activity android:name=".SplashActivity"
+            android:exported="true">
+            <!-- Intent filter pour que SplashActivity soit l'activité principale -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- MainActivity sans intent-filter MAIN -->
+        <activity android:name=".MainActivity"
+            android:exported="true">
+            <!-- Pas d'intent-filter MAIN ici pour ne pas que MainActivity soit lancée directement -->
+        </activity>
+
+        <activity android:name=".PauseActivity">
+            <!-- Optionnel : Ajouter des attributs si nécessaire -->
+        </activity>
+
+        <activity android:name=".HomeActivity" />
+        <activity android:name=".SelectionActivity"/>
+        <activity android:name=".SettingsActivity">
+            <!-- Vous pouvez ajouter ici des attributs si nécessaire -->
+        </activity>
+
+
+
+    </application>
+
+</manifest>

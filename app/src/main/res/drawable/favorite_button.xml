@@ -1,0 +1,6 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Quand le bouton est sélectionné -->
+    <item android:state_selected="true" android:drawable="@drawable/ic_favorite_pressed"/>
+    <!-- État normal (non sélectionné) -->
+    <item android:drawable="@drawable/ic_favorite"/>
+</selector>

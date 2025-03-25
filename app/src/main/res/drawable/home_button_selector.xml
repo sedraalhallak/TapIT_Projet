@@ -1,0 +1,7 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Quand le bouton est appuyé -->
+    <item android:state_pressed="true" android:drawable="@drawable/ic_home_pressed"/>
+
+    <!-- État normal -->
+    <item android:drawable="@drawable/ic_home"/>
+</selector>
