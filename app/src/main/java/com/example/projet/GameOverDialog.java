@@ -20,13 +20,16 @@ public class GameOverDialog {
     public void show(int score) {
         Activity activity = (Activity) context;
         activity.runOnUiThread(() -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.TransparentDialog);
             LayoutInflater inflater = activity.getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.game_over_dialog, null);
             builder.setView(dialogView);
 
             dialog = builder.create();
             dialog.setCancelable(false);
+
+            // Supprimer le fond gris de la boîte de dialogue
+            dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
 
             TextView scoreText = dialogView.findViewById(R.id.score_text);
             scoreText.setText("Score : " + score);
@@ -39,7 +42,7 @@ public class GameOverDialog {
 
             Button homeButton = dialogView.findViewById(R.id.home_button);
             homeButton.setOnClickListener(v -> {
-                Intent intent = new Intent(context, HomeActivity.class); // Assurez-vous que c'est bien l'accueil
+                Intent intent = new Intent(context, HomeActivity.class);
                 context.startActivity(intent);
                 activity.finish();
             });
@@ -47,4 +50,5 @@ public class GameOverDialog {
             dialog.show();
         });
     }
+
 }

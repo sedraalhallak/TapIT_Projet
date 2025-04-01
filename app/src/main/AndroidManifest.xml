@@ -38,9 +38,14 @@
         <activity android:name=".SettingsActivity">
             <!-- Vous pouvez ajouter ici des attributs si nécessaire -->
         </activity>
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SignupActivity" />
+
 
 
 
     </application>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

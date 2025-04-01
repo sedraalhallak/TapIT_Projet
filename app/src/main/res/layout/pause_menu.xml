@@ -1,52 +1,87 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
     android:background="@android:color/transparent">
 
-    <TextView
-        android:id="@+id/pause_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:gravity="center" />
-
     <!-- Bouton Reprendre -->
     <Button
         android:id="@+id/resume_button"
-        android:layout_width="250dp"
+        android:text="Resume"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:shadowColor="#00FFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        android:textColor="#FFFFFF"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/continue_button"
+        android:background="@drawable/button"
         android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingStart="0dp"
         android:contentDescription="Resume the game" />
+
 
     <!-- Bouton Restart -->
     <Button
         android:id="@+id/restart_button"
-        android:layout_width="250dp"
+        android:text="Restart"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:shadowColor="#00FFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        android:textColor="#FFFFFF"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/restart_button"
-        android:layout_marginTop="10dp"
+        android:background="@drawable/button"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_gravity="center"
         android:contentDescription="Restart the game" />
 
-    <!-- Bouton Settings (corrigé) -->
+    <!-- Bouton Settings -->
     <Button
         android:id="@+id/settings_button"
-        android:layout_width="250dp"
+        android:text="Settings"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:shadowColor="#00FFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        android:textColor="#FFFFFF"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/settings_button"
-        android:layout_marginTop="10dp"
+        android:background="@drawable/button"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_gravity="center"
         android:contentDescription="Open settings" />
 
     <!-- Bouton Home -->
     <Button
         android:id="@+id/home_button"
-        android:layout_width="250dp"
+        android:text="Home"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:shadowColor="#00FFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        android:textColor="#FFFFFF"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/home_button"
-        android:layout_marginTop="10dp"
+        android:background="@drawable/button"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_gravity="center"
         android:contentDescription="Return to home screen" />
 
 </LinearLayout>

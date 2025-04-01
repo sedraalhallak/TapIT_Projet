@@ -3,37 +3,42 @@ package com.example.projet;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import com.bumptech.glide.Glide;
 
 public class SplashActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash); // Assure-toi que ce fichier XML est bien "activity_splash.xml"
+        setContentView(R.layout.activity_splash);
 
-        // Lance MainActivity après 3 secondes
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startGame();
-            }
-        }, 3000); // 3000 ms = 3 secondes
+        // Charger le GIF
+        ImageView gifImage = findViewById(R.id.gifImage);
+        Glide.with(this).load(R.drawable.mon_gif).into(gifImage);
+        // Charger le deuxième GIF (en haut)
+        ImageView gifTop = findViewById(R.id.gifTop);
+        Glide.with(this).load(R.drawable.gif2).into(gifTop);
 
-        // Ajouter un OnClickListener sur tout l'écran pour démarrer immédiatement le jeu
-        findViewById(R.id.splash_layout).setOnClickListener(new View.OnClickListener() {
+
+        // Récupérer tout le layout (écran complet)
+        ConstraintLayout splashLayout = findViewById(R.id.splash_layout);
+
+        // Ajouter un OnClickListener sur tout l'écran
+        splashLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startGame(); // Appel de la méthode qui lance le jeu
+                startGame(); // Lancer le jeu quand l'utilisateur clique n'importe où
             }
         });
     }
 
-    // Méthode pour démarrer MainActivity
+    // Méthode pour démarrer le jeu
     private void startGame() {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
-        finish(); // Ferme SplashActivity
+        finish(); // Ferme l'écran du menu après avoir lancé le jeu
     }
 }

@@ -62,6 +62,7 @@ public class GameView extends SurfaceView implements Runnable {
         tiles = new ArrayList<>();
         random = new Random();
         soundManager = new SoundManager(context);
+
         tileWidth = (int)(screenWidth / 3.2);
         lastTileY = new int[4];
         score = 0;
@@ -75,8 +76,8 @@ public class GameView extends SurfaceView implements Runnable {
         pauseButtonImage = BitmapFactory.decodeResource(getResources(), R.drawable.pause_button);
         pauseButtonImage = Bitmap.createScaledBitmap(pauseButtonImage, 100, 100, false);
 
-        redTileImage = BitmapFactory.decodeResource(getResources(), R.drawable.red_tile_image);
-        redTileImage = Bitmap.createScaledBitmap(redTileImage, tileWidth, tileHeight, false);
+        redTileImage = BitmapFactory.decodeResource(getResources(), R.drawable.red);
+        redTileImage = Bitmap.createScaledBitmap(redTileImage,(int)(screenWidth / 3.2), 450, false);
 
         soundManager.playBackgroundMusic();
         // Chargement et redimensionnement des étoiles UNE SEULE FOIS
@@ -341,27 +342,39 @@ public class GameView extends SurfaceView implements Runnable {
 
                 Button resumeButton = dialogView.findViewById(R.id.resume_button);
                 resumeButton.setOnClickListener(v -> {
-                    dialog.dismiss();
-                    isPlaying = true;
-                    startGame();
+                    v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).withEndAction(() -> {
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100);
+                        dialog.dismiss();
+                        isPlaying = true;
+                        startGame();
+                    });
                 });
 
                 Button restartButton = dialogView.findViewById(R.id.restart_button);
                 restartButton.setOnClickListener(v -> {
-                    dialog.dismiss();
-                    restartGame();
+                    v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).withEndAction(() -> {
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100);
+                        dialog.dismiss();
+                        restartGame();
+                    });
                 });
 
                 Button homeButton = dialogView.findViewById(R.id.home_button);
                 homeButton.setOnClickListener(v -> {
-                    Intent intent = new Intent(getContext(), HomeActivity.class);
-                    getContext().startActivity(intent);
-                    activity.finish();
+                    v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).withEndAction(() -> {
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100);
+                        Intent intent = new Intent(getContext(), HomeActivity.class);
+                        getContext().startActivity(intent);
+                        activity.finish();
+                    });
                 });
                 Button settingsButton = dialogView.findViewById(R.id.settings_button);
                 settingsButton.setOnClickListener(v -> {
-                    Intent settingsIntent = new Intent(getContext(), SettingsActivity.class);
-                    getContext().startActivity(settingsIntent);
+                    v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).withEndAction(() -> {
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100);
+                        Intent settingsIntent = new Intent(getContext(), SettingsActivity.class);
+                        getContext().startActivity(settingsIntent);
+                    });
                 });
 
                 dialog.show();

@@ -21,8 +21,8 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity {
 
     private VideoView videoView;
-  //  private ListView songListView;
-   // private String[] songs = {"Hello - Adele", "Hometown Glory - Adele", "Easy On Me - Adele", "Monkey - Adele"};
+    //  private ListView songListView;
+    // private String[] songs = {"Hello - Adele", "Hometown Glory - Adele", "Easy On Me - Adele", "Monkey - Adele"};
     private ListView songListView;
     private List<Song> songList;
     private SoundManager soundManager;
@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Initialisation des vues
         videoView = findViewById(R.id.videoView);
-       // songListView = findViewById(R.id.songListView);
+        // songListView = findViewById(R.id.songListView);
         // Initialisation du SoundManager
         soundManager = new SoundManager(this);
         // Charger et démarrer la vidéo

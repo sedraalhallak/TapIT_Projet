@@ -133,6 +133,15 @@ public class SettingsActivity extends Activity {
                 public void onNothingSelected(AdapterView<?> parentView) {}
             });
         });
+        // Trouver le bouton d'image de connexion
+        ImageButton loginIcon = findViewById(R.id.loginIcon);
+
+// Ajouter un clic pour rediriger vers LoginActivity
+        loginIcon.setOnClickListener(v -> {
+            Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);
+            startActivity(loginIntent);
+        });
+
     }
 
     @Override
