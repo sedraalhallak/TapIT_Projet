@@ -37,7 +37,7 @@
             android:id="@+id/continue_button"
             android:layout_width="250dp"
             android:layout_height="70dp"
-            android:text="Continue -200 coin"
+            android:text="Resumer"
             android:textColor="#FFFFFF"
             android:background="@drawable/button"
             android:gravity="center"

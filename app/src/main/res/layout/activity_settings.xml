@@ -4,12 +4,12 @@
     android:background="@drawable/play"
     android:padding="20dp">
 
-    <!-- Titre Settings avec effet néon en majuscule et en gras -->
+    <!-- Titre Settings -->
     <TextView
         android:id="@+id/settings_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SETTINGS"
+        android:text="@string/settings"
         android:textSize="50sp"
         android:textColor="#FFFFFF"
         android:textAllCaps="true"
@@ -29,16 +29,14 @@
         android:layout_below="@id/settings_title"
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
-        >
+        android:gravity="center_vertical">
 
         <!-- TextView Langue -->
         <TextView
             android:id="@+id/langue_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Langue"
-
+            android:text="@string/language"
             android:textColor="#FFFFFF"
             android:shadowColor="#FFFFFFFF"
             android:shadowDx="0"
@@ -50,38 +48,27 @@
         <!-- Affichage de la langue actuelle -->
         <TextView
             android:id="@+id/current_language"
-
-            android:text="English"
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/english"
+            android:textColor="#0097b2"
+            android:gravity="center"
+            android:textSize="20sp"
             android:layout_marginStart="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="10dp"
-            android:layout_height="48dp"
-            android:layout_width="0dp"
             android:layout_weight="1"
             android:background="@drawable/button_background"
-            android:gravity="center"
-            android:textColor="#0097b2"
-            android:shadowColor="#FFFFFFFF"
-            android:shadowDx="0"
-            android:shadowDy="0"
-            android:shadowRadius="15"
-            android:textSize="20sp"
-            android:layout_marginEnd="10dp"/>
+            android:padding="10dp" />
 
-        <!-- Spinner pour les langues (initialement caché) -->
+        <!-- Spinner pour les langues -->
         <Spinner
             android:id="@+id/language_spinner"
             android:layout_width="wrap_content"
             android:layout_height="48dp"
             android:entries="@array/languages"
-            android:visibility="gone"
             android:textColor="#0097b2"
             android:textSize="18sp"
             android:layout_marginStart="10dp"
-            android:background="@drawable/button_background"
-            />
+            android:background="@drawable/button_background" />
     </LinearLayout>
 
     <!-- Curseur de volume -->
@@ -95,16 +82,14 @@
         android:progress="50"
         android:thumbTint="@android:color/white"
         android:progressTint="@android:color/white"
-        android:layout_marginBottom="20dp"
-
-        />
+        android:layout_marginBottom="20dp" />
 
     <!-- Bouton pour couper le son -->
     <CheckBox
         android:id="@+id/mute_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Mute Sound"
+        android:text="@string/mute"
         android:textColor="@android:color/white"
         android:layout_below="@id/volume_slider"
         android:layout_marginTop="20dp"
@@ -115,73 +100,103 @@
         android:shadowDy="0"
         android:shadowRadius="15"
         android:textSize="20sp"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="10dp" />
 
-    <!-- Barre de navigation en bas -->
+    <!-- Barre de navigation en bas de la page -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="#11293C"
-        android:padding="0dp"
-        android:weightSum="4"
+        android:padding="5dp"
+        android:background="@android:color/transparent"
         android:layout_alignParentBottom="true">
 
-        <ImageButton
+        <!-- Home Button -->
+        <LinearLayout
             android:id="@+id/homeButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/home_button_selector"
-            android:background="@null"
-            android:contentDescription="Home"
-            android:scaleType="centerInside"
-            android:adjustViewBounds="true"/>
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/nav_button_background"
+                android:text="🏠"
+                android:gravity="center"
+                android:textSize="24sp" />
+        </LinearLayout>
 
-        <ImageButton
+        <!-- Music Button -->
+        <LinearLayout
             android:id="@+id/musicButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/music_button_selector"
-            android:background="@null"
-            android:contentDescription="Music"
-            android:scaleType="centerInside"
-            android:adjustViewBounds="true"/>
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/nav_button_background"
+                android:text="🎵"
+                android:gravity="center"
+                android:textSize="24sp" />
+        </LinearLayout>
 
-        <ImageButton
+        <!-- Favorites Button -->
+        <LinearLayout
             android:id="@+id/favoriteButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:contentDescription="Favorites"
-            android:scaleType="centerInside"
-            android:src="@drawable/favorite_button_selector" />
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/nav_button_background"
+                android:text="❤️"
+                android:gravity="center"
+                android:textSize="24sp" />
+        </LinearLayout>
 
-        <ImageButton
+        <!-- Settings Button -->
+        <LinearLayout
             android:id="@+id/settingsButton"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:background="@null"
-            android:contentDescription="Settings"
-            android:scaleType="centerInside"
-            android:src="@drawable/settings_button_selector" />
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/nav_button_background"
+                android:text="⚙️"
+                android:gravity="center"
+                android:textSize="24sp" />
+        </LinearLayout>
     </LinearLayout>
 
+    <!-- Login Button -->
     <ImageButton
         android:id="@+id/loginIcon"
-        android:layout_width="40dp"
+        android:layout_width="50dp"
         android:layout_height="120dp"
+        android:layout_alignParentTop="true"
         android:layout_margin="10dp"
+        android:layout_marginTop="-48dp"
+        android:layout_marginBottom="10dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Login"
         android:scaleType="centerInside"
         android:src="@drawable/ic_login" />
-
 
 </RelativeLayout>

@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">projet</string>
+
+    <style name="TransparentDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <string name="english">Anglais</string>
+    <string name="french">Français</string>
+    <string name="current_language">Langue actuelle</string>
+
+    <string-array name="languages">
+        <item>@string/english</item>
+        <item>@string/french</item>
+    </string-array>
+
+    <string name="settings">Paramètres</string>
+    <string name="volume">Volume</string>
+    <string name="mute">Couper le son</string>
+    <string name="language">Langue</string>
+    <string name="home">Accueil</string>
+    <string name="music">Musique</string>
+    <string name="favorites">Favoris</string>
+</resources>

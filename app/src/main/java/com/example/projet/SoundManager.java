@@ -13,6 +13,7 @@ public class SoundManager {
     private HashMap<String, Integer> soundMap; // Pour gérer plusieurs sons
     private MediaPlayer backgroundMusic;
     private float volume = 1.0f; // Volume par défaut
+    private boolean isMuted = false; // Indicateur du mute global
 
     public SoundManager(Context context) {
         // Initialisation des attributs audio
@@ -27,10 +28,10 @@ public class SoundManager {
                 .build();
 
         soundMap = new HashMap<>();
-        loadSounds(context);
+        loadSounds(context); // Charge les sons
 
         // Initialisation de la musique de fond
-        backgroundMusic = MediaPlayer.create(context, R.raw.piano_note );  // Remplace par ton vrai fichier
+        backgroundMusic = MediaPlayer.create(context, R.raw.piano_note);  // Remplace par ton vrai fichier
         if (backgroundMusic != null) {
             backgroundMusic.setLooping(true);
         } else {
@@ -41,9 +42,9 @@ public class SoundManager {
     // Chargement des effets sonores
     private void loadSounds(Context context) {
         try {
-            // Ajouter plusieurs sons si nécessaire
-            //soundMap.put("piano_note1", soundPool.load(context, R.raw.piano_note1, 1));
-            //soundMap.put("piano_note2", soundPool.load(context, R.raw.piano_note, 1)); // Remplace par le vrai fichier
+            // Ajouter des sons à votre HashMap ici
+            soundMap.put("piano_note1", soundPool.load(context, R.raw.piano_note1, 1));
+            // Ajouter d'autres sons si nécessaire
         } catch (Exception e) {
             Log.e("SoundManager", "Erreur lors du chargement des sons : " + e.getMessage());
         }
@@ -51,6 +52,8 @@ public class SoundManager {
 
     // Jouer un son spécifique
     public void playSound(String soundName) {
+        if (isMuted) return;  // Si mute est activé, ne pas jouer de son
+
         Integer soundId = soundMap.get(soundName);
         if (soundId != null) {
             soundPool.play(soundId, volume, volume, 1, 0, 1f);
@@ -61,6 +64,8 @@ public class SoundManager {
 
     // Jouer la musique de fond
     public void playBackgroundMusic() {
+        if (isMuted) return;  // Si mute est activé, ne pas jouer la musique de fond
+
         if (backgroundMusic != null && !backgroundMusic.isPlaying()) {
             backgroundMusic.start();
         }
@@ -84,23 +89,34 @@ public class SoundManager {
             }
         }
     }
-    /*private void loadSounds(Context context) {
-        try {
-            // Ajoute les sons à ton HashMap
-            soundMap.put("piano_note1", soundPool.load(context, R.raw.piano_note1, 1));
-           // soundMap.put("piano_note2", soundPool.load(context, R.raw.piano_note2, 1));
-           //soundMap.put("piano_note3", soundPool.load(context, R.raw.piano_note3, 1));
-        } catch (Exception e) {
-            Log.e("SoundManager", "Erreur lors du chargement des sons : " + e.getMessage());
-        }
-    }*/
-
 
     // Régler le volume
     public void setVolume(float volume) {
+        if (isMuted) return;  // Si mute est activé, ne pas changer le volume
+
         this.volume = Math.max(0, Math.min(volume, 1)); // Volume entre 0 et 1
         if (backgroundMusic != null) {
             backgroundMusic.setVolume(this.volume, this.volume);
+        }
+    }
+
+    // Activer/Désactiver le mute global
+    public void setMute(boolean mute) {
+        isMuted = mute;
+        if (isMuted) {
+            // Couper tous les sons
+            if (backgroundMusic != null) {
+                backgroundMusic.setVolume(0, 0);
+            }
+            // Mettre en sourdine tous les effets sonores
+            soundPool.autoPause(); // Met en pause tous les sons de SoundPool
+        } else {
+            // Restaurer le volume par défaut
+            setVolume(volume);  // Utilise le volume défini précédemment
+            // Reprendre la musique de fond si elle est en pause
+            if (backgroundMusic != null && !backgroundMusic.isPlaying()) {
+                backgroundMusic.start();
+            }
         }
     }
 

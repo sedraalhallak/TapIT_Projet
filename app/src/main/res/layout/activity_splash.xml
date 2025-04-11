@@ -47,6 +47,20 @@
             android:shadowRadius="8"
             android:visibility="visible"
             tools:ignore="DuplicateIds" />
+        <TextView
+            android:id="@+id/catchyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="36sp"
+            android:textColor="#FFFFFF"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:visibility="visible"
+            android:fontFamily="@font/font" />
+
+
+
 
     </RelativeLayout>
 

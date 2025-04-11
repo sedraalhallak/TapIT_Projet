@@ -67,7 +67,7 @@ public class GameView extends SurfaceView implements Runnable {
         lastTileY = new int[4];
         score = 0;
 
-        background = BitmapFactory.decodeResource(getResources(), R.drawable.background_tiles);
+        background = BitmapFactory.decodeResource(getResources(), R.drawable.play2);
         background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, false);
 
         tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.tile_button);
