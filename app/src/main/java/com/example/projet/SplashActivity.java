@@ -67,8 +67,9 @@ public class SplashActivity extends Activity {
         /*
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
-        finish(); // Ferme l'écran du menu après avoir lancé le jeu*/
-        Intent intent = new Intent(SplashActivity.this, SelectionActivity.class);
+        finish(); // Ferme l'écran du menu après avoir lancé le jeu
+        */
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

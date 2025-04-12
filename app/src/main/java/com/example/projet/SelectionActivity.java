@@ -39,9 +39,8 @@ public class SelectionActivity extends AppCompatActivity {
         });
 
         musicButton.setOnClickListener(v -> {
-            v.startAnimation(clickAnimation); // Appliquer l'animation
-            startActivity(new Intent(SelectionActivity.this, SelectionActivity.class)); // Retourner à l'écran de sélection
-            finish();
+            v.startAnimation(clickAnimation);
+            Toast.makeText(this, "Music", Toast.LENGTH_SHORT).show();
         });
 
         settingsButton.setOnClickListener(v -> {
@@ -57,6 +56,8 @@ public class SelectionActivity extends AppCompatActivity {
 
         // Mettre à jour l'état actif de chaque bouton après l'animation
         setActiveButton(musicButton); // Exemple : mettre musicButton comme bouton actif
+
+
         // Login button listener
         ImageButton loginIcon = findViewById(R.id.loginIcon);
         loginIcon.setOnClickListener(v -> {

@@ -27,16 +27,26 @@ import com.example.projet.Tile;
 
 public class GameView extends SurfaceView implements Runnable {
     private Thread gameThread;
-    private boolean isPlaying;
+    private boolean isPlaying = true;
+    private boolean isGameOver = false;
+    private boolean isDialogShown = false;
+
+    private boolean isPaused = false;
+
     private SurfaceHolder holder;
     private Paint paint;
     private ArrayList<Tile> tiles;
     private int screenWidth, screenHeight;
+    private int tileWidth, tileHeight;
+    private int tileSpeed ;
+    private int score = 0;
     private Random random;
     private SoundManager soundManager;
-    private int tileWidth;
-    private int[] lastTileY;
-    private int score;
+
+
+
+
+
     private Bitmap background;
     private Bitmap tileImage;
     private Bitmap pauseButtonImage;
@@ -44,15 +54,16 @@ public class GameView extends SurfaceView implements Runnable {
     private Tile lastMissedTile = null; // Dernière tuile ratée
 
     private long lastSpeedIncreaseTime = 0;
-    private int tileSpeed = 15;
+
     private final int SPEED_INCREASE_INTERVAL = 3000;
-    int tileHeight = 450; // Augmenter la hauteur pour que ce soit plus rectangulaire
+    ; // Augmenter la hauteur pour que ce soit plus rectangulaire
     private Bitmap star;
     private Bitmap filledStar;
     // Variables globales pour le feedback
     private String feedbackText = "";
     private long feedbackStartTime = 0;
     private final int FEEDBACK_DURATION = 1000; // Durée en ms (1 seconde)
+    private int[] lastTileY;
     public GameView(Context context, int width, int height) {
         super(context);
         screenWidth = width;
@@ -63,11 +74,12 @@ public class GameView extends SurfaceView implements Runnable {
         random = new Random();
         soundManager = new SoundManager(context);
 
-        tileWidth = (int)(screenWidth / 3.2);
-        lastTileY = new int[4];
-        score = 0;
+        tileWidth = screenWidth / 4;
+        tileHeight = 300;
+        tileSpeed = 25;
+        //lastTileY = new int[4];
 
-        background = BitmapFactory.decodeResource(getResources(), R.drawable.play2);
+        background = BitmapFactory.decodeResource(getResources(), R.drawable.pic1);
         background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, false);
 
         tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.tile_button);
@@ -86,6 +98,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         filledStar = BitmapFactory.decodeResource(getResources(), R.drawable.filled_star);
         filledStar = Bitmap.createScaledBitmap(filledStar, 100, 100, false);
+        addTile();
     }
 
     @Override
@@ -102,40 +115,26 @@ public class GameView extends SurfaceView implements Runnable {
     }
     private void addTile() {
         int column = random.nextInt(4);  // Choisit une colonne aléatoire (0 à 3)
-
         // Calculer la position horizontale de la tuile
-        int tileX = column * (screenWidth / 4); // Placer la tuile au début de la colonne
-        int tileY = -300;  // Position initiale hors de l'écran (en haut)
-
+        int tileX = column * tileWidth; // Placer la tuile au début de la colonne
         // Ajouter la tuile avec sa position X et Y
-        tiles.add(new Tile(tileX, tileY, tileWidth, tileHeight));
-        lastTileY[column] = tileY;  // Mettre à jour la dernière position Y pour cette colonne
+        tiles.add(new Tile(tileX, -tileHeight, tileWidth, tileHeight));
     }
 
 
     private void update() {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastSpeedIncreaseTime >= SPEED_INCREASE_INTERVAL) {
-            tileSpeed += 2;
-            lastSpeedIncreaseTime = currentTime;
-        }
+
+        if (isGameOver) return;
+        tileSpeed = 25 + (score / 5);
 
         Iterator<Tile> iterator = tiles.iterator();
         while (iterator.hasNext()) {
             Tile tile = iterator.next();
             tile.y += tileSpeed;
 
-            if (tile.y + tile.height >= screenHeight) {
-                lastMissedTile = tile;
-                isPlaying = false;
-                postInvalidate();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                showGameOverDialog();
-                return;
+            if (tile.y + tile.height > screenHeight && !tile.isError) {
+                tile.isError = true;
+                isGameOver = true;
             }
         }
 
@@ -153,11 +152,25 @@ public class GameView extends SurfaceView implements Runnable {
             Canvas canvas = holder.lockCanvas();
             canvas.drawBitmap(background, 0, 0, null);
 
-            for (Tile tile : tiles) {
-                Bitmap tileBitmap = (tile == lastMissedTile) ? redTileImage : tileImage;
-                canvas.drawBitmap(tileBitmap, tile.x, tile.y, null);
+            paint.setColor(Color.LTGRAY);
+            for (int i = 1; i < 4; i++) {
+                canvas.drawLine(i * tileWidth, 0, i * tileWidth, screenHeight, paint);
             }
 
+            for (Tile tile : tiles) {
+
+                //Bitmap tileBitmap = (tile.isError) ? redTileImage : tileImage;
+                //canvas.drawBitmap(tileBitmap, tile.x, tile.y, null);
+                paint.setColor(tile.isError ? Color.RED : Color.BLACK);
+                canvas.drawRect(tile.x, tile.y, tile.x + tile.width, tile.y + tile.height, paint);
+            }
+            if (isGameOver && !isDialogShown) {
+                isDialogShown = true;
+                Activity activity = (Activity) getContext();
+                activity.runOnUiThread(() -> {
+                    new GameOverDialog(activity).show(score);
+                });
+            }
             // Bouton de pause
             canvas.drawBitmap(pauseButtonImage, screenWidth - pauseButtonImage.getWidth() - 20, 20, null);
 
@@ -288,44 +301,10 @@ public class GameView extends SurfaceView implements Runnable {
 
 
 
-   /* private void drawDynamicText(Canvas canvas) {
-        String message = "";
-        if (score < 10) {
-            message = "COOL";
-        } else if (score < 20) {
-            message = "PARFAIT";
-        } else {
-            message = "AMAZING";
-        }
-
-        paint.setTextSize(80);
-        paint.setColor(Color.WHITE);
-        paint.setTextAlign(Paint.Align.CENTER);
-
-        float messageX = screenWidth / 2;
-        float messageY = 400; // En dessous du score
-
-        canvas.drawText(message, messageX, messageY, paint);
-    }*/
-
-
-
-
-    private void showGameOverDialog() {
-        // Vérifier si le contexte est bien une instance d'Activity
-        if (getContext() instanceof Activity) {
-            // Cast du Context en Activity
-            Activity activity = (Activity) getContext();
-
-            // Passer l'Activity au GameOverDialog
-            new GameOverDialog(activity).show(score);
-        }
-    }
-
-
 
     private void showPauseMenu() {
         // Vérification si le Context est une instance d'Activity
+        isGameOver=false;
         if (getContext() instanceof Activity) {
             Activity activity = (Activity) getContext();
             activity.runOnUiThread(() -> {
@@ -345,6 +324,7 @@ public class GameView extends SurfaceView implements Runnable {
                     v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).withEndAction(() -> {
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100);
                         dialog.dismiss();
+                        isPaused = false;
                         isPlaying = true;
                         startGame();
                     });
@@ -355,6 +335,8 @@ public class GameView extends SurfaceView implements Runnable {
                     v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).withEndAction(() -> {
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100);
                         dialog.dismiss();
+                        isPaused = false;
+                        isPlaying = true;
                         restartGame();
                     });
                 });
@@ -385,19 +367,18 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     public void restartGame() {
-        stopGame();  // Arrêter le jeu en cours
         resetGameState(); // Réinitialiser toutes les variables
-        startGame(); // Démarrer une nouvelle partie
+        startGame(); // Démarrer une nouvelle parti
+
     }
 
 
     public void resetGameState() {
         tiles.clear();  // Supprime toutes les tuiles
         score = 0;  // Réinitialise le score
-        lastMissedTile = null; // Réinitialise la dernière tuile ratée
-        lastSpeedIncreaseTime = System.currentTimeMillis(); // Remettre le temps à zéro
-        tileSpeed = 15; // Réinitialiser la vitesse
-        invalidate(); // Redessine l’écran proprement
+        tileSpeed = 25; // Réinitialiser la vitesse
+        isDialogShown = false;
+        isGameOver = false;
     }
 
 
@@ -419,42 +400,79 @@ public class GameView extends SurfaceView implements Runnable {
         soundManager.stopBackgroundMusic();
     }
 
+    private void pauseGame() {
+        isPlaying = false;
+        isPaused = true;
+        showPauseMenu();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (isGameOver || isPaused) return true;
+
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            if (event.getX() > screenWidth - pauseButtonImage.getWidth() - 20 &&
-                    event.getX() < screenWidth - 20 &&
-                    event.getY() > 20 && event.getY() < 20 + pauseButtonImage.getHeight()) {
+            float touchX = event.getX();
+            float touchY = event.getY();
+
+            // Vérifier si le bouton pause est touché
+            if (touchX > screenWidth - pauseButtonImage.getWidth() - 20 &&
+                    touchX < screenWidth - 20 &&
+                    touchY > 20 && touchY < 20 + pauseButtonImage.getHeight()) {
                 pauseGame();
+                return true;
             }
 
-            Iterator<Tile> iterator = tiles.iterator();
-            while (iterator.hasNext()) {
-                Tile tile = iterator.next();
-                if (event.getX() > tile.x && event.getX() < tile.x + tile.width &&
-                        event.getY() > tile.y && event.getY() < tile.y + tile.height) {
-                    iterator.remove();
-                    soundManager.playSound("piano_note1");
-                    score++;
-                    if (score == 5) {
-                        showFeedback("COOL!");
-                    } else if (score == 10) {
-                        showFeedback("PARFAIT!");
-                    } else if (score == 20) {
-                        showFeedback("AMAZING!");
-                    }
+            // Vérifier si le clic est DANS la zone des colonnes
+            if (touchX < 0 || touchX > screenWidth) {
+                return false; // clic hors de la grille → on ignore
+            }
 
+            int column = (int)(touchX / tileWidth); // déterminer la colonne cliquée
 
-
+            // Chercher la tuile noire dans cette colonne et à cette hauteur
+            Tile clickedTile = null;
+            for (Tile tile : tiles) {
+                boolean isInSameColumn = tile.x == column * tileWidth;
+                boolean isWithinHeight = touchY >= tile.y && touchY <= tile.y + tile.height;
+                if (!tile.isError && isInSameColumn && isWithinHeight) {
+                    clickedTile = tile;
                     break;
                 }
             }
+
+            if (clickedTile != null) {
+                // Tuile touchée correctement
+                tiles.remove(clickedTile);
+                score++;
+                showFeedback("Great!");
+            } else {
+                // Clic dans la colonne mais pas sur une tuile noire → Miss Click
+                // Ajoute un faux "miss click" dans la colonne, mais seulement si le clic est dans la grille
+                boolean isInTileArea = false;
+                for (Tile tile : tiles) {
+                    if (tile.x == column * tileWidth && touchY >= tile.y && touchY <= tile.y + tile.height) {
+                        isInTileArea = true;
+                        break;
+                    }
+                }
+
+                if (!isInTileArea) {
+                    // Un clic dans la zone d'une colonne sans toucher une tuile valide
+                    isGameOver = true; // On met fin au jeu
+                    // Optionnel : Ajouter un retour visuel comme une tuile d'erreur fictive
+                    Tile fakeError = new Tile(column * tileWidth, (int)touchY, tileWidth, tileHeight);
+                    fakeError.isError = true;
+                    tiles.add(fakeError);
+                }
+            }
+
+            return true;
         }
-        return true;
+
+        return false;
     }
 
-    private void pauseGame() {
-        isPlaying = false;
-        showPauseMenu();
-    }
+
+
+
 }
