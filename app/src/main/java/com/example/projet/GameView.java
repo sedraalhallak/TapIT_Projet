@@ -1,5 +1,4 @@
 package com.example.projet;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -33,6 +32,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private boolean isPaused = false;
 
+
     private SurfaceHolder holder;
     private Paint paint;
     private ArrayList<Tile> tiles;
@@ -45,15 +45,13 @@ public class GameView extends SurfaceView implements Runnable {
 
 
 
-
-
     private Bitmap background;
     private Bitmap tileImage;
     private Bitmap pauseButtonImage;
     private Bitmap redTileImage;  // Image pour la tuile rouge
     private Tile lastMissedTile = null; // Dernière tuile ratée
 
-    private long lastSpeedIncreaseTime = 0;
+    //private long lastSpeedIncreaseTime = 0;
 
     private final int SPEED_INCREASE_INTERVAL = 3000;
     ; // Augmenter la hauteur pour que ce soit plus rectangulaire
@@ -63,6 +61,10 @@ public class GameView extends SurfaceView implements Runnable {
     private String feedbackText = "";
     private long feedbackStartTime = 0;
     private final int FEEDBACK_DURATION = 1000; // Durée en ms (1 seconde)
+    private int baseSpeed = 25; // Vitesse de base
+    private int speedIncreaseInterval = 5000; // Intervalle d'augmentation de vitesse (5 secondes)
+    private long lastSpeedIncreaseTime = System.currentTimeMillis();
+    private float speedMultiplier = 1.0f; // Multiplicateur de vitesse initial
     private int[] lastTileY;
     public GameView(Context context, int width, int height) {
         super(context);
@@ -114,37 +116,81 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
     private void addTile() {
-        int column = random.nextInt(4);  // Choisit une colonne aléatoire (0 à 3)
-        // Calculer la position horizontale de la tuile
-        int tileX = column * tileWidth; // Placer la tuile au début de la colonne
-        // Ajouter la tuile avec sa position X et Y
-        tiles.add(new Tile(tileX, -tileHeight, tileWidth, tileHeight));
+        // Si aucune tuile → on en crée 2 d'un coup
+        if (tiles.isEmpty()) {
+            spawnTileInRandomColumn();
+            spawnTileInRandomColumn();
+            return;
+        }
+
+        // Si la dernière tuile est assez basse → on en ajoute une nouvelle
+        Tile lastTile = tiles.get(tiles.size() - 1);
+        if (lastTile.y > tileHeight / 2) { // Dès qu'elle a parcouru 50% de sa hauteur
+            spawnTileInRandomColumn();
+        }
+    }
+
+    private void spawnTileInRandomColumn() {
+        int column;
+        do {
+            column = random.nextInt(4); // Colonne aléatoire (0-3)
+        } while (!isColumnValid(column)); // Vérifie qu'on ne répète pas la colonne précédente
+
+        // Calcul de la position Y avec un espacement
+        int minGap = tileHeight; // Espacement de 3 tuiles entre chaque
+        int spawnY = -tileHeight; // Position de départ en haut (juste hors écran)
+
+        // Si des tuiles existent déjà, on part de la dernière position
+        if (!tiles.isEmpty()) {
+            Tile lastTile = tiles.get(tiles.size() - 1);
+            spawnY = lastTile.y - minGap; // Nouvelle tuile placée plus haut
+        }
+
+        // Ajout d'une SEULE tuile avec la bonne position
+        tiles.add(new Tile(column * tileWidth, spawnY, tileWidth, tileHeight));
+    }
+
+    private boolean isColumnValid(int newColumn) {
+        if (tiles.isEmpty()) return true; // Aucune restriction si pas de tuiles
+
+        Tile lastTile = tiles.get(tiles.size() - 1);
+        int lastColumn = lastTile.x / tileWidth;
+
+        return newColumn != lastColumn; // Interdit la même colonne que la précédente
     }
 
 
     private void update() {
-
         if (isGameOver) return;
-        tileSpeed = 25 + (score / 5);
 
-        Iterator<Tile> iterator = tiles.iterator();
-        while (iterator.hasNext()) {
-            Tile tile = iterator.next();
-            tile.y += tileSpeed;
+        // Augmentation progressive de la vitesse
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastSpeedIncreaseTime > speedIncreaseInterval) {
+            speedMultiplier += 0.1f; // Augmente la vitesse de 10% à chaque intervalle
+            lastSpeedIncreaseTime = currentTime;
+        }
+
+        // Calcul de la vitesse actuelle
+        tileSpeed = (int)(baseSpeed * speedMultiplier);
+
+        // Augmentation supplémentaire basée sur le score
+        tileSpeed += score / 5;
+
+        for (Tile tile : tiles) {
+            tile.y += tileSpeed; // Déplacement vers le bas
 
             if (tile.y + tile.height > screenHeight && !tile.isError) {
                 tile.isError = true;
                 isGameOver = true;
             }
         }
-
-        if (shouldAddTile()) {
+        if (shouldAddTile()) {  // ← Ajoute cette condition
             addTile();
         }
     }
 
     private boolean shouldAddTile() {
-        return tiles.isEmpty() || tiles.get(tiles.size() - 1).y > 400;
+        return tiles.isEmpty() || tiles.get(tiles.size() - 1).y > 100;
     }
 
     private void draw() {
@@ -153,6 +199,11 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawBitmap(background, 0, 0, null);
 
             paint.setColor(Color.LTGRAY);
+            for (int i = 1; i < 4; i++) {
+                canvas.drawLine(i * tileWidth, 0, i * tileWidth, screenHeight, paint);
+            }
+            paint.setColor(Color.WHITE);
+            paint.setStrokeWidth(5);
             for (int i = 1; i < 4; i++) {
                 canvas.drawLine(i * tileWidth, 0, i * tileWidth, screenHeight, paint);
             }
@@ -179,7 +230,7 @@ public class GameView extends SurfaceView implements Runnable {
             drawScore(canvas);
             drawFeedback(canvas);
 
-           // drawDynamicText(canvas);
+            // drawDynamicText(canvas);
 
             holder.unlockCanvasAndPost(canvas);
         }
@@ -298,10 +349,6 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
     }
-
-
-
-
     private void showPauseMenu() {
         // Vérification si le Context est une instance d'Activity
         isGameOver=false;
@@ -374,9 +421,10 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     public void resetGameState() {
-        tiles.clear();  // Supprime toutes les tuiles
-        score = 0;  // Réinitialise le score
-        tileSpeed = 25; // Réinitialiser la vitesse
+        tiles.clear();
+        score = 0;
+        speedMultiplier = 1.0f; // Réinitialiser le multiplicateur
+        lastSpeedIncreaseTime = System.currentTimeMillis();
         isDialogShown = false;
         isGameOver = false;
     }
@@ -414,7 +462,7 @@ public class GameView extends SurfaceView implements Runnable {
             float touchX = event.getX();
             float touchY = event.getY();
 
-            // Vérifier si le bouton pause est touché
+            // 1. Vérifier le bouton pause
             if (touchX > screenWidth - pauseButtonImage.getWidth() - 20 &&
                     touchX < screenWidth - 20 &&
                     touchY > 20 && touchY < 20 + pauseButtonImage.getHeight()) {
@@ -422,53 +470,54 @@ public class GameView extends SurfaceView implements Runnable {
                 return true;
             }
 
-            // Vérifier si le clic est DANS la zone des colonnes
+            // 2. Vérifier si le clic est dans la grille
             if (touchX < 0 || touchX > screenWidth) {
-                return false; // clic hors de la grille → on ignore
+                return false;
             }
 
-            int column = (int)(touchX / tileWidth); // déterminer la colonne cliquée
+            // 3. Vérifier la collision avec les tuiles noires
+            boolean hitValidTile = false;
+            int column = (int)(touchX / tileWidth);
+            float clickY = touchY;
 
-            // Chercher la tuile noire dans cette colonne et à cette hauteur
-            Tile clickedTile = null;
-            for (Tile tile : tiles) {
-                boolean isInSameColumn = tile.x == column * tileWidth;
-                boolean isWithinHeight = touchY >= tile.y && touchY <= tile.y + tile.height;
-                if (!tile.isError && isInSameColumn && isWithinHeight) {
-                    clickedTile = tile;
+            // Vérifier d'abord si on touche une tuile noire existante
+            for (Tile tile : new ArrayList<>(tiles)) {
+                if (tile.x == column * tileWidth &&
+                        clickY >= tile.y && clickY <= tile.y + tile.height) {
+
+                    // Tuile noire touchée correctement
+                    tiles.remove(tile);
+                    score++;
+                    showFeedback("Great!");
+                    hitValidTile = true;
                     break;
                 }
             }
 
-            if (clickedTile != null) {
-                // Tuile touchée correctement
-                tiles.remove(clickedTile);
-                score++;
-                showFeedback("Great!");
-            } else {
-                // Clic dans la colonne mais pas sur une tuile noire → Miss Click
-                // Ajoute un faux "miss click" dans la colonne, mais seulement si le clic est dans la grille
-                boolean isInTileArea = false;
+            // 4. Si erreur (clic dans le vide)
+            if (!hitValidTile) {
+                // Vérifier qu'il n'y a pas déjà une tuile noire à cette position
+                boolean canPlaceRedTile = true;
                 for (Tile tile : tiles) {
-                    if (tile.x == column * tileWidth && touchY >= tile.y && touchY <= tile.y + tile.height) {
-                        isInTileArea = true;
+                    if (tile.x == column * tileWidth &&
+                            Math.abs(tile.y - clickY) < tile.height) {
+                        canPlaceRedTile = false;
                         break;
                     }
                 }
 
-                if (!isInTileArea) {
-                    // Un clic dans la zone d'une colonne sans toucher une tuile valide
-                    isGameOver = true; // On met fin au jeu
-                    // Optionnel : Ajouter un retour visuel comme une tuile d'erreur fictive
-                    Tile fakeError = new Tile(column * tileWidth, (int)touchY, tileWidth, tileHeight);
-                    fakeError.isError = true;
-                    tiles.add(fakeError);
+                if (canPlaceRedTile) {
+                    // Créer une tuile rouge d'erreur SEULEMENT si la zone est libre
+                    Tile errorTile = new Tile(column * tileWidth, (int)clickY, tileWidth, tileHeight);
+                    errorTile.isError = true;
+                    tiles.add(errorTile);
+                    isGameOver = true;
                 }
+
             }
 
             return true;
         }
-
         return false;
     }
 
