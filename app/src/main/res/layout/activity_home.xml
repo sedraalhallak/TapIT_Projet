@@ -9,15 +9,16 @@
     android:padding="10dp">
 
     <VideoView
-        android:id="@+id/videoView"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:paddingBottom="0dp"
-        android:layout_gravity="center"/>
+    android:id="@+id/videoView"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    android:paddingBottom="0dp"
+    android:layout_gravity="center"/>
 
-
-    <!-- Titre -->
+        <!-- Titre -->
     <TextView
+        android:fontFamily="@font/font6"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SELECT A SONG"
@@ -27,7 +28,9 @@
         android:paddingBottom="10dp"
         android:layout_gravity="center"/>
 
-    <ListView
+        <ListView
+        android:fontFamily="@font/font6"
+
         android:id="@+id/songListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -35,9 +38,9 @@
         android:divider="@android:color/transparent"
         android:dividerHeight="10dp"
         android:padding="10dp"
-        android:background="#00000000"
-        />
-    <LinearLayout
+        android:background="#00000000"/>
+
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:orientation="horizontal"
@@ -55,13 +58,12 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-            <TextView
+            <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/nav_button_background"
-                android:text="🏠"
-                android:gravity="center"
-                android:textSize="24sp" />
+                android:src="@drawable/ic_home"
+                android:scaleType="centerInside"
+                android:contentDescription="Home icon" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -71,91 +73,85 @@
                 android:textSize="12sp"
                 android:layout_marginTop="4dp"
                 android:gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/musicButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/nav_button_background"
-                android:text="🎵"
-                android:gravity="center"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Music"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:layout_marginTop="4dp"
-                android:gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/favoriteButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/nav_button_background"
-                android:text="❤️"
-                android:gravity="center"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Favorites"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:layout_marginTop="4dp"
-                android:gravity="center"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/settingsButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/nav_button_background"
-                android:text="⚙️"
-                android:gravity="center"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Settings"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:layout_marginTop="4dp"
-                android:gravity="center"/>
-        </LinearLayout>
-
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/musicButton"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="5dp">
 
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_music"
+            android:scaleType="centerInside"
+            android:contentDescription="music icon" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Music"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+<LinearLayout
+    android:id="@+id/favoriteButton"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_favorite"
+        android:scaleType="centerInside"
+        android:contentDescription="fav icon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Favorites"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:layout_marginTop="4dp"
+        android:gravity="center"/>
+</LinearLayout>
+
+<LinearLayout
+    android:id="@+id/settingsButton"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_settings"
+        android:scaleType="centerInside"
+        android:contentDescription="setting icon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:layout_marginTop="4dp"
+        android:gravity="center"/>
+</LinearLayout>
+
+</LinearLayout>
 
 </LinearLayout>

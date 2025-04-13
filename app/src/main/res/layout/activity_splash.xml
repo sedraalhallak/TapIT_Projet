@@ -24,42 +24,17 @@
         <!-- GIF animé central (click) -->
         <ImageView
             android:id="@+id/gifImage"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_above="@id/textView"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:scaleType="fitCenter" />
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter"
+        />
 
-        <!-- GIF en haut (optionnel, tu peux l’activer dans le code si besoin) -->
-        <ImageView
-            android:id="@+id/gifTop"
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp"
-            android:scaleType="fitCenter" />
 
-        <!-- Texte de démarrage -->
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TAP TO START"
-            android:textColor="#FFFFFF"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:paddingBottom="50dp"
-            android:shadowColor="#DEEBEF"
-            android:shadowDx="4"
-            android:shadowDy="4"
-            android:shadowRadius="8"
-            android:visibility="visible" />
+
 
         <!-- Texte animé du slogan -->
-        <TextView
+        <!-- <TextView
             android:id="@+id/catchyText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,6 +44,6 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:visibility="visible"
-            android:fontFamily="@font/font" />
+            android:fontFamily="@font/font6" />-->
     </RelativeLayout>
 </FrameLayout>

@@ -65,29 +65,37 @@ public class HomeActivity extends AppCompatActivity {
         LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
         LinearLayout settingsButton = findViewById(R.id.settingsButton);
 
-        setActiveButton(homeButton);
-
         homeButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
-            Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
+
+            // Met à jour les styles des boutons pour indiquer que "Home" est actif
+            setActiveButton(homeButton);
+
+            // Message de confirmation
+            Toast.makeText(HomeActivity.this, "Déjà sur la page d'accueil", Toast.LENGTH_SHORT).show();
         });
+
 
 
         musicButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
+            setActiveButton(musicButton);
             startActivity(new Intent(HomeActivity.this, SelectionActivity.class));
         });
 
         settingsButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
+            setActiveButton(settingsButton);
             startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
         });
 
         favoriteButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
+            setActiveButton(favoriteButton);
             Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
         });
         NavigationHelper.setupNavigationBar(this);
+        setActiveButton(homeButton); // Active visuellement le bouton Home dès l’ouverture de l’activité
 
     }
 
@@ -124,14 +132,19 @@ public class HomeActivity extends AppCompatActivity {
         buttons.add(settingsButton);
 
         for (LinearLayout button : buttons) {
-            TextView icon = (TextView) button.getChildAt(0); // icône du bouton
+            button.setBackground(null); // enlève tout résidu visuel
+
             if (button == activeButton) {
-                icon.setBackgroundResource(R.drawable.nav_button_background_selected);
+                button.setAlpha(1.0f);
+                button.setBackgroundResource(R.drawable.nav_button_background_selected);
             } else {
-                icon.setBackgroundResource(R.drawable.nav_button_background);
+                button.setAlpha(0.5f);
+                button.setBackgroundResource(R.drawable.nav_button_background);
             }
         }
     }
+
+
 
 
 }

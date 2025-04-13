@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Couleur avec transparence -->
+    <solid android:color="#80FFFFFF" /> <!-- Blanc à 50% de transparence -->
+
+    <!-- Coins arrondis identiques -->
+    <corners android:radius="40dp" /> <!-- Arrondi uniforme pour tous les coins -->
+
+</shape>

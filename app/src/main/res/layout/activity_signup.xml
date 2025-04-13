@@ -9,6 +9,8 @@
 
     <!-- Titre INSCRIPTION -->
     <TextView
+        android:fontFamily="@font/font6"
+
         android:text="INSCRIPTION"
         android:textSize="24sp"
         android:textColor="@color/white"
@@ -60,12 +62,14 @@
 
     <!-- Bouton SIGN UP -->
     <Button
+        android:fontFamily="@font/font6"
+
         android:id="@+id/btn_signup"
         android:text="SIGN UP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/button"
+        android:background="@drawable/custom_back_button"
         android:paddingStart="40dp"
         android:paddingEnd="40dp"
         android:paddingTop="12dp"
@@ -80,6 +84,8 @@
 
     <!-- Texte "Déjà un compte? Connexion!" -->
     <TextView
+        android:fontFamily="@font/font6"
+
         android:id="@+id/go_to_login"
         android:text="Déjà un compte? Connexion!"
         android:textColor="@color/white"

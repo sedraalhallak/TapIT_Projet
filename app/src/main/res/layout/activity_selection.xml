@@ -21,6 +21,8 @@
         android:src="@drawable/ic_login" />
 
     <TextView
+        android:fontFamily="@font/font6"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GENRE"
@@ -37,6 +39,8 @@
 
 
     <GridLayout
+        android:fontFamily="@font/font6"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="2"
@@ -78,6 +82,8 @@
 
 
     <TextView
+        android:fontFamily="@font/font6"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DIFFICULTY"
@@ -93,6 +99,8 @@
         android:paddingBottom="10dp"/>
 
     <GridLayout
+        android:fontFamily="@font/font6"
+
         android:layout_width="327dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
@@ -138,79 +146,79 @@
         android:padding="5dp"
         android:background="@android:color/transparent">
 
-        <!-- Home Button -->
         <LinearLayout
             android:id="@+id/homeButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="5dp">
-            <TextView
+
+            <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/nav_button_background"
-                android:text="🏠"
-                android:gravity="center"
-                android:textSize="24sp" />
+                android:src="@drawable/ic_home"
+                android:scaleType="centerInside"
+                android:contentDescription="Home icon"
+                />
+
 
         </LinearLayout>
 
-        <!-- Music Button -->
         <LinearLayout
             android:id="@+id/musicButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="5dp">
-            <TextView
+
+            <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/nav_button_background"
-                android:text="🎵"
-                android:gravity="center"
-                android:textSize="24sp" />
+                android:src="@drawable/ic_music"
+                android:scaleType="centerInside"
+                android:contentDescription="music icon" />
 
         </LinearLayout>
 
-        <!-- Favorites Button -->
         <LinearLayout
             android:id="@+id/favoriteButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="5dp">
-            <TextView
+
+            <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/nav_button_background"
-                android:text="❤️"
-                android:gravity="center"
-                android:textSize="24sp" />
+                android:src="@drawable/ic_favorite"
+                android:scaleType="centerInside"
+                android:contentDescription="fav icon" />
+
 
         </LinearLayout>
 
-        <!-- Settings Button -->
         <LinearLayout
             android:id="@+id/settingsButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="5dp">
-            <TextView
+
+            <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/nav_button_background"
-                android:text="⚙️"
-                android:gravity="center"
-                android:textSize="24sp" />
+                android:src="@drawable/ic_settings"
+                android:scaleType="centerInside"
+                android:contentDescription="setting icon" />
+
 
         </LinearLayout>
 

@@ -1,4 +1,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-    <solid android:color="#66FFFFFF"/> <!-- couleur plus claire pour montrer qu'il est actif -->
+    android:shape="rectangle">
+    <!-- Fond rose clair #f6bbc4 avec 80% d'opacité pour l'état sélectionné -->
+    <solid android:color="#99F6BBC4" /> <!-- Rose clair avec 80% d'opacité -->
+    <corners android:radius="50dp" />
 </shape>

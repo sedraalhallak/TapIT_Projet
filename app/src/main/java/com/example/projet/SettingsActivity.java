@@ -93,30 +93,40 @@ public class SettingsActivity extends Activity {
 
         // Animation for buttons
         Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale);
-
+        LinearLayout homeButton = findViewById(R.id.homeButton);
+        LinearLayout musicButton = findViewById(R.id.musicButton);
+        LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
+        LinearLayout settingsButton = findViewById(R.id.settingsButton);
         // Button listeners with animation
-        findViewById(R.id.homeButton).setOnClickListener(v -> {
+        homeButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
-            Intent intent = new Intent(SettingsActivity.this, HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            startActivity(intent);
+
+            // Met à jour les styles des boutons pour indiquer que "Home" est actif
+            setActiveButton(homeButton);
+
+            // Message de confirmation
+            Toast.makeText(SettingsActivity.this, "Déjà sur la page d'accueil", Toast.LENGTH_SHORT).show();
         });
 
-        findViewById(R.id.musicButton).setOnClickListener(v -> {
+
+        musicButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
+            setActiveButton(musicButton);
             startActivity(new Intent(SettingsActivity.this, SelectionActivity.class));
         });
 
-        findViewById(R.id.settingsButton).setOnClickListener(v -> {
+        settingsButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
-            Toast.makeText(this, getString(R.string.settings), Toast.LENGTH_SHORT).show();
+            setActiveButton(settingsButton);
+            startActivity(new Intent(SettingsActivity.this, SettingsActivity.class));
         });
 
-        findViewById(R.id.favoriteButton).setOnClickListener(v -> {
+        favoriteButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
+            setActiveButton(favoriteButton);
             Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
         });
-
+        NavigationHelper.setupNavigationBar(this);
         // Audio settings (volume and mute)
         mediaPlayer = MediaPlayer.create(this, R.raw.piano_note1);
         mediaPlayer.setLooping(true);
@@ -201,7 +211,7 @@ public class SettingsActivity extends Activity {
     }
 
     // Method to set the active button in the navigation bar
-    private void setActiveButton(View activeButton) {
+    private void setActiveButton(LinearLayout activeButton) {
         LinearLayout homeButton = findViewById(R.id.homeButton);
         LinearLayout musicButton = findViewById(R.id.musicButton);
         LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
@@ -214,15 +224,17 @@ public class SettingsActivity extends Activity {
         buttons.add(settingsButton);
 
         for (LinearLayout button : buttons) {
-            TextView icon = (TextView) button.getChildAt(0); // icône du bouton
+            button.setBackground(null); // Réinitialise le fond précédent
+
             if (button == activeButton) {
-                icon.setBackgroundResource(R.drawable.nav_button_background_selected); // Icône sélectionnée
+                button.setAlpha(1.0f);
+                button.setBackgroundResource(R.drawable.nav_button_background_selected);
             } else {
-                icon.setBackgroundResource(R.drawable.nav_button_background); // Icône par défaut
+                button.setAlpha(0.4f);
+                button.setBackgroundResource(R.drawable.nav_button_background);
             }
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

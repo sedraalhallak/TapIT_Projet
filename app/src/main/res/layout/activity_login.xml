@@ -9,6 +9,8 @@
     android:gravity="center">
 
     <TextView
+        android:fontFamily="@font/font6"
+
         android:text="CONNEXION"
         android:textSize="30sp"
         android:textColor="@color/white"
@@ -53,11 +55,13 @@
 
 
     <Button
+        android:fontFamily="@font/font6"
+
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/button"
+        android:background="@drawable/custom_back_button"
         android:paddingStart="40dp"
         android:paddingEnd="40dp"
         android:paddingTop="12dp"
@@ -67,6 +71,8 @@
         android:gravity="center"
         android:layout_gravity="center"/> <!-- Centre le bouton -->
     <TextView
+        android:fontFamily="@font/font6"
+
         android:id="@+id/txt_or"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,6 +83,8 @@
         android:gravity="center"
         android:layout_gravity="center"/>
     <TextView
+        android:fontFamily="@font/font6"
+
         android:id="@+id/txt_o2r"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,11 +97,13 @@
 
 
     <TextView
+        android:fontFamily="@font/font6"
+
         android:id="@+id/go_to_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/button"
+        android:background="@drawable/custom_back_button"
         android:paddingStart="40dp"
         android:paddingEnd="40dp"
         android:paddingTop="12dp"

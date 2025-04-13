@@ -19,7 +19,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        TextView catchyText = findViewById(R.id.catchyText);
+       // TextView catchyText = findViewById(R.id.catchyText);
         ImageView backgroundGif = findViewById(R.id.backgroundgif);
         Glide.with(this)
                 .asGif()
@@ -35,15 +35,15 @@ public class SplashActivity extends Activity {
         //catchyText.setTypeface(typeface);
 
         // Phrase à afficher
-        String phrase = "🎵 Tap tap... Let the magic begin! 🎹";
+       // String phrase = "🎵 Tap tap... Let the magic begin! 🎹";
 
         // Attendre un peu avant d'écrire
-        new Handler().postDelayed(() -> {
+       /* new Handler().postDelayed(() -> {
             animateText(phrase, catchyText, 100); // 100ms par lettre
-        }, 1000);
+        }, 1000);*/
         // Charger le GIF
         ImageView gifImage = findViewById(R.id.gifImage);
-        Glide.with(this).load(R.drawable.click).into(gifImage);
+        Glide.with(this).load(R.drawable.start).into(gifImage);
         /*Charger le deuxième GIF (en haut)
         ImageView gifTop = findViewById(R.id.gifTop);
         Glide.with(this).load(R.drawable.gif2).into(gifTop);*/
@@ -78,7 +78,7 @@ public class SplashActivity extends Activity {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish(); // Ferme l'écran du menu après avoir lancé le jeu*/
-        Intent intent = new Intent(SplashActivity.this, SelectionActivity.class);
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }
