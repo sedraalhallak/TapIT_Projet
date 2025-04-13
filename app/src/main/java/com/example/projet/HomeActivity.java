@@ -43,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
         soundManager = new SoundManager(this);
 
         // Charger la vidéo
-        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.piano_video);
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.piano);
         videoView.setVideoURI(videoUri);
 
         soundManager.playBackgroundMusic();

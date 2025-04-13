@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/play"
+    android:background="@drawable/purple"
     android:padding="20dp">
     <!-- Login Button -->
     <ImageButton
@@ -51,7 +51,7 @@
             android:backgroundTint="#F2EFEF"
             android:text="POP"
             android:textColor="@android:color/white"
-            app:rippleColor="#D1D1D1" />
+            app:rippleColor="#CCCCCC" />
         <Button
             android:id="@+id/classical_button"
             android:layout_width="wrap_content"

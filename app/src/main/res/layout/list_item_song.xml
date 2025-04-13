@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="#244A69">
+    android:background="@drawable/item_background">
 
     <!-- Nom de la chanson -->
     <TextView

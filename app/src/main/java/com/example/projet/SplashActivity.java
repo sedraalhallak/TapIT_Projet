@@ -2,15 +2,16 @@ package com.example.projet;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.bumptech.glide.Glide;
 import android.os.Handler;
 import android.widget.TextView;
-import android.view.animation.AlphaAnimation;
+import android.widget.VideoView;
 
 public class SplashActivity extends Activity {
 
@@ -19,28 +20,37 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         TextView catchyText = findViewById(R.id.catchyText);
+        ImageView backgroundGif = findViewById(R.id.backgroundgif);
+        Glide.with(this)
+                .asGif()
+                .load(R.drawable.giphyf)
+                .placeholder(R.drawable.photo) // ✅ image statique affichée immédiatement
+                .into(backgroundGif);
 
-    // Appliquer la police manuellement si elle est dans /assets/fonts/
-            //Typeface typeface = Typeface.createFromAsset(getAssets(), "font/font.ttf");
-            //catchyText.setTypeface(typeface);
 
-    // Phrase à afficher
-            String phrase = "🎵 Tap tap... Let the magic begin! 🎹";
 
-    // Attendre un peu avant d'écrire
-            new Handler().postDelayed(() -> {
-                animateText(phrase, catchyText, 100); // 100ms par lettre
-            }, 1000);
+
+        // Appliquer la police manuellement si elle est dans /assets/fonts/
+        //Typeface typeface = Typeface.createFromAsset(getAssets(), "font/font.ttf");
+        //catchyText.setTypeface(typeface);
+
+        // Phrase à afficher
+        String phrase = "🎵 Tap tap... Let the magic begin! 🎹";
+
+        // Attendre un peu avant d'écrire
+        new Handler().postDelayed(() -> {
+            animateText(phrase, catchyText, 100); // 100ms par lettre
+        }, 1000);
         // Charger le GIF
         ImageView gifImage = findViewById(R.id.gifImage);
-        Glide.with(this).load(R.drawable.mon_gif).into(gifImage);
+        Glide.with(this).load(R.drawable.click).into(gifImage);
         /*Charger le deuxième GIF (en haut)
         ImageView gifTop = findViewById(R.id.gifTop);
         Glide.with(this).load(R.drawable.gif2).into(gifTop);*/
 
 
         // Récupérer tout le layout (écran complet)
-        ConstraintLayout splashLayout = findViewById(R.id.splash_layout);
+        FrameLayout splashLayout = findViewById(R.id.splash_layout);
 
         // Ajouter un OnClickListener sur tout l'écran
         splashLayout.setOnClickListener(new View.OnClickListener() {

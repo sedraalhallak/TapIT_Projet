@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splash_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/play"
-    android:id="@+id/splash_layout"
-    tools:context=".MainActivity">
+    android:clickable="true"
+    android:focusable="true"
+    tools:context=".SplashActivity">
 
-    <!-- Ajout de l'ID ici -->
+    <!-- GIF de fond plein écran -->
+    <ImageView
+        android:id="@+id/backgroundgif"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true" />
+
+    <!-- Contenu par-dessus le GIF -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <!-- GIF animé central (click) -->
         <ImageView
             android:id="@+id/gifImage"
             android:layout_width="200dp"
@@ -21,15 +30,17 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:scaleType="fitCenter" />
+
+        <!-- GIF en haut (optionnel, tu peux l’activer dans le code si besoin) -->
         <ImageView
             android:id="@+id/gifTop"
             android:layout_width="400dp"
             android:layout_height="400dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:scaleType="fitCenter"/>
+            android:scaleType="fitCenter" />
 
-
+        <!-- Texte de démarrage -->
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -45,8 +56,9 @@
             android:shadowDx="4"
             android:shadowDy="4"
             android:shadowRadius="8"
-            android:visibility="visible"
-            tools:ignore="DuplicateIds" />
+            android:visibility="visible" />
+
+        <!-- Texte animé du slogan -->
         <TextView
             android:id="@+id/catchyText"
             android:layout_width="wrap_content"
@@ -58,10 +70,5 @@
             android:gravity="center"
             android:visibility="visible"
             android:fontFamily="@font/font" />
-
-
-
-
     </RelativeLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
