@@ -1,25 +1,46 @@
 <resources>
-    <string name="app_name">projet</string>
 
-    <style name="TransparentDialog" parent="Theme.AppCompat.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowNoTitle">true</item>
-    </style>
+    <!-- Chaînes traduites -->
+    <string name="app_name">TapIt</string>
+    <string name="tap_to_start">Appuyez pour commencer</string>
+    <string name="cool">COOl</string>
+    <string name="resume">Reprendre</string>
+    <string name="pause">PAUSE</string>
+    <string name="restart">Redémarrer</string>
+    <string name="settings">Paramètres</string>
+    <string name="home">Accueil</string>
+    <string name="game_over">Fin de la partie</string>
+    <string name="score_placeholder">Score: </string>
+    <string name="select_song">Sélectionner une chanson</string>
+    <string name="genre">Genre</string>
+    <string name="pop">POP</string>
+    <string name="jazz">Jazz</string>
+    <string name="classical">Classique</string>
+    <string name="hip_hop">HIP HOP</string>
+    <string name="rock">Rock</string>
+    <string name="difficulty">Difficulté</string>
+    <string name="easy">Facile</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Difficile</string>
+    <string name="language">Langue</string>
+    <string name="mute">Couper le son</string>
+    <string name="login">Connexion</string>
+    <string name="create_account">Créer un compte</string>
+    <string name="or_login_with">Ou connectez-vous avec</string>
+    <string name="username">Nom d’utilisateur</string>
+    <string name="password">Mot de passe</string>
+    <string name="name">NOM</string>
+    <string name="email">EMAIL</string>
+    <string name="sign_up">Créer un compte</string>
+    <string name="already_have_account">Vous avez déjà un compte ?</string>
+    <string name="login_now">Connectez-vous !</string>
+    <string name="no_account_yet">Pas encore de compte ?</string>
+    <string name="signup">Créer un compte</string>
 
+    <!-- Langues -->
     <string name="english">Anglais</string>
     <string name="french">Français</string>
-    <string name="current_language">Langue actuelle</string>
 
-    <string-array name="languages">
-        <item>@string/english</item>
-        <item>@string/french</item>
-    </string-array>
 
-    <string name="settings">Paramètres</string>
-    <string name="volume">Volume</string>
-    <string name="mute">Couper le son</string>
-    <string name="language">Langue</string>
-    <string name="home">Accueil</string>
-    <string name="music">Musique</string>
-    <string name="favorites">Favoris</string>
+
 </resources>

@@ -88,7 +88,7 @@ public class SelectionActivity extends AppCompatActivity {
                 button.setAlpha(1.0f);
                 button.setBackgroundResource(R.drawable.nav_button_background_selected);
             } else {
-                button.setAlpha(0.4f);
+                button.setAlpha(0.85f);
                 button.setBackgroundResource(R.drawable.nav_button_background);
             }
         }

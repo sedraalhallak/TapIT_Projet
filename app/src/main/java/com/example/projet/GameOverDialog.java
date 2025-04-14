@@ -19,9 +19,13 @@ public class GameOverDialog {
     private AlertDialog dialog;
     private Context context;
 
+
     public GameOverDialog(Context context) {
         this.context = context;
+
     }
+
+
 
     public void show(int score) {
         Activity activity = (Activity) context;
@@ -59,6 +63,7 @@ public class GameOverDialog {
 
             dialog.show();
         });
+
 
     }
     private void applyClickEffect(Button button) {

@@ -35,8 +35,11 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        String currentLang = LanguageUtils.getSavedLanguage(this);
+        LanguageUtils.setLocale(this, currentLang);
 
+        // Maintenant on définit le contenu
+        setContentView(R.layout.activity_home);
         // Initialisation des vues
         videoView = findViewById(R.id.videoView);
         songListView = findViewById(R.id.songListView);
@@ -138,7 +141,7 @@ public class HomeActivity extends AppCompatActivity {
                 button.setAlpha(1.0f);
                 button.setBackgroundResource(R.drawable.nav_button_background_selected);
             } else {
-                button.setAlpha(0.5f);
+                button.setAlpha(0.85f);
                 button.setBackgroundResource(R.drawable.nav_button_background);
             }
         }

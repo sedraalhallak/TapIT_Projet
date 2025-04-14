@@ -39,11 +39,12 @@ public class SettingsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // Set the language based on saved preferences
-        setLocale(getSavedLanguage());
-
         // Initialize shared preferences
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+        // Get saved language and set locale
+        String currentLang = getSavedLanguage();
+        setLocale(currentLang);
 
         // Views initialization
         TextView currentLanguageView = findViewById(R.id.current_language);
@@ -52,62 +53,51 @@ public class SettingsActivity extends Activity {
         muteCheckBox = findViewById(R.id.mute_checkbox);
         settingsTitle = findViewById(R.id.settings_title);
 
-        // Make the current language label clickable
+        // Update current language label
+        String langDisplay = currentLang.equals("fr") ? getString(R.string.french) : getString(R.string.english);
+        currentLanguageView.setText(langDisplay);
+
         currentLanguageView.setOnClickListener(v -> languageSpinner.performClick());
 
-        /*// Language spinner setup
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        // Setup language spinner
+        ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(this,
                 R.array.languages, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        languageSpinner.setAdapter(adapter);*/
+        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        languageSpinner.setAdapter(languageAdapter);
 
-        // Set the current language in the spinner
-        String currentLang = getSavedLanguage();
-        int selectedIndex = currentLang.equals("fr") ? 1 : (currentLang.equals("es") ? 2 : 0);
-        languageSpinner.setSelection(selectedIndex);
-
-        // Language change listener
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedLang = (position == 1) ? "fr" : "en";
+                String selectedLang = (position == 1) ? "fr" : "en"; // Assume first item is English, second is French
 
                 if (!selectedLang.equals(currentLang)) {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("app_language", selectedLang);
                     editor.apply();
+
                     setLocale(selectedLang);
+                    recreate();  // Use recreate() to refresh the activity without restarting
+
+                    currentLanguageView.setText(selectedLang.equals("fr") ? getString(R.string.french) : getString(R.string.english));
                 }
-
-               /* // Update the current language display
-                TextView currentLanguage = findViewById(R.id.current_language);
-                if (currentLanguage != null) {
-                    currentLanguage.setText(selectedLang.equals("fr") ? getString(R.string.french) : getString(R.string.english));
-                }*/
-
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) { }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        // Animation for buttons
+        // Navigation buttons
         Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale);
         LinearLayout homeButton = findViewById(R.id.homeButton);
         LinearLayout musicButton = findViewById(R.id.musicButton);
         LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
         LinearLayout settingsButton = findViewById(R.id.settingsButton);
-        // Button listeners with animation
+
         homeButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
-
-            // Met à jour les styles des boutons pour indiquer que "Home" est actif
             setActiveButton(homeButton);
-
-            // Message de confirmation
             Toast.makeText(SettingsActivity.this, "Déjà sur la page d'accueil", Toast.LENGTH_SHORT).show();
         });
-
 
         musicButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
@@ -118,7 +108,6 @@ public class SettingsActivity extends Activity {
         settingsButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
             setActiveButton(settingsButton);
-            startActivity(new Intent(SettingsActivity.this, SettingsActivity.class));
         });
 
         favoriteButton.setOnClickListener(v -> {
@@ -126,8 +115,10 @@ public class SettingsActivity extends Activity {
             setActiveButton(favoriteButton);
             Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
         });
+
         NavigationHelper.setupNavigationBar(this);
-        // Audio settings (volume and mute)
+
+        // MediaPlayer setup
         mediaPlayer = MediaPlayer.create(this, R.raw.piano_note1);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
@@ -140,77 +131,50 @@ public class SettingsActivity extends Activity {
         volumeSeekBar.setProgress(currentVolume);
         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
 
-        // Update volume when user interacts with the seekbar
         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
                     audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
                     mediaPlayer.setVolume(progress / (float) maxVolume, progress / (float) maxVolume);
                     sharedPreferences.edit().putInt("volume", progress).apply();
                 }
             }
-
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
-        // Mute checkbox listener
         muteCheckBox.setChecked(sharedPreferences.getBoolean("isMuted", false));
         muteCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                // Mute the audio
                 mediaPlayer.setVolume(0, 0);
             } else {
-                // Restore the volume based on the seekbar
                 int volume = volumeSeekBar.getProgress();
                 mediaPlayer.setVolume(volume / (float) maxVolume, volume / (float) maxVolume);
             }
-            // Save mute state in shared preferences
             sharedPreferences.edit().putBoolean("isMuted", isChecked).apply();
         });
 
-        // Login button listener
         ImageButton loginIcon = findViewById(R.id.loginIcon);
         loginIcon.setOnClickListener(v -> {
             Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);
             startActivity(loginIntent);
         });
 
-        // Set active button for the navigation bar
-        setActiveButton(findViewById(R.id.settingsButton)); // Mark 'Settings' button as active
-
-        NavigationHelper.setupNavigationBar(this);
+        setActiveButton(findViewById(R.id.settingsButton));
     }
 
-    // Method to set locale based on the language code
     public void setLocale(String langCode) {
         Locale locale = new Locale(langCode);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.setLocale(locale);
         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-
-        /*// Update UI elements with the new language
-        settingsTitle = findViewById(R.id.settings_title);
-        TextView langueLabel = findViewById(R.id.langue_label);
-        TextView currentLanguage = findViewById(R.id.current_language);
-
-        if (settingsTitle != null)
-            settingsTitle.setText(getString(R.string.settings));
-        if (langueLabel != null)
-            langueLabel.setText(getString(R.string.language));
-        if (currentLanguage != null)
-            currentLanguage.setText(getString(R.string.current_language));*/
     }
 
-    // Get the saved language from shared preferences
     private String getSavedLanguage() {
-        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        return prefs.getString("app_language", "en");
+        return sharedPreferences.getString("app_language", "en");
     }
 
-    // Method to set the active button in the navigation bar
     private void setActiveButton(LinearLayout activeButton) {
         LinearLayout homeButton = findViewById(R.id.homeButton);
         LinearLayout musicButton = findViewById(R.id.musicButton);
@@ -224,17 +188,17 @@ public class SettingsActivity extends Activity {
         buttons.add(settingsButton);
 
         for (LinearLayout button : buttons) {
-            button.setBackground(null); // Réinitialise le fond précédent
-
+            button.setBackground(null);
             if (button == activeButton) {
                 button.setAlpha(1.0f);
                 button.setBackgroundResource(R.drawable.nav_button_background_selected);
             } else {
-                button.setAlpha(0.4f);
+                button.setAlpha(0.85f);
                 button.setBackgroundResource(R.drawable.nav_button_background);
             }
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -242,4 +206,5 @@ public class SettingsActivity extends Activity {
             mediaPlayer.release();
         }
     }
+
 }

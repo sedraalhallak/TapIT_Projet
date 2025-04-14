@@ -84,8 +84,7 @@ public class GameView extends SurfaceView implements Runnable {
         background = BitmapFactory.decodeResource(getResources(), R.drawable.purple);
         background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, false);
 
-        tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.tile_button);
-        tileImage = Bitmap.createScaledBitmap(tileImage, tileWidth, tileHeight, false);
+
 
         pauseButtonImage = BitmapFactory.decodeResource(getResources(), R.drawable.pause_button);
         pauseButtonImage = Bitmap.createScaledBitmap(pauseButtonImage, 100, 100, false);

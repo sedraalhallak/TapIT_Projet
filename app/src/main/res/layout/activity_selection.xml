@@ -22,115 +22,127 @@
 
     <TextView
         android:fontFamily="@font/font6"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GENRE"
+        android:text="@string/genre"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:gravity="center"
         android:layout_marginTop="20dp"
-        android:background="@drawable/title_background"
+        android:background="@drawable/custom_back_button"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"/>
 
-
-    <GridLayout
-        android:fontFamily="@font/font6"
-
+    <!-- Genre Buttons -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:rowCount="2"
+        android:orientation="horizontal"
+        android:gravity="center"
         android:layout_marginTop="10dp">
 
         <Button
-            android:id="@+id/pop_button"
+            android:id="@+id/genre_pop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:backgroundTint="#F2EFEF"
-            android:text="POP"
+            android:text="@string/pop"
+            android:layout_margin="5dp"
             android:textColor="@android:color/white"
-            app:rippleColor="#CCCCCC" />
-        <Button
-            android:id="@+id/classical_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:text="CLASSICAL"
-            android:textColor="@android:color/white"/>
-        <Button
-            android:id="@+id/rock_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:text="ROCK"
-            android:textColor="@android:color/white"/>
-        <Button
-            android:id="@+id/hiphop_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:text="HIP HOP"
-            android:textColor="@android:color/white"/>
+            android:background="@android:color/transparent"/>
 
-    </GridLayout>
+        <Button
+            android:id="@+id/genre_rock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rock"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/genre_jazz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/jazz"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"/>
+
+        <Button
+            android:id="@+id/genre_classical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/classical"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
 
     <TextView
         android:fontFamily="@font/font6"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DIFFICULTY"
+        android:text="@string/difficulty"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:gravity="center"
         android:layout_marginTop="20dp"
-        android:background="@drawable/title_background"
+        android:background="@drawable/custom_back_button"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"/>
 
-    <GridLayout
-        android:fontFamily="@font/font6"
 
-        android:layout_width="327dp"
+
+    <!-- Difficulty Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:columnCount="2"
-        android:rowCount="2">
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="10dp">
 
         <Button
-            android:id="@+id/easy_button"
+            android:id="@+id/difficulty_easy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:text="EASY"
-            android:textColor="@android:color/white" />
+            android:text="@string/easy"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"/>
 
         <Button
-            android:id="@+id/normal_button"
+            android:id="@+id/difficulty_medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:text="NORMAL"
-            android:textColor="@android:color/white" />
+            android:text="@string/medium"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"/>
 
         <Button
-            android:id="@+id/hard_button"
+            android:id="@+id/difficulty_hard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_background"
-            android:text="HARD"
-            android:textColor="@android:color/white" />
-    </GridLayout>
+            android:text="@string/hard"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/white"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+    <!-- Enlève le fond -->
+
 
     <!-- Espace vide pour pousser la barre de navigation en bas -->
     <View
@@ -182,6 +194,7 @@
                 android:scaleType="centerInside"
                 android:contentDescription="music icon" />
 
+
         </LinearLayout>
 
         <LinearLayout
@@ -223,8 +236,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-
-
 
 </LinearLayout>

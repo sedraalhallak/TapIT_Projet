@@ -1,6 +1,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <!-- Fond rose clair #f6bbc4 avec 80% d'opacité pour l'état sélectionné -->
-    <solid android:color="#99F6BBC4" /> <!-- Rose clair avec 80% d'opacité -->
+    <solid android:color="#FFC98086" /> <!-- 100% opaque -->
     <corners android:radius="50dp" />
 </shape>

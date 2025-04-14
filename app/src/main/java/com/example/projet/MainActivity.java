@@ -28,6 +28,8 @@ public class MainActivity extends Activity {
         display.getSize(size);
 
         gameView = new GameView(this, size.x, size.y);
+        String currentLang = LanguageUtils.getSavedLanguage(this);
+        LanguageUtils.setLocale(this, currentLang);
         setContentView(gameView);
         /*
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
