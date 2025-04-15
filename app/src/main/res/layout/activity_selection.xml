@@ -5,38 +5,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/purple"
-    android:padding="20dp">
+    android:padding="0dp">
     <!-- Login Button -->
+
+    <!-- Genre Buttons -->
     <ImageButton
         android:id="@+id/loginIcon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="65dp"
+        android:layout_height="54dp"
         android:layout_alignParentTop="true"
         android:layout_margin="10dp"
-        android:layout_marginTop="-48dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Login"
+        android:padding="10dp"
         android:scaleType="centerInside"
         android:src="@drawable/ic_login" />
 
     <TextView
-        android:fontFamily="@font/font6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/genre"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
-        android:gravity="center"
         android:layout_marginTop="20dp"
         android:background="@drawable/custom_back_button"
+        android:fontFamily="@font/font6"
+        android:gravity="center"
         android:paddingStart="20dp"
-        android:paddingEnd="20dp"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
+        android:text="@string/genre"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
-    <!-- Genre Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

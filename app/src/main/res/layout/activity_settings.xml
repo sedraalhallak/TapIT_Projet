@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/purple"
-    android:padding="20dp">
+    android:padding="0dp">
 
     <!-- Titre Settings -->
     <TextView

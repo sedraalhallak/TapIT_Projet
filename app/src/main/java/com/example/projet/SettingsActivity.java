@@ -1,9 +1,7 @@
 package com.example.projet;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -22,15 +20,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends BaseActivity {
 
     private SeekBar volumeSeekBar;
     private CheckBox muteCheckBox;
     private Spinner languageSpinner;
     private SharedPreferences sharedPreferences;
-    private TextView settingsTitle;
     private MediaPlayer mediaPlayer;
     private AudioManager audioManager;
 
@@ -39,27 +35,17 @@ public class SettingsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // Initialize shared preferences
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String currentLang = LanguageUtils.getSavedLanguage(this);
 
-        // Get saved language and set locale
-        String currentLang = getSavedLanguage();
-        setLocale(currentLang);
-
-        // Views initialization
         TextView currentLanguageView = findViewById(R.id.current_language);
         languageSpinner = findViewById(R.id.language_spinner);
         volumeSeekBar = findViewById(R.id.volume_slider);
         muteCheckBox = findViewById(R.id.mute_checkbox);
-        settingsTitle = findViewById(R.id.settings_title);
 
-        // Update current language label
-        String langDisplay = currentLang.equals("fr") ? getString(R.string.french) : getString(R.string.english);
-        currentLanguageView.setText(langDisplay);
-
+        currentLanguageView.setText(currentLang.equals("fr") ? getString(R.string.french) : getString(R.string.english));
         currentLanguageView.setOnClickListener(v -> languageSpinner.performClick());
 
-        // Setup language spinner
         ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(this,
                 R.array.languages, android.R.layout.simple_spinner_item);
         languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -68,17 +54,10 @@ public class SettingsActivity extends Activity {
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedLang = (position == 1) ? "fr" : "en"; // Assume first item is English, second is French
-
+                String selectedLang = (position == 1) ? "fr" : "en";
                 if (!selectedLang.equals(currentLang)) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("app_language", selectedLang);
-                    editor.apply();
-
-                    setLocale(selectedLang);
-                    recreate();  // Use recreate() to refresh the activity without restarting
-
-                    currentLanguageView.setText(selectedLang.equals("fr") ? getString(R.string.french) : getString(R.string.english));
+                    LanguageUtils.setLocale(SettingsActivity.this, selectedLang);
+                    recreate();
                 }
             }
 
@@ -86,7 +65,6 @@ public class SettingsActivity extends Activity {
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        // Navigation buttons
         Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale);
         LinearLayout homeButton = findViewById(R.id.homeButton);
         LinearLayout musicButton = findViewById(R.id.musicButton);
@@ -96,18 +74,13 @@ public class SettingsActivity extends Activity {
         homeButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
             setActiveButton(homeButton);
-            Toast.makeText(SettingsActivity.this, "Déjà sur la page d'accueil", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, MainActivity.class));
         });
 
         musicButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
             setActiveButton(musicButton);
-            startActivity(new Intent(SettingsActivity.this, SelectionActivity.class));
-        });
-
-        settingsButton.setOnClickListener(v -> {
-            v.startAnimation(clickAnimation);
-            setActiveButton(settingsButton);
+            startActivity(new Intent(this, SelectionActivity.class));
         });
 
         favoriteButton.setOnClickListener(v -> {
@@ -116,9 +89,13 @@ public class SettingsActivity extends Activity {
             Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
         });
 
+        settingsButton.setOnClickListener(v -> {
+            v.startAnimation(clickAnimation);
+            setActiveButton(settingsButton);
+        });
+
         NavigationHelper.setupNavigationBar(this);
 
-        // MediaPlayer setup
         mediaPlayer = MediaPlayer.create(this, R.raw.piano_note1);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
@@ -160,19 +137,7 @@ public class SettingsActivity extends Activity {
             startActivity(loginIntent);
         });
 
-        setActiveButton(findViewById(R.id.settingsButton));
-    }
-
-    public void setLocale(String langCode) {
-        Locale locale = new Locale(langCode);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.setLocale(locale);
-        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-    }
-
-    private String getSavedLanguage() {
-        return sharedPreferences.getString("app_language", "en");
+        setActiveButton(settingsButton);
     }
 
     private void setActiveButton(LinearLayout activeButton) {
@@ -206,5 +171,4 @@ public class SettingsActivity extends Activity {
             mediaPlayer.release();
         }
     }
-
 }

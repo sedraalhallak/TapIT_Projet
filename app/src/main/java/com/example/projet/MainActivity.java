@@ -16,7 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Locale;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
     private GameView gameView;
 
     @Override

@@ -21,7 +21,7 @@ import android.os.Vibrator;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-public class PauseActivity extends Activity {
+public class PauseActivity extends BaseActivity {
     private Button resumeButton;
     private Button restartButton;
     private Button homeButton;

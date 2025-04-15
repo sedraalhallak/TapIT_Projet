@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class GameOverDialog {
+public class GameOverDialog extends BaseActivity {
     private AlertDialog dialog;
     private Context context;
 

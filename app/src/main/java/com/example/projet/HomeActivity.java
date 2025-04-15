@@ -2,7 +2,6 @@ package com.example.projet;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -12,19 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-public class HomeActivity extends AppCompatActivity {
+
+public class HomeActivity extends BaseActivity {
 
     private VideoView videoView;
     private ListView songListView;
@@ -34,10 +26,8 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        String currentLang = LanguageUtils.getSavedLanguage(this);
-        LanguageUtils.setLocale(this, currentLang);
-
+        super.onCreate(savedInstanceState); // ✅ PAS de setLocale ici
+        setContentView(R.layout.activity_home);
         // Maintenant on définit le contenu
         setContentView(R.layout.activity_home);
         // Initialisation des vues
