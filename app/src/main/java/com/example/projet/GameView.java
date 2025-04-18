@@ -9,7 +9,6 @@ import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import com.example.projet.Tile;
 
@@ -42,7 +42,6 @@ public class GameView extends SurfaceView implements Runnable {
     private int tileSpeed ;
     private int score = 0;
     private Random random;
-    private SoundManager soundManager;
 
 
 
@@ -50,14 +49,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Bitmap tileImage;
     private Bitmap pauseButtonImage;
     private Bitmap redTileImage;  // Image pour la tuile rouge
-    private Tile lastMissedTile = null; // Dernière tuile ratée
 
-    //private long lastSpeedIncreaseTime = 0;
-    private ArrayList<Particle> festiveParticles = new ArrayList<>();
-    private boolean hasCelebrated = false;
-
-    private final int SPEED_INCREASE_INTERVAL = 3000;
-    ; // Augmenter la hauteur pour que ce soit plus rectangulaire
     private Bitmap star;
     private Bitmap filledStar;
     // Variables globales pour le feedback
@@ -68,9 +60,6 @@ public class GameView extends SurfaceView implements Runnable {
     private int speedIncreaseInterval = 5000; // Intervalle d'augmentation de vitesse (5 secondes)
     private long lastSpeedIncreaseTime = System.currentTimeMillis();
     private float speedMultiplier = 1.0f; // Multiplicateur de vitesse initial
-    private int[] lastTileY;
-    int starY = 150;
-
     public GameView(Context context, int width, int height) {
         super(context);
         screenWidth = width;
@@ -79,43 +68,27 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
         tiles = new ArrayList<>();
         random = new Random();
-        soundManager = new SoundManager(context);
 
         tileWidth = screenWidth / 4;
         tileHeight = 300;
         tileSpeed = 25;
-        //lastTileY = new int[4];
 
         background = BitmapFactory.decodeResource(getResources(), R.drawable.purple);
-        background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, false);
-
-
+        if (background != null) {
+            background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, false);
+        }
 
         pauseButtonImage = BitmapFactory.decodeResource(getResources(), R.drawable.pause_button);
         pauseButtonImage = Bitmap.createScaledBitmap(pauseButtonImage, 100, 100, false);
 
-        redTileImage = BitmapFactory.decodeResource(getResources(), R.drawable.red);
-        redTileImage = Bitmap.createScaledBitmap(redTileImage,(int)(screenWidth / 3.2), 450, false);
-
-        soundManager.playBackgroundMusic();
         // Chargement et redimensionnement des étoiles UNE SEULE FOIS
         star = BitmapFactory.decodeResource(getResources(), R.drawable.star1);
-        star = Bitmap.createScaledBitmap(star, 80, 80, false);
+        star = Bitmap.createScaledBitmap(star, 100, 100, false);
 
         filledStar = BitmapFactory.decodeResource(getResources(), R.drawable.filled_star);
         filledStar = Bitmap.createScaledBitmap(filledStar, 80, 80, false);
         addTile();
     }
-    private void generateFestiveParticles() {
-        int centerX = screenWidth / 2;
-        int centerY = starY + 100;
-
-        // Ajouter un grand nombre de particules pour l'effet explosif
-        for (int i = 0; i < 100; i++) { // Augmenter le nombre de particules pour un effet plus spectaculaire
-            festiveParticles.add(new Particle(centerX, centerY));
-        }
-    }
-
 
     @Override
     public void run() {
@@ -196,21 +169,14 @@ public class GameView extends SurfaceView implements Runnable {
             if (tile.y + tile.height > screenHeight && !tile.isError) {
                 tile.isError = true;
                 isGameOver = true;
+                if (getContext() instanceof MainActivity) {
+                    ((MainActivity) getContext()).stopMusic();
+                }
             }
         }
         if (shouldAddTile()) {  // ← Ajoute cette condition
             addTile();
         }
-        // Met à jour les particules festives
-        Iterator<Particle> iterator = festiveParticles.iterator();
-        while (iterator.hasNext()) {
-            Particle p = iterator.next();
-            p.update();
-            if (!p.isAlive()) {
-                iterator.remove();
-            }
-        }
-
     }
 
     private boolean shouldAddTile() {
@@ -253,13 +219,8 @@ public class GameView extends SurfaceView implements Runnable {
             drawStars(canvas);
             drawScore(canvas);
             drawFeedback(canvas);
-            drawFlash(canvas);
-
 
             // drawDynamicText(canvas);
-            for (Particle p : festiveParticles) {
-                p.draw(canvas, paint);
-            }
 
             holder.unlockCanvasAndPost(canvas);
         }
@@ -268,7 +229,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void drawScore(Canvas canvas) {
         float scoreX = screenWidth / 2;
-        float scoreY = 450; // Ajusté pour être en dessous des étoiles
+        float scoreY = 300; // Ajusté pour être en dessous des étoiles
 
         // Effet néon : Dessiner plusieurs couches avec une opacité dégradée
         Paint neonPaint = new Paint();
@@ -301,129 +262,34 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void drawStars(Canvas canvas) {
         int maxStars = 3;
-        int filledStars = Math.min(score / 2, maxStars); // Maximum 3 stars
+        int filledStars = Math.min(score / 10, maxStars); // Maximum 3 étoiles
 
-        int[] starSizes = {200, 200, 200}; // Custom size for each star
-        int spacing = 30;
+        // Définir des tailles différentes (Petite, Moyenne, Grande)
+        int[] starSizes = {200, 200, 200}; // Ajustable selon ton besoin
 
+        // Définir l'espacement dynamique entre les étoiles
+        int spacing = 0;
+
+        // Calcul de la largeur totale pour centrer correctement
         int totalWidth = starSizes[0] + starSizes[1] + starSizes[2] + (2 * spacing);
         int startX = (screenWidth / 2) - (totalWidth / 2);
-        int starY = 150;
-
-        // Animation effect for star flickering
-        long currentTime = System.currentTimeMillis();
-        float opacity = (float) Math.abs(Math.sin(currentTime / 500.0)); // Flickering effect
+        int starY = 30; // Ajuste la hauteur comme tu veux
 
         for (int i = 0; i < maxStars; i++) {
             int size = starSizes[i];
-            boolean isFilled = i < filledStars;
 
-            // Make the filled star flicker by adjusting its opacity
-            drawStarWithOpacity(canvas, startX + size / 2, starY + size / 2, size / 2, isFilled, opacity);
+            // Sélectionner l’étoile remplie ou vide selon le score
+            Bitmap resizedStar = Bitmap.createScaledBitmap(
+                    (i < filledStars) ? filledStar : star, size, size, false
+            );
+
+            // Dessiner l’étoile
+            canvas.drawBitmap(resizedStar, startX, starY, null);
+
+            // Mise à jour de la position X pour la prochaine étoile
             startX += size + spacing;
         }
-
-        // 🎉 Trigger the light burst when 3 stars are filled
-        if (filledStars == 3 && !hasCelebrated) {
-            generateLightBurst(); // Generate the festive particles
-            hasCelebrated = true; // Ensure it only happens once
-        }
     }
-
-    private void generateLightBurst() {
-        int centerX = screenWidth / 2;
-        int centerY = screenHeight / 2;
-
-        for (int i = 0; i < 150; i++) {
-            festiveParticles.add(new Particle(centerX, centerY));
-        }
-        triggerFlash();
-
-
-        //soundManager.playSoundEffect(SoundManager.EFFECT_SPARKLE);
-    }
-    private void drawLightRays(Canvas canvas) {
-        Paint rayPaint = new Paint();
-        rayPaint.setColor(Color.YELLOW);
-        rayPaint.setAlpha(40); // très transparent
-        rayPaint.setStyle(Paint.Style.FILL);
-
-        int centerX = screenWidth / 2;
-        int centerY = screenHeight / 2;
-
-        for (int i = 0; i < 12; i++) {
-            float angle = (float) (i * Math.PI / 6); // 12 rayons
-            float length = 1000;
-            float endX = (float) (centerX + length * Math.cos(angle));
-            float endY = (float) (centerY + length * Math.sin(angle));
-
-            Path ray = new Path();
-            ray.moveTo(centerX, centerY);
-            ray.lineTo(endX + 30, endY + 30);
-            ray.lineTo(endX - 30, endY - 30);
-            ray.close();
-            canvas.drawPath(ray, rayPaint);
-        }
-    }
-    private int flashAlpha = 0;
-
-    private void triggerFlash() {
-        flashAlpha = 255;
-    }
-
-    private void drawFlash(Canvas canvas) {
-        if (flashAlpha > 0) {
-            Paint flashPaint = new Paint();
-            flashPaint.setColor(Color.WHITE);
-            flashPaint.setAlpha(flashAlpha);
-            canvas.drawRect(0, 0, screenWidth, screenHeight, flashPaint);
-            flashAlpha -= 10; // s’estompe progressivement
-        }
-    }
-
-
-
-
-
-
-
-    private void drawStarWithOpacity(Canvas canvas, float centerX, float centerY, float radius, boolean filled, float opacity) {
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setStyle(filled ? Paint.Style.FILL_AND_STROKE : Paint.Style.STROKE);
-        paint.setStrokeWidth(4);
-
-        if (filled) {
-            paint.setColor(Color.parseColor("#FFD700"));  // Couleur or
-            paint.setMaskFilter(new BlurMaskFilter(15, BlurMaskFilter.Blur.NORMAL));  // Effet lumineux
-        } else {
-            paint.setColor(Color.LTGRAY);
-        }
-
-        paint.setAlpha((int) (255 * opacity));
-
-        Path path = new Path();
-        int numPoints = 5;
-        double angle = Math.PI / numPoints;
-
-        for (int i = 0; i < 2 * numPoints; i++) {
-            double r = (i % 2 == 0) ? radius : radius / 2.5;
-            double a = i * angle - Math.PI / 2;
-            float x = (float) (centerX + r * Math.cos(a));
-            float y = (float) (centerY + r * Math.sin(a));
-            if (i == 0) {
-                path.moveTo(x, y);
-            } else {
-                path.lineTo(x, y);
-            }
-        }
-        path.close();
-
-        canvas.drawPath(path, paint);
-    }
-
-
-
     // Appeler cette méthode quand le joueur réussit des tuiles
     private void showFeedback(String message) {
         feedbackText = message;
@@ -497,6 +363,7 @@ public class GameView extends SurfaceView implements Runnable {
                         dialog.dismiss();
                         isPaused = false;
                         isPlaying = true;
+                        ((MainActivity) getContext()).resumeMusic(); // Reprise de la musique
                         startGame();
                     });
                 });
@@ -508,6 +375,7 @@ public class GameView extends SurfaceView implements Runnable {
                         dialog.dismiss();
                         isPaused = false;
                         isPlaying = true;
+                        ((MainActivity) getContext()).restartMusic(); // Redémarrage de la musique
                         restartGame();
                     });
                 });
@@ -559,7 +427,6 @@ public class GameView extends SurfaceView implements Runnable {
         isPlaying = true;
         gameThread = new Thread(this);
         gameThread.start();
-        soundManager.playBackgroundMusic();
     }
 
     public void stopGame() {
@@ -569,12 +436,13 @@ public class GameView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        soundManager.stopBackgroundMusic();
+
     }
 
     private void pauseGame() {
         isPlaying = false;
         isPaused = true;
+        ((MainActivity) getContext()).pauseMusic(); // Appel à une méthode dans MainActivity
         showPauseMenu();
     }
 
@@ -601,15 +469,13 @@ public class GameView extends SurfaceView implements Runnable {
 
             // 3. Vérifier la collision avec les tuiles noires
             boolean hitValidTile = false;
-            int column = (int)(touchX / tileWidth);
+            int column = (int) (touchX / tileWidth);
             float clickY = touchY;
 
-            // Vérifier d'abord si on touche une tuile noire existante
-            for (Tile tile : new ArrayList<>(tiles)) {
+            List<Tile> tilesCopy = new ArrayList<>(tiles);
+            for (Tile tile : tilesCopy) {
                 if (tile.x == column * tileWidth &&
                         clickY >= tile.y && clickY <= tile.y + tile.height) {
-
-                    // Tuile noire touchée correctement
                     tiles.remove(tile);
                     score++;
                     showFeedback("Great!");
@@ -620,11 +486,10 @@ public class GameView extends SurfaceView implements Runnable {
 
             // 4. Si erreur (clic dans le vide)
             if (!hitValidTile) {
-                // Vérifier qu'il n'y a pas déjà une tuile noire à cette position
                 boolean canPlaceRedTile = true;
                 for (Tile tile : tiles) {
                     if (tile.x == column * tileWidth &&
-                            Math.abs(tile.y - clickY) < tile.height) {
+                            Math.abs(tile.y - clickY) < tileHeight) {
                         canPlaceRedTile = false;
                         break;
                     }
@@ -632,58 +497,34 @@ public class GameView extends SurfaceView implements Runnable {
 
                 if (canPlaceRedTile) {
                     // Créer une tuile rouge d'erreur SEULEMENT si la zone est libre
-                    Tile errorTile = new Tile(column * tileWidth, (int)clickY, tileWidth, tileHeight);
+                    Tile errorTile = new Tile(column * tileWidth, (int) clickY, tileWidth, tileHeight);
                     errorTile.isError = true;
                     tiles.add(errorTile);
+
+                    // Marquer le jeu comme terminé
                     isGameOver = true;
+
+                    // Arrêter la musique
+                    if (getContext() instanceof MainActivity) {
+                        ((MainActivity) getContext()).stopMusic();
+                    }
+
+                    // Afficher le dialogue de fin de jeu
+                    if (!isDialogShown) {
+                        isDialogShown = true;
+                        Activity activity = (Activity) getContext();
+                        activity.runOnUiThread(() -> {
+                            new GameOverDialog(activity).show(score);
+
+                        });
+                    }
                 }
-
             }
-
-            return true;
         }
-        return false;
+        return true;
     }
 
 
 
 
 }
-class Particle {
-    private float x, y;
-    private float dx, dy;
-    private int life;
-    private Paint paint;
-    private float size;
-
-    public Particle(float x, float y) {
-        this.x = x;
-        this.y = y;
-        this.dx = (float)(Math.random() * 10 - 5);
-        this.dy = (float)(Math.random() * 10 - 5);
-        this.size = (float)(Math.random() * 10 + 5);
-        this.life = 60;
-
-        paint = new Paint();
-        paint.setColor(Color.parseColor("#FFD700")); // Or brillant
-        paint.setAlpha((int)(Math.random() * 155 + 100));
-        paint.setMaskFilter(new BlurMaskFilter(10, BlurMaskFilter.Blur.NORMAL));
-    }
-
-    public void update() {
-        x += dx;
-        y += dy;
-        dy += 0.3f; // gravité
-        life--;
-        paint.setAlpha(Math.max(0, paint.getAlpha() - 4)); // fade out
-    }
-
-    public boolean isAlive() {
-        return life > 0;
-    }
-
-    public void draw(Canvas canvas, Paint unused) {
-        canvas.drawCircle(x, y, size, paint);
-    }
-}
-

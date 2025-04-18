@@ -1,87 +1,93 @@
 package com.example.projet;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageButton;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.projet.Song;
+import com.example.projet.SoundManager;
+
 import java.util.List;
 
-public class SongAdapter extends BaseAdapter {
-
+public class SongAdapter extends ArrayAdapter<Song> {
     private Context context;
-    private List<Song> songList;
-    private LayoutInflater inflater;
+    private List<Song> songs;
     private SoundManager soundManager;
-    private SharedPreferences sharedPreferences;
 
-    public SongAdapter(Context context, List<Song> songList, SoundManager soundManager) {
+    public SongAdapter(Context context, List<Song> songs, SoundManager soundManager) {
+        super(context, 0, songs);
         this.context = context;
-        this.songList = songList;
+        this.songs = songs;
         this.soundManager = soundManager;
-        this.inflater = LayoutInflater.from(context);
-        this.sharedPreferences = context.getSharedPreferences("Favorites", Context.MODE_PRIVATE);
-    }
-
-    @Override
-    public int getCount() {
-        return songList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return songList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = inflater.inflate(R.layout.list_item_song, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_song, parent, false);
         }
 
-        // Récupération des éléments du layout
-        TextView songTitle = convertView.findViewById(R.id.songTitle);
-        ImageButton playButton = convertView.findViewById(R.id.playButton);
-        ImageButton favoriteButton = convertView.findViewById(R.id.favoriteButton);
+        Song song = songs.get(position);
 
-        Song currentSong = songList.get(position);
-        songTitle.setText(currentSong.getTitle());
+        TextView titleTextView = convertView.findViewById(R.id.songTitle);
+        TextView artistTextView = convertView.findViewById(R.id.songArtist);
+        Button favoriteButton = convertView.findViewById(R.id.favoriteButton);
+        Button playButton = convertView.findViewById(R.id.playButton);
 
-        // Vérifier si la chanson est déjà dans les favoris
-        boolean isFavorite = sharedPreferences.getBoolean(currentSong.getTitle(), false);
-        favoriteButton.setSelected(isFavorite);
+        titleTextView.setText(song.getTitle());
+        artistTextView.setText(song.getArtist());
 
-        // Gestion du clic pour jouer le son
-        playButton.setOnClickListener(v -> {
-            soundManager.playSound(currentSong.getSoundName()); // Joue le son spécifique
+        // Bouton Favoris
+        favoriteButton.setOnClickListener(v -> {
+            Toast.makeText(context, "Ajouté aux favoris : " + song.getTitle(), Toast.LENGTH_SHORT).show();
+            // TODO: Sauvegarder la chanson dans les favoris
         });
 
-        // Gestion du clic sur le bouton des favoris
-        favoriteButton.setOnClickListener(v -> {
-            boolean isSelected = !v.isSelected();
-            v.setSelected(isSelected); // Met à jour l'état sélectionné
+        // Bouton Play
+        // Modifiez le onClickListener du bouton play
+        playButton.setOnClickListener(v -> {
+            try {
+                String baseUrl = "http://192.168.0.49:8000/song_files/";
+                String songUrl = baseUrl + song.getFilename();
 
-            if (isSelected) {
-                // Ajouter à SharedPreferences
-                sharedPreferences.edit().putBoolean(currentSong.getTitle(), true).apply();
-                Toast.makeText(context, "Ajouté aux favoris", Toast.LENGTH_SHORT).show();
-            } else {
-                // Retirer de SharedPreferences
-                sharedPreferences.edit().remove(currentSong.getTitle()).apply();
-                Toast.makeText(context, "Retiré des favoris", Toast.LENGTH_SHORT).show();
+                // Vérifiez que les données sont valides
+                if (song.getTitle() == null || song.getArtist() == null || song.getFilename() == null) {
+                    Toast.makeText(context, "Erreur: données de chanson invalides", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                Log.d("DEBUG", "Lancement de la chanson: " + song.getTitle());
+
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("song_title", song.getTitle());
+                intent.putExtra("song_artist", song.getArtist());
+                intent.putExtra("song_filename", song.getFilename());
+                intent.putExtra("song_url", songUrl);
+
+                context.startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(context, "Erreur: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Log.e("DEBUG", "Erreur lancement activité: " + e.getMessage());
             }
         });
 
         return convertView;
+    }
+
+
+    // ViewHolder class to improve performance
+    private static class ViewHolder {
+        TextView titleTextView;
+        TextView artistTextView;
+        Button favoriteButton;
+        Button playButton;
     }
 }

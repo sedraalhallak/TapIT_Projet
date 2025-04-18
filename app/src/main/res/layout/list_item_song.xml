@@ -1,41 +1,41 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:background="@drawable/item_background">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:padding="10dp"
+android:background="@drawable/item_background">
 
-    <!-- Nom de la chanson -->
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/songTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Song Title"
+        android:text="Titre"
         android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"/>
+        android:textStyle="bold" />
 
-    <!-- Bouton Play -->
-    <ImageButton
-        android:id="@+id/playButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_play"
-        android:background="@null"
-        android:contentDescription="Play Button"/>
+    <TextView
+        android:id="@+id/songArtist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Artiste"
+        android:textSize="14sp" />
+</LinearLayout>
 
-    <ImageButton
-        android:id="@+id/favoriteButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_toStartOf="@id/playButton"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/favorite_button"
-        android:contentDescription="Favorite Button"/>
+<Button
+    android:id="@+id/favoriteButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="❤️" />
 
-
-</RelativeLayout>
+<Button
+    android:id="@+id/playButton"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="▶️" />
+</LinearLayout>

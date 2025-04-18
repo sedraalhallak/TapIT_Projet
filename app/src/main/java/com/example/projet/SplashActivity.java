@@ -26,27 +26,8 @@ public class SplashActivity extends Activity {
                 .load(R.drawable.giphyf)
                 .placeholder(R.drawable.photo) // ✅ image statique affichée immédiatement
                 .into(backgroundGif);
-
-
-
-
-        // Appliquer la police manuellement si elle est dans /assets/fonts/
-        //Typeface typeface = Typeface.createFromAsset(getAssets(), "font/font.ttf");
-        //catchyText.setTypeface(typeface);
-
-        // Phrase à afficher
-       // String phrase = "🎵 Tap tap... Let the magic begin! 🎹";
-
-        // Attendre un peu avant d'écrire
-       /* new Handler().postDelayed(() -> {
-            animateText(phrase, catchyText, 100); // 100ms par lettre
-        }, 1000);*/
-        // Charger le GIF
         ImageView gifImage = findViewById(R.id.gifImage);
         Glide.with(this).load(R.drawable.start).into(gifImage);
-        /*Charger le deuxième GIF (en haut)
-        ImageView gifTop = findViewById(R.id.gifTop);
-        Glide.with(this).load(R.drawable.gif2).into(gifTop);*/
 
 
         // Récupérer tout le layout (écran complet)
@@ -60,16 +41,6 @@ public class SplashActivity extends Activity {
             }
         });
     }
-    private void animateText(String text, TextView textView, int delay) {
-        final Handler handler = new Handler();
-        textView.setText(""); // Clear the text
-        for (int i = 0; i <= text.length(); i++) {
-            final int index = i;
-            handler.postDelayed(() -> {
-                textView.setText(text.substring(0, index));
-            }, delay * i);
-        }
-    }
 
 
     // Méthode pour démarrer le jeu
@@ -78,7 +49,7 @@ public class SplashActivity extends Activity {
         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         startActivity(intent);
         finish(); // Ferme l'écran du menu après avoir lancé le jeu*/
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        Intent intent = new Intent(SplashActivity.this,SongSelectionActivity.class);
         startActivity(intent);
         finish();
     }
