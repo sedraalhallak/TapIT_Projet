@@ -2,19 +2,26 @@ package com.example.projet;
 
 public class Song {
     private String title;
-    private String soundName;
+    private String artist;
+    private String filename;
 
-    public Song(String title, String soundName) {
+    public Song() {}
+
+    public Song(String title, String artist, String filename) {
         this.title = title;
-        this.soundName = soundName;
+        this.artist = artist;
+        this.filename = filename;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getSoundName() {
-        return soundName;
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getFilename() {
+        return filename;
     }
 }
-

@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import com.example.projet.Tile;
 
@@ -41,7 +42,6 @@ public class GameView extends SurfaceView implements Runnable {
     private int tileSpeed ;
     private int score = 0;
     private Random random;
-    private SoundManager soundManager;
 
 
 
@@ -49,12 +49,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Bitmap tileImage;
     private Bitmap pauseButtonImage;
     private Bitmap redTileImage;  // Image pour la tuile rouge
-    private Tile lastMissedTile = null; // Dernière tuile ratée
 
-    //private long lastSpeedIncreaseTime = 0;
-
-    private final int SPEED_INCREASE_INTERVAL = 3000;
-    ; // Augmenter la hauteur pour que ce soit plus rectangulaire
     private Bitmap star;
     private Bitmap filledStar;
     // Variables globales pour le feedback
@@ -65,7 +60,6 @@ public class GameView extends SurfaceView implements Runnable {
     private int speedIncreaseInterval = 5000; // Intervalle d'augmentation de vitesse (5 secondes)
     private long lastSpeedIncreaseTime = System.currentTimeMillis();
     private float speedMultiplier = 1.0f; // Multiplicateur de vitesse initial
-    private int[] lastTileY;
     public GameView(Context context, int width, int height) {
         super(context);
         screenWidth = width;
@@ -74,25 +68,19 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
         tiles = new ArrayList<>();
         random = new Random();
-        soundManager = new SoundManager(context);
 
         tileWidth = screenWidth / 4;
         tileHeight = 300;
         tileSpeed = 25;
-        //lastTileY = new int[4];
 
         background = BitmapFactory.decodeResource(getResources(), R.drawable.purple);
-        background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, false);
-
-
+        if (background != null) {
+            background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, false);
+        }
 
         pauseButtonImage = BitmapFactory.decodeResource(getResources(), R.drawable.pause_button);
         pauseButtonImage = Bitmap.createScaledBitmap(pauseButtonImage, 100, 100, false);
 
-        redTileImage = BitmapFactory.decodeResource(getResources(), R.drawable.red);
-        redTileImage = Bitmap.createScaledBitmap(redTileImage,(int)(screenWidth / 3.2), 450, false);
-
-        soundManager.playBackgroundMusic();
         // Chargement et redimensionnement des étoiles UNE SEULE FOIS
         star = BitmapFactory.decodeResource(getResources(), R.drawable.star1);
         star = Bitmap.createScaledBitmap(star, 100, 100, false);
@@ -181,6 +169,9 @@ public class GameView extends SurfaceView implements Runnable {
             if (tile.y + tile.height > screenHeight && !tile.isError) {
                 tile.isError = true;
                 isGameOver = true;
+                if (getContext() instanceof MainActivity) {
+                    ((MainActivity) getContext()).stopMusic();
+                }
             }
         }
         if (shouldAddTile()) {  // ← Ajoute cette condition
@@ -372,6 +363,7 @@ public class GameView extends SurfaceView implements Runnable {
                         dialog.dismiss();
                         isPaused = false;
                         isPlaying = true;
+                        ((MainActivity) getContext()).resumeMusic(); // Reprise de la musique
                         startGame();
                     });
                 });
@@ -383,6 +375,7 @@ public class GameView extends SurfaceView implements Runnable {
                         dialog.dismiss();
                         isPaused = false;
                         isPlaying = true;
+                        ((MainActivity) getContext()).restartMusic(); // Redémarrage de la musique
                         restartGame();
                     });
                 });
@@ -434,7 +427,6 @@ public class GameView extends SurfaceView implements Runnable {
         isPlaying = true;
         gameThread = new Thread(this);
         gameThread.start();
-        soundManager.playBackgroundMusic();
     }
 
     public void stopGame() {
@@ -444,12 +436,13 @@ public class GameView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        soundManager.stopBackgroundMusic();
+
     }
 
     private void pauseGame() {
         isPlaying = false;
         isPaused = true;
+        ((MainActivity) getContext()).pauseMusic(); // Appel à une méthode dans MainActivity
         showPauseMenu();
     }
 
@@ -476,15 +469,13 @@ public class GameView extends SurfaceView implements Runnable {
 
             // 3. Vérifier la collision avec les tuiles noires
             boolean hitValidTile = false;
-            int column = (int)(touchX / tileWidth);
+            int column = (int) (touchX / tileWidth);
             float clickY = touchY;
 
-            // Vérifier d'abord si on touche une tuile noire existante
-            for (Tile tile : new ArrayList<>(tiles)) {
+            List<Tile> tilesCopy = new ArrayList<>(tiles);
+            for (Tile tile : tilesCopy) {
                 if (tile.x == column * tileWidth &&
                         clickY >= tile.y && clickY <= tile.y + tile.height) {
-
-                    // Tuile noire touchée correctement
                     tiles.remove(tile);
                     score++;
                     showFeedback("Great!");
@@ -495,11 +486,10 @@ public class GameView extends SurfaceView implements Runnable {
 
             // 4. Si erreur (clic dans le vide)
             if (!hitValidTile) {
-                // Vérifier qu'il n'y a pas déjà une tuile noire à cette position
                 boolean canPlaceRedTile = true;
                 for (Tile tile : tiles) {
                     if (tile.x == column * tileWidth &&
-                            Math.abs(tile.y - clickY) < tile.height) {
+                            Math.abs(tile.y - clickY) < tileHeight) {
                         canPlaceRedTile = false;
                         break;
                     }
@@ -507,17 +497,31 @@ public class GameView extends SurfaceView implements Runnable {
 
                 if (canPlaceRedTile) {
                     // Créer une tuile rouge d'erreur SEULEMENT si la zone est libre
-                    Tile errorTile = new Tile(column * tileWidth, (int)clickY, tileWidth, tileHeight);
+                    Tile errorTile = new Tile(column * tileWidth, (int) clickY, tileWidth, tileHeight);
                     errorTile.isError = true;
                     tiles.add(errorTile);
+
+                    // Marquer le jeu comme terminé
                     isGameOver = true;
+
+                    // Arrêter la musique
+                    if (getContext() instanceof MainActivity) {
+                        ((MainActivity) getContext()).stopMusic();
+                    }
+
+                    // Afficher le dialogue de fin de jeu
+                    if (!isDialogShown) {
+                        isDialogShown = true;
+                        Activity activity = (Activity) getContext();
+                        activity.runOnUiThread(() -> {
+                            new GameOverDialog(activity).show(score);
+
+                        });
+                    }
                 }
-
             }
-
-            return true;
         }
-        return false;
+        return true;
     }
 
 
