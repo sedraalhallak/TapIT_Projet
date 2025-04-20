@@ -43,8 +43,15 @@ public class NavigationHelper {
 
         favoriteButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
-            Toast.makeText(activity, "Favorites", Toast.LENGTH_SHORT).show();
+            if (!(activity instanceof FavoritesActivity)) {
+                Intent intent = new Intent(activity, FavoritesActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                activity.startActivity(intent);
+            } else {
+                Toast.makeText(activity, "Favorites", Toast.LENGTH_SHORT).show();
+            }
         });
+
 
         settingsButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);

@@ -21,10 +21,12 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import java.util.Collections;
-
+import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 public class SongSelectionActivity extends AppCompatActivity {
-    // Correction de l'URL (remplacez par votre IP réelle)
-    private static final String API_BASE_URL = "http://192.168.0.49:8000/";
+    private static final String API_BASE_URL = "http://10.0.2.2:8000/";
 
     private LinearLayout songsLayout;
     private Button testButton;
@@ -33,22 +35,25 @@ public class SongSelectionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         Log.d("DEBUG", "L'activité " + getClass().getSimpleName() + " a été lancée.");
         setContentView(R.layout.activity_song_selection);
 
         songsLayout = findViewById(R.id.songsLayout);
         testButton = findViewById(R.id.testButton);
-        errorText = findViewById(R.id.errorText); // Ajoutez un TextView dans votre layout
+
+        errorText = findViewById(R.id.errorText);
         testButton.setEnabled(false);
+        TypeWriterTextView typeWriter = findViewById(R.id.titleText);
+        typeWriter.animateText("Start the tutorial by selecting a track");
+
 
         loadSongs();
 
         testButton.setOnClickListener(v -> {
             if (selectedSong != null && selectedSong.getFilename() != null && !selectedSong.getFilename().isEmpty()) {
                 String songUrl = API_BASE_URL + "song_files/" + selectedSong.getFilename();
-
-                // Vérifier que l'URL est valide
                 if (isValidUrl(songUrl)) {
                     Intent intent = new Intent(this, MainActivity.class);
                     intent.putExtra("song_url", songUrl);
@@ -63,16 +68,12 @@ public class SongSelectionActivity extends AppCompatActivity {
                 showError("Erreur : Chanson invalide ou vide");
             }
         });
-
-
     }
 
     private void loadSongs() {
-        // Afficher un indicateur de chargement
         Log.d("API", "Tentative de connexion à: " + API_BASE_URL);
         errorText.setText("Chargement des chansons...");
         errorText.setVisibility(View.VISIBLE);
-
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(API_BASE_URL)
@@ -110,19 +111,31 @@ public class SongSelectionActivity extends AppCompatActivity {
             songsLayout.removeAllViews();
             errorText.setVisibility(View.GONE);
 
-            // Obtenir 6 chansons aléatoires
             List<Song> randomSongs = getRandomSongs(songs, 6);
 
             for (Song song : randomSongs) {
                 Button songButton = new Button(this);
                 songButton.setText(song.getArtist() + " - " + song.getTitle());
+                songButton.setTextColor(Color.WHITE);
+                songButton.setBackgroundResource(R.drawable.song_item_background); // 🟢 applique le fond
+                songButton.setAllCaps(false); // si tu veux garder les noms en minuscule/naturel
+
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(0, 12, 0, 12); // espace entre les chansons
+                songButton.setLayoutParams(params);
+
                 songButton.setOnClickListener(v -> {
                     selectedSong = song;
                     testButton.setEnabled(true);
                     highlightSelectedButton(songButton);
                 });
+
                 songsLayout.addView(songButton);
             }
+
         });
     }
 
@@ -130,11 +143,13 @@ public class SongSelectionActivity extends AppCompatActivity {
         for (int i = 0; i < songsLayout.getChildCount(); i++) {
             View child = songsLayout.getChildAt(i);
             if (child instanceof Button) {
-                child.setBackgroundColor(Color.TRANSPARENT);
+                child.setSelected(false); // désélectionner tous les boutons
             }
         }
-        selectedButton.setBackgroundColor(Color.LTGRAY);
+        selectedButton.setSelected(true); // sélectionner le bon
     }
+
+
     private boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
@@ -142,9 +157,7 @@ public class SongSelectionActivity extends AppCompatActivity {
     }
 
     private List<Song> getRandomSongs(List<Song> songs, int count) {
-        // Mélanger la liste des chansons
         Collections.shuffle(songs);
-        // Retourner les premières chansons (jusqu'à `count`)
         return songs.subList(0, Math.min(count, songs.size()));
     }
 

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.list_item_song, parent, false);
         }
@@ -39,23 +41,41 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         TextView titleTextView = convertView.findViewById(R.id.songTitle);
         TextView artistTextView = convertView.findViewById(R.id.songArtist);
-        Button favoriteButton = convertView.findViewById(R.id.favoriteButton);
+        //Button favoriteButton = convertView.findViewById(R.id.favoriteButton);
         Button playButton = convertView.findViewById(R.id.playButton);
 
         titleTextView.setText(song.getTitle());
         artistTextView.setText(song.getArtist());
 
-        // Bouton Favoris
+        ImageButton favoriteButton = convertView.findViewById(R.id.favoriteButton);
+
+        if (FavoriteManager.isFavorite(context, song)) {
+            favoriteButton.setImageResource(R.drawable.ic_favorite_pressed);
+        } else {
+            favoriteButton.setImageResource(R.drawable.ic_favorite);
+        }
+
         favoriteButton.setOnClickListener(v -> {
-            Toast.makeText(context, "Ajouté aux favoris : " + song.getTitle(), Toast.LENGTH_SHORT).show();
-            // TODO: Sauvegarder la chanson dans les favoris
+            if (FavoriteManager.isFavorite(context, song)) {
+                FavoriteManager.removeFavorite(context, song);
+                favoriteButton.setImageResource(R.drawable.ic_favorite);
+                Toast.makeText(context, "Retiré des favoris : " + song.getTitle(), Toast.LENGTH_SHORT).show();
+            } else {
+                FavoriteManager.addFavorite(context, song);
+                favoriteButton.setImageResource(R.drawable.ic_favorite_pressed);
+                Toast.makeText(context, "Ajouté aux favoris : " + song.getTitle(), Toast.LENGTH_SHORT).show();
+            }
         });
+
+
+
+
 
         // Bouton Play
         // Modifiez le onClickListener du bouton play
         playButton.setOnClickListener(v -> {
             try {
-                String baseUrl = "http://192.168.0.49:8000/song_files/";
+                String baseUrl = "http://10.0.2.2:8000/song_files/";
                 String songUrl = baseUrl + song.getFilename();
 
                 // Vérifiez que les données sont valides

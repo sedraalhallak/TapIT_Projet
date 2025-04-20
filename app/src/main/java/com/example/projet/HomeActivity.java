@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -22,6 +24,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.projet.NavigationHelper;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -54,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
 
         // Appeler l'API pour récupérer les chansons
         new FetchSongsTask().execute();
+        Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale);
 
         // Gestion des boutons de navigation
         LinearLayout homeButton = findViewById(R.id.homeButton);
@@ -64,14 +68,20 @@ public class HomeActivity extends AppCompatActivity {
         homeButton.setOnClickListener(v -> {
             Toast.makeText(this, "Déjà sur la page d'accueil", Toast.LENGTH_SHORT).show();
         });
+        NavigationHelper.setupNavigationBar(this);
+        setActiveButton(homeButton);  // pour appliquer le style "sélectionné" comme dans SelectionActivity
+
 
         musicButton.setOnClickListener(v -> {
             startActivity(new Intent(this, SelectionActivity.class));
         });
 
         favoriteButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Favoris", Toast.LENGTH_SHORT).show();
+            // Démarrer l'activité FavoritesActivity
+            Intent intent = new Intent(HomeActivity.this, FavoritesActivity.class);
+            startActivity(intent);
         });
+
 
         settingsButton.setOnClickListener(v -> {
             startActivity(new Intent(this, SettingsActivity.class));
@@ -98,6 +108,31 @@ public class HomeActivity extends AppCompatActivity {
         soundManager.release(); // Libérer les ressources audio
         videoView.stopPlayback(); // Arrêter la vidéo
     }
+    private void setActiveButton(LinearLayout activeButton) {
+        LinearLayout homeButton = findViewById(R.id.homeButton);
+        LinearLayout musicButton = findViewById(R.id.musicButton);
+        LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
+        LinearLayout settingsButton = findViewById(R.id.settingsButton);
+
+        List<LinearLayout> buttons = new ArrayList<>();
+        buttons.add(homeButton);
+        buttons.add(musicButton);
+        buttons.add(favoriteButton);
+        buttons.add(settingsButton);
+
+        for (LinearLayout button : buttons) {
+            button.setBackground(null); // enlève tout résidu visuel
+
+            if (button == activeButton) {
+                button.setAlpha(1.0f);
+                button.setBackgroundResource(R.drawable.nav_button_background_selected);
+            } else {
+                button.setAlpha(0.85f);
+                button.setBackgroundResource(R.drawable.nav_button_background);
+            }
+        }
+    }
+
 
     // Classe interne pour récupérer les chansons depuis l'API
     private class FetchSongsTask extends AsyncTask<Void, Void, List<Song>> {
@@ -105,7 +140,7 @@ public class HomeActivity extends AppCompatActivity {
         protected List<Song> doInBackground(Void... voids) {
             List<Song> songs = new ArrayList<>();
             try {
-                URL url = new URL("http://192.168.0.49:8000/api/songs"); // Remplacez par votre URL API
+                URL url = new URL("http://10.0.2.2:8000/api/songs"); // Remplacez par votre URL API
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
 
@@ -145,4 +180,6 @@ public class HomeActivity extends AppCompatActivity {
         }
 
     }
+
+
 }

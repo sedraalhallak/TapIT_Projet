@@ -41,7 +41,9 @@
 
         <activity android:name=".HomeActivity" />
         <activity android:name=".SelectionActivity"/>
-        <activity android:name=".SettingsActivity">
+        <activity android:name=".SettingsActivity"/>
+        <activity android:name=".FavoritesActivity">
+
             <!-- Vous pouvez ajouter ici des attributs si nécessaire -->
         </activity>
         <activity android:name=".LoginActivity" />
@@ -53,5 +55,8 @@
     </application>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
 </manifest>

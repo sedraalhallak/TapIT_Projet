@@ -47,7 +47,7 @@ public class GenreActivity extends AppCompatActivity {
         protected ArrayList<String> doInBackground(Void... voids) {
             ArrayList<String> result = new ArrayList<>();
             try {
-                URL url = new URL("http://10.0.2.2:8001/genres");
+                URL url = new URL("http://10.0.2.2:8000/genres");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
 

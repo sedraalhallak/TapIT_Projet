@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,45 +5,74 @@
     android:background="@drawable/purple"
     android:padding="20dp">
 
-    <!-- Title at the Top -->
-    <TextView
+    <!-- Espace en haut -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <!-- Titre en haut -->
+    <com.example.projet.TypeWriterTextView
         android:id="@+id/titleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose what to start with"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textColor="#FFFFFF"
         android:gravity="center"
-        android:paddingBottom="16dp"/>
+        android:paddingBottom="10dp"
+        android:fontFamily="@font/font6"
+        android:textStyle="bold" />
 
-    <!-- Scrollable Area for Song Buttons -->
-    <ScrollView
+    <!-- Espace entre le titre et la liste des chansons -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <!-- "Magic Stick" ImageView (qui représente l'effet avant l'affichage de la liste) -->
+
+
+    <!-- Conteneur de la liste des chansons -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/songsLayout"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"/>
-    </ScrollView>
+            android:layout_height="match_parent">
 
-    <!-- Error Text -->
+            <LinearLayout
+                android:id="@+id/songsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- Texte d'erreur -->
     <TextView
+        android:fontFamily="@font/font6"
         android:id="@+id/errorText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#FF0000"
         android:visibility="gone"
-        android:paddingTop="8dp"/>
+        android:paddingTop="8dp" />
 
-    <!-- TESTER Button at the Bottom -->
+    <!-- Bouton en bas -->
     <Button
         android:id="@+id/testButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TESTER"
         android:enabled="false"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:elevation="6dp"
+        android:fontFamily="@font/font6"
+        android:background="@drawable/song_item_background" />
+
 </LinearLayout>

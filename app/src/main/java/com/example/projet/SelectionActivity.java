@@ -15,6 +15,7 @@ import java.util.List;
 public class SelectionActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LanguageUtils.applySavedLocale(this);
         super.onCreate(savedInstanceState);
         Log.d("DEBUG", "L'activité " + getClass().getSimpleName() + " a été lancée.");
         setContentView(R.layout.activity_selection);
@@ -29,7 +30,7 @@ public class SelectionActivity extends BaseActivity {
         homeButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
             setActiveButton(homeButton);
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, HomeActivity.class));
         });
 
         musicButton.setOnClickListener(v -> {
@@ -38,10 +39,11 @@ public class SelectionActivity extends BaseActivity {
         });
 
         favoriteButton.setOnClickListener(v -> {
-            v.startAnimation(clickAnimation);
-            setActiveButton(favoriteButton);
-            Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Clic Favoris", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SelectionActivity.this, FavoritesActivity.class);
+            startActivity(intent);
         });
+
 
         settingsButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);

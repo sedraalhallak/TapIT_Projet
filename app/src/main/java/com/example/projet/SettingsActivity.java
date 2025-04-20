@@ -30,8 +30,12 @@ public class SettingsActivity extends BaseActivity {
     private MediaPlayer mediaPlayer;
     private AudioManager audioManager;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // ➤ Appliquer la langue sauvegardée AVANT toute autre initialisation
+        LanguageUtils.applySavedLocale(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -51,13 +55,15 @@ public class SettingsActivity extends BaseActivity {
         languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languageSpinner.setAdapter(languageAdapter);
 
+        languageSpinner.setSelection(currentLang.equals("fr") ? 1 : 0); // ➤ Affiche la langue courante dans le spinner
+
         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedLang = (position == 1) ? "fr" : "en";
                 if (!selectedLang.equals(currentLang)) {
                     LanguageUtils.setLocale(SettingsActivity.this, selectedLang);
-                    recreate();
+                    recreate(); // ➤ Recharge l'UI avec la bonne langue
                 }
             }
 
@@ -74,7 +80,7 @@ public class SettingsActivity extends BaseActivity {
         homeButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
             setActiveButton(homeButton);
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, HomeActivity.class));
         });
 
         musicButton.setOnClickListener(v -> {
@@ -84,9 +90,9 @@ public class SettingsActivity extends BaseActivity {
         });
 
         favoriteButton.setOnClickListener(v -> {
-            v.startAnimation(clickAnimation);
-            setActiveButton(favoriteButton);
-            Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Clic Favoris", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SettingsActivity.this, FavoritesActivity.class);
+            startActivity(intent);
         });
 
         settingsButton.setOnClickListener(v -> {
@@ -139,6 +145,7 @@ public class SettingsActivity extends BaseActivity {
 
         setActiveButton(settingsButton);
     }
+
 
     private void setActiveButton(LinearLayout activeButton) {
         LinearLayout homeButton = findViewById(R.id.homeButton);

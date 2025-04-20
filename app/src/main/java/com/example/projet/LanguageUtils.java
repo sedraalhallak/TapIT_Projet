@@ -36,4 +36,10 @@ public class LanguageUtils {
         SharedPreferences prefs = activity.getSharedPreferences("MyPrefs", Activity.MODE_PRIVATE);
         return prefs.getString("app_language", "en"); // Default is English
     }
+    public static void applySavedLocale(Activity activity) {
+        SharedPreferences sharedPreferences = activity.getSharedPreferences("MyPrefs", Activity.MODE_PRIVATE);
+        String langCode = sharedPreferences.getString("app_language", "en"); // Anglais par défaut
+        setLocale(activity, langCode);
+    }
+
 }

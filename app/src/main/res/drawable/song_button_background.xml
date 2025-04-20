@@ -1,0 +1,25 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Pressé (clic rapide) -->
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#F3B3FF"/> <!-- rose clair -->
+            <corners android:radius="20dp"/>
+        </shape>
+    </item>
+
+    <!-- Sélectionné (chanson choisie) -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="#CBA8FF"/> <!-- mauve doux -->
+            <corners android:radius="20dp"/>
+        </shape>
+    </item>
+
+    <!-- Normal -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#80FFFFFF"/> <!-- blanc transparent -->
+            <corners android:radius="20dp"/>
+        </shape>
+    </item>
+</selector>

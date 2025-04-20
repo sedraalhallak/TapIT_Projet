@@ -29,6 +29,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LanguageUtils.applySavedLocale(this);
         super.onCreate(savedInstanceState);
 
         // Configuration plein écran
