@@ -1,0 +1,1238 @@
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">projet</string>\r\n\r\n    <style name=\"TransparentDialog\" parent=\"Theme.AppCompat.Dialog\">\r\n        <item name=\"android:windowBackground\">@android:color/transparent</item>\r\n        <item name=\"android:windowNoTitle\">true</item>\r\n    </style>\r\n    <!-- Settings -->\r\n    <string name=\"settings\">Settings</string>\r\n    <string name=\"volume\">Volume</string>\r\n    <string name=\"mute\">Mute Sound</string>\r\n    <string name=\"language\">Language</string>\r\n    <string name=\"current_language\">Current Language</string>\r\n\r\n    <!-- Bottom nav -->\r\n    <string name=\"home\">Home</string>\r\n    <string name=\"music\">Music</string>\r\n    <string name=\"favorites\">Favorites</string>\r\n    <string name=\"login\">Login</string>\r\n\r\n    <!-- Languages -->\r\n    <string name=\"english\">English</string>\r\n    <string name=\"french\">French</string>\r\n\r\n    <string-array name=\"languages\">\r\n        <item>@string/english</item>\r\n        <item>@string/french</item>\r\n    </string-array>\r\n\r\n</resources>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+--- a/app/src/main/res/values/strings.xml	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/res/values/strings.xml	(date 1744626015285)
+@@ -1,30 +1,46 @@
+ <resources>
+-    <string name="app_name">projet</string>
+-
+-    <style name="TransparentDialog" parent="Theme.AppCompat.Dialog">
+-        <item name="android:windowBackground">@android:color/transparent</item>
+-        <item name="android:windowNoTitle">true</item>
+-    </style>
+-    <!-- Settings -->
++    <!-- Strings -->
++    <string name="app_name">TapIt</string>
++    <string name="tap_to_start">Tap to start</string>
++    <string name="cool">COOl</string>
++    <string name="resume">Resume</string>
++    <string name="pause">PAUSE</string>
++    <string name="restart">Restart</string>
+     <string name="settings">Settings</string>
+-    <string name="volume">Volume</string>
+-    <string name="mute">Mute Sound</string>
+-    <string name="language">Language</string>
+-    <string name="current_language">Current Language</string>
+-
+-    <!-- Bottom nav -->
+     <string name="home">Home</string>
+-    <string name="music">Music</string>
+-    <string name="favorites">Favorites</string>
++    <string name="game_over">Game over</string>
++    <string name="score_placeholder">Score : </string>
++    <string name="select_song">Select a song</string>
++    <string name="genre">Genre</string>
++    <string name="pop">POP</string>
++    <string name="classical">Classical</string>
++    <string name="jazz">Jazz</string>
++    <string name="hip_hop">HIP HOP</string>
++    <string name="rock">Rock</string>
++    <string name="difficulty">Difficulty</string>
++    <string name="easy">Easy</string>
++    <string name="medium">Medium</string>
++    <string name="hard">Hard</string>
++    <string name="language">Language</string>
++    <string name="mute">Mute sound</string>
+     <string name="login">Login</string>
++    <string name="create_account">Sign up</string>
++    <string name="or_login_with">Or login with</string>
++    <string name="username">Username</string>
++    <string name="password">Password</string>
++    <string name="name">NAME</string>
++    <string name="email">EMAIL</string>
++    <string name="sign_up">Sign up</string>
++    <string name="already_have_account">Already have an account?</string>
++    <string name="login_now">Login!</string>
++    <string name="no_account_yet">Do not have an account yet?</string>
++    <string name="signup">Sign up</string>
++
+ 
+     <!-- Languages -->
+     <string name="english">English</string>
+     <string name="french">French</string>
+ 
+-    <string-array name="languages">
+-        <item>@string/english</item>
+-        <item>@string/french</item>
+-    </string-array>
++
+ 
+ </resources>
+Index: app/src/main/java/com/example/projet/SettingsActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.projet;\r\n\r\nimport android.app.Activity;\r\nimport android.content.Intent;\r\nimport android.content.SharedPreferences;\r\nimport android.content.res.Configuration;\r\nimport android.media.AudioManager;\r\nimport android.media.MediaPlayer;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.view.animation.Animation;\r\nimport android.view.animation.AnimationUtils;\r\nimport android.widget.AdapterView;\r\nimport android.widget.ArrayAdapter;\r\nimport android.widget.CheckBox;\r\nimport android.widget.ImageButton;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.SeekBar;\r\nimport android.widget.Spinner;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport java.util.Locale;\r\n\r\npublic class SettingsActivity extends Activity {\r\n\r\n    private SeekBar volumeSeekBar;\r\n    private CheckBox muteCheckBox;\r\n    private Spinner languageSpinner;\r\n    private SharedPreferences sharedPreferences;\r\n    private TextView settingsTitle;\r\n    private MediaPlayer mediaPlayer;\r\n    private AudioManager audioManager;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_settings);\r\n\r\n        // Set the language based on saved preferences\r\n        setLocale(getSavedLanguage());\r\n\r\n        // Initialize shared preferences\r\n        sharedPreferences = getSharedPreferences(\"MyPrefs\", MODE_PRIVATE);\r\n\r\n        // Views initialization\r\n        TextView currentLanguageView = findViewById(R.id.current_language);\r\n        languageSpinner = findViewById(R.id.language_spinner);\r\n        volumeSeekBar = findViewById(R.id.volume_slider);\r\n        muteCheckBox = findViewById(R.id.mute_checkbox);\r\n        settingsTitle = findViewById(R.id.settings_title);\r\n\r\n        // Make the current language label clickable\r\n        currentLanguageView.setOnClickListener(v -> languageSpinner.performClick());\r\n\r\n        /*// Language spinner setup\r\n        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,\r\n                R.array.languages, android.R.layout.simple_spinner_item);\r\n        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);\r\n        languageSpinner.setAdapter(adapter);*/\r\n\r\n        // Set the current language in the spinner\r\n        String currentLang = getSavedLanguage();\r\n        int selectedIndex = currentLang.equals(\"fr\") ? 1 : (currentLang.equals(\"es\") ? 2 : 0);\r\n        languageSpinner.setSelection(selectedIndex);\r\n\r\n        // Language change listener\r\n        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {\r\n            @Override\r\n            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {\r\n                String selectedLang = (position == 1) ? \"fr\" : \"en\";\r\n\r\n                if (!selectedLang.equals(currentLang)) {\r\n                    SharedPreferences.Editor editor = sharedPreferences.edit();\r\n                    editor.putString(\"app_language\", selectedLang);\r\n                    editor.apply();\r\n                    setLocale(selectedLang);\r\n                }\r\n\r\n               /* // Update the current language display\r\n                TextView currentLanguage = findViewById(R.id.current_language);\r\n                if (currentLanguage != null) {\r\n                    currentLanguage.setText(selectedLang.equals(\"fr\") ? getString(R.string.french) : getString(R.string.english));\r\n                }*/\r\n\r\n            }\r\n\r\n            @Override\r\n            public void onNothingSelected(AdapterView<?> parent) { }\r\n        });\r\n\r\n        // Animation for buttons\r\n        Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale);\r\n        LinearLayout homeButton = findViewById(R.id.homeButton);\r\n        LinearLayout musicButton = findViewById(R.id.musicButton);\r\n        LinearLayout favoriteButton = findViewById(R.id.favoriteButton);\r\n        LinearLayout settingsButton = findViewById(R.id.settingsButton);\r\n        // Button listeners with animation\r\n        homeButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation);\r\n\r\n            // Met à jour les styles des boutons pour indiquer que \"Home\" est actif\r\n            setActiveButton(homeButton);\r\n\r\n            // Message de confirmation\r\n            Toast.makeText(SettingsActivity.this, \"Déjà sur la page d'accueil\", Toast.LENGTH_SHORT).show();\r\n        });\r\n\r\n\r\n        musicButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation);\r\n            setActiveButton(musicButton);\r\n            startActivity(new Intent(SettingsActivity.this, SelectionActivity.class));\r\n        });\r\n\r\n        settingsButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation);\r\n            setActiveButton(settingsButton);\r\n            startActivity(new Intent(SettingsActivity.this, SettingsActivity.class));\r\n        });\r\n\r\n        favoriteButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation);\r\n            setActiveButton(favoriteButton);\r\n            Toast.makeText(this, \"Favorites\", Toast.LENGTH_SHORT).show();\r\n        });\r\n        NavigationHelper.setupNavigationBar(this);\r\n        // Audio settings (volume and mute)\r\n        mediaPlayer = MediaPlayer.create(this, R.raw.piano_note1);\r\n        mediaPlayer.setLooping(true);\r\n        mediaPlayer.start();\r\n\r\n        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);\r\n        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);\r\n        int currentVolume = sharedPreferences.getInt(\"volume\", maxVolume / 2);\r\n\r\n        volumeSeekBar.setMax(maxVolume);\r\n        volumeSeekBar.setProgress(currentVolume);\r\n        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);\r\n\r\n        // Update volume when user interacts with the seekbar\r\n        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {\r\n            @Override\r\n            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {\r\n                if (fromUser) {\r\n                    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);\r\n                    mediaPlayer.setVolume(progress / (float) maxVolume, progress / (float) maxVolume);\r\n                    sharedPreferences.edit().putInt(\"volume\", progress).apply();\r\n                }\r\n            }\r\n\r\n            @Override public void onStartTrackingTouch(SeekBar seekBar) {}\r\n            @Override public void onStopTrackingTouch(SeekBar seekBar) {}\r\n        });\r\n\r\n        // Mute checkbox listener\r\n        muteCheckBox.setChecked(sharedPreferences.getBoolean(\"isMuted\", false));\r\n        muteCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {\r\n            if (isChecked) {\r\n                // Mute the audio\r\n                mediaPlayer.setVolume(0, 0);\r\n            } else {\r\n                // Restore the volume based on the seekbar\r\n                int volume = volumeSeekBar.getProgress();\r\n                mediaPlayer.setVolume(volume / (float) maxVolume, volume / (float) maxVolume);\r\n            }\r\n            // Save mute state in shared preferences\r\n            sharedPreferences.edit().putBoolean(\"isMuted\", isChecked).apply();\r\n        });\r\n\r\n        // Login button listener\r\n        ImageButton loginIcon = findViewById(R.id.loginIcon);\r\n        loginIcon.setOnClickListener(v -> {\r\n            Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);\r\n            startActivity(loginIntent);\r\n        });\r\n\r\n        // Set active button for the navigation bar\r\n        setActiveButton(findViewById(R.id.settingsButton)); // Mark 'Settings' button as active\r\n\r\n        NavigationHelper.setupNavigationBar(this);\r\n    }\r\n\r\n    // Method to set locale based on the language code\r\n    public void setLocale(String langCode) {\r\n        Locale locale = new Locale(langCode);\r\n        Locale.setDefault(locale);\r\n        Configuration config = new Configuration();\r\n        config.setLocale(locale);\r\n        getResources().updateConfiguration(config, getResources().getDisplayMetrics());\r\n\r\n        /*// Update UI elements with the new language\r\n        settingsTitle = findViewById(R.id.settings_title);\r\n        TextView langueLabel = findViewById(R.id.langue_label);\r\n        TextView currentLanguage = findViewById(R.id.current_language);\r\n\r\n        if (settingsTitle != null)\r\n            settingsTitle.setText(getString(R.string.settings));\r\n        if (langueLabel != null)\r\n            langueLabel.setText(getString(R.string.language));\r\n        if (currentLanguage != null)\r\n            currentLanguage.setText(getString(R.string.current_language));*/\r\n    }\r\n\r\n    // Get the saved language from shared preferences\r\n    private String getSavedLanguage() {\r\n        SharedPreferences prefs = getSharedPreferences(\"MyPrefs\", MODE_PRIVATE);\r\n        return prefs.getString(\"app_language\", \"en\");\r\n    }\r\n\r\n    // Method to set the active button in the navigation bar\r\n    private void setActiveButton(LinearLayout activeButton) {\r\n        LinearLayout homeButton = findViewById(R.id.homeButton);\r\n        LinearLayout musicButton = findViewById(R.id.musicButton);\r\n        LinearLayout favoriteButton = findViewById(R.id.favoriteButton);\r\n        LinearLayout settingsButton = findViewById(R.id.settingsButton);\r\n\r\n        List<LinearLayout> buttons = new ArrayList<>();\r\n        buttons.add(homeButton);\r\n        buttons.add(musicButton);\r\n        buttons.add(favoriteButton);\r\n        buttons.add(settingsButton);\r\n\r\n        for (LinearLayout button : buttons) {\r\n            button.setBackground(null); // Réinitialise le fond précédent\r\n\r\n            if (button == activeButton) {\r\n                button.setAlpha(1.0f);\r\n                button.setBackgroundResource(R.drawable.nav_button_background_selected);\r\n            } else {\r\n                button.setAlpha(0.4f);\r\n                button.setBackgroundResource(R.drawable.nav_button_background);\r\n            }\r\n        }\r\n    }\r\n    @Override\r\n    protected void onDestroy() {\r\n        super.onDestroy();\r\n        if (mediaPlayer != null) {\r\n            mediaPlayer.release();\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/projet/SettingsActivity.java b/app/src/main/java/com/example/projet/SettingsActivity.java
+--- a/app/src/main/java/com/example/projet/SettingsActivity.java	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/java/com/example/projet/SettingsActivity.java	(date 1744630290451)
+@@ -39,12 +39,13 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_settings);
+ 
+-        // Set the language based on saved preferences
+-        setLocale(getSavedLanguage());
+-
+         // Initialize shared preferences
+         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+ 
++        // Get saved language and set locale
++        String currentLang = getSavedLanguage();
++        setLocale(currentLang);
++
+         // Views initialization
+         TextView currentLanguageView = findViewById(R.id.current_language);
+         languageSpinner = findViewById(R.id.language_spinner);
+@@ -52,63 +53,52 @@
+         muteCheckBox = findViewById(R.id.mute_checkbox);
+         settingsTitle = findViewById(R.id.settings_title);
+ 
+-        // Make the current language label clickable
++        // Update current language label
++        String langDisplay = currentLang.equals("fr") ? getString(R.string.french) : getString(R.string.english);
++        currentLanguageView.setText(langDisplay);
++
+         currentLanguageView.setOnClickListener(v -> languageSpinner.performClick());
+ 
+-        /*// Language spinner setup
+-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
++        // Setup language spinner
++        ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(this,
+                 R.array.languages, android.R.layout.simple_spinner_item);
+-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+-        languageSpinner.setAdapter(adapter);*/
++        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
++        languageSpinner.setAdapter(languageAdapter);
+ 
+-        // Set the current language in the spinner
+-        String currentLang = getSavedLanguage();
+-        int selectedIndex = currentLang.equals("fr") ? 1 : (currentLang.equals("es") ? 2 : 0);
+-        languageSpinner.setSelection(selectedIndex);
+-
+-        // Language change listener
+         languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+             @Override
+             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+-                String selectedLang = (position == 1) ? "fr" : "en";
++                String selectedLang = (position == 1) ? "fr" : "en"; // Assume first item is English, second is French
+ 
+                 if (!selectedLang.equals(currentLang)) {
+                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                     editor.putString("app_language", selectedLang);
+                     editor.apply();
++
+                     setLocale(selectedLang);
+-                }
++                    recreate();  // Use recreate() to refresh the activity without restarting
+ 
+-               /* // Update the current language display
+-                TextView currentLanguage = findViewById(R.id.current_language);
+-                if (currentLanguage != null) {
+-                    currentLanguage.setText(selectedLang.equals("fr") ? getString(R.string.french) : getString(R.string.english));
+-                }*/
+-
++                    currentLanguageView.setText(selectedLang.equals("fr") ? getString(R.string.french) : getString(R.string.english));
++                }
+             }
+ 
+             @Override
+-            public void onNothingSelected(AdapterView<?> parent) { }
++            public void onNothingSelected(AdapterView<?> parent) {}
+         });
+ 
+-        // Animation for buttons
++        // Navigation buttons
+         Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale);
+         LinearLayout homeButton = findViewById(R.id.homeButton);
+         LinearLayout musicButton = findViewById(R.id.musicButton);
+         LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
+         LinearLayout settingsButton = findViewById(R.id.settingsButton);
+-        // Button listeners with animation
++
+         homeButton.setOnClickListener(v -> {
+             v.startAnimation(clickAnimation);
+-
+-            // Met à jour les styles des boutons pour indiquer que "Home" est actif
+             setActiveButton(homeButton);
+-
+-            // Message de confirmation
+             Toast.makeText(SettingsActivity.this, "Déjà sur la page d'accueil", Toast.LENGTH_SHORT).show();
+         });
+ 
+-
+         musicButton.setOnClickListener(v -> {
+             v.startAnimation(clickAnimation);
+             setActiveButton(musicButton);
+@@ -118,7 +108,6 @@
+         settingsButton.setOnClickListener(v -> {
+             v.startAnimation(clickAnimation);
+             setActiveButton(settingsButton);
+-            startActivity(new Intent(SettingsActivity.this, SettingsActivity.class));
+         });
+ 
+         favoriteButton.setOnClickListener(v -> {
+@@ -126,8 +115,10 @@
+             setActiveButton(favoriteButton);
+             Toast.makeText(this, "Favorites", Toast.LENGTH_SHORT).show();
+         });
++
+         NavigationHelper.setupNavigationBar(this);
+-        // Audio settings (volume and mute)
++
++        // MediaPlayer setup
+         mediaPlayer = MediaPlayer.create(this, R.raw.piano_note1);
+         mediaPlayer.setLooping(true);
+         mediaPlayer.start();
+@@ -140,77 +131,50 @@
+         volumeSeekBar.setProgress(currentVolume);
+         audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, currentVolume, 0);
+ 
+-        // Update volume when user interacts with the seekbar
+         volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+-            @Override
+-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
++            @Override public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                 if (fromUser) {
+                     audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, 0);
+                     mediaPlayer.setVolume(progress / (float) maxVolume, progress / (float) maxVolume);
+                     sharedPreferences.edit().putInt("volume", progress).apply();
+                 }
+             }
+-
+             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+         });
+ 
+-        // Mute checkbox listener
+         muteCheckBox.setChecked(sharedPreferences.getBoolean("isMuted", false));
+         muteCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+             if (isChecked) {
+-                // Mute the audio
+                 mediaPlayer.setVolume(0, 0);
+             } else {
+-                // Restore the volume based on the seekbar
+                 int volume = volumeSeekBar.getProgress();
+                 mediaPlayer.setVolume(volume / (float) maxVolume, volume / (float) maxVolume);
+             }
+-            // Save mute state in shared preferences
+             sharedPreferences.edit().putBoolean("isMuted", isChecked).apply();
+         });
+ 
+-        // Login button listener
+         ImageButton loginIcon = findViewById(R.id.loginIcon);
+         loginIcon.setOnClickListener(v -> {
+             Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);
+             startActivity(loginIntent);
+         });
+ 
+-        // Set active button for the navigation bar
+-        setActiveButton(findViewById(R.id.settingsButton)); // Mark 'Settings' button as active
+-
+-        NavigationHelper.setupNavigationBar(this);
++        setActiveButton(findViewById(R.id.settingsButton));
+     }
+ 
+-    // Method to set locale based on the language code
+     public void setLocale(String langCode) {
+         Locale locale = new Locale(langCode);
+         Locale.setDefault(locale);
+         Configuration config = new Configuration();
+         config.setLocale(locale);
+         getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+-
+-        /*// Update UI elements with the new language
+-        settingsTitle = findViewById(R.id.settings_title);
+-        TextView langueLabel = findViewById(R.id.langue_label);
+-        TextView currentLanguage = findViewById(R.id.current_language);
+-
+-        if (settingsTitle != null)
+-            settingsTitle.setText(getString(R.string.settings));
+-        if (langueLabel != null)
+-            langueLabel.setText(getString(R.string.language));
+-        if (currentLanguage != null)
+-            currentLanguage.setText(getString(R.string.current_language));*/
+     }
+ 
+-    // Get the saved language from shared preferences
+     private String getSavedLanguage() {
+-        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+-        return prefs.getString("app_language", "en");
++        return sharedPreferences.getString("app_language", "en");
+     }
+ 
+-    // Method to set the active button in the navigation bar
+     private void setActiveButton(LinearLayout activeButton) {
+         LinearLayout homeButton = findViewById(R.id.homeButton);
+         LinearLayout musicButton = findViewById(R.id.musicButton);
+@@ -224,17 +188,17 @@
+         buttons.add(settingsButton);
+ 
+         for (LinearLayout button : buttons) {
+-            button.setBackground(null); // Réinitialise le fond précédent
+-
++            button.setBackground(null);
+             if (button == activeButton) {
+                 button.setAlpha(1.0f);
+                 button.setBackgroundResource(R.drawable.nav_button_background_selected);
+             } else {
+-                button.setAlpha(0.4f);
++                button.setAlpha(0.85f);
+                 button.setBackgroundResource(R.drawable.nav_button_background);
+             }
+         }
+     }
++
+     @Override
+     protected void onDestroy() {
+         super.onDestroy();
+@@ -242,4 +206,5 @@
+             mediaPlayer.release();
+         }
+     }
++
+ }
+Index: app/src/main/res/layout/game_over_dialog.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:background=\"@android:color/transparent\">\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_centerInParent=\"true\"\r\n        android:orientation=\"vertical\"\r\n        android:gravity=\"center\"\r\n        android:padding=\"20dp\"\r\n        android:background=\"@drawable/dialog_background\">\r\n\r\n        <TextView\r\n            android:fontFamily=\"@font/font6\"\r\n\r\n            android:id=\"@+id/game_over_text\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:text=\"GAME OVER\"\r\n            android:textSize=\"40sp\"\r\n            android:textColor=\"#FFFFFF\"\r\n            android:textStyle=\"bold\"\r\n            android:gravity=\"center\"\r\n            android:paddingBottom=\"10dp\" />\r\n\r\n        <TextView\r\n            android:fontFamily=\"@font/font6\"\r\n\r\n            android:id=\"@+id/score_text\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:text=\"Score : 0\"\r\n            android:textSize=\"30sp\"\r\n            android:textColor=\"#FFFFFF\"\r\n            android:gravity=\"center\"\r\n            android:paddingBottom=\"20dp\" />\r\n\r\n        <Button\r\n            android:fontFamily=\"@font/font6\"\r\n\r\n            android:id=\"@+id/continue_button\"\r\n            android:layout_width=\"180dp\"\r\n            android:layout_height=\"70dp\"\r\n            android:text=\"RESUMER\"\r\n            android:textSize=\"20sp\"\r\n\r\n            android:textColor=\"#FFFFFF\"\r\n            android:background=\"@drawable/custom_back_button\"\r\n            android:gravity=\"center\"\r\n            android:layout_gravity=\"center\"\r\n            android:layout_marginBottom=\"10dp\" />\r\n\r\n        <Button\r\n            android:fontFamily=\"@font/font6\"\r\n\r\n            android:id=\"@+id/home_button\"\r\n            android:layout_width=\"180dp\"\r\n            android:layout_height=\"70dp\"\r\n            android:text=\"HOME\"\r\n            android:textSize=\"20sp\"\r\n\r\n            android:textColor=\"#FFFFFF\"\r\n            android:background=\"@drawable/custom_back_button\"\r\n            android:gravity=\"center\"\r\n            android:layout_gravity=\"center\" /> <!-- Centre le bouton -->\r\n\r\n    </LinearLayout>\r\n</RelativeLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/game_over_dialog.xml b/app/src/main/res/layout/game_over_dialog.xml
+--- a/app/src/main/res/layout/game_over_dialog.xml	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/res/layout/game_over_dialog.xml	(date 1744624314163)
+@@ -18,7 +18,7 @@
+             android:id="@+id/game_over_text"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-            android:text="GAME OVER"
++            android:text="@string/game_over"
+             android:textSize="40sp"
+             android:textColor="#FFFFFF"
+             android:textStyle="bold"
+@@ -31,7 +31,7 @@
+             android:id="@+id/score_text"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-            android:text="Score : 0"
++            android:text="@string/score_placeholder"
+             android:textSize="30sp"
+             android:textColor="#FFFFFF"
+             android:gravity="center"
+@@ -43,7 +43,7 @@
+             android:id="@+id/continue_button"
+             android:layout_width="180dp"
+             android:layout_height="70dp"
+-            android:text="RESUMER"
++            android:text="@string/resume"
+             android:textSize="20sp"
+ 
+             android:textColor="#FFFFFF"
+@@ -58,7 +58,7 @@
+             android:id="@+id/home_button"
+             android:layout_width="180dp"
+             android:layout_height="70dp"
+-            android:text="HOME"
++            android:text="@string/home"
+             android:textSize="20sp"
+ 
+             android:textColor="#FFFFFF"
+Index: app/src/main/java/com/example/projet/SelectionActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.projet;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.ImageButton;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport android.view.animation.Animation;\r\nimport android.view.animation.AnimationUtils;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\npublic class SelectionActivity extends AppCompatActivity {\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_selection);\r\n\r\n        Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale);\r\n\r\n        // Initialisation des boutons\r\n        LinearLayout homeButton = findViewById(R.id.homeButton);\r\n        LinearLayout musicButton = findViewById(R.id.musicButton);\r\n        LinearLayout favoriteButton = findViewById(R.id.favoriteButton);\r\n        LinearLayout settingsButton = findViewById(R.id.settingsButton);\r\n\r\n        // Appliquer l'animation et démarrer l'activité correspondante\r\n        homeButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation); // Appliquer l'animation\r\n            setActiveButton(homeButton); // Mettre homeButton comme actif\r\n            Intent homeIntent = new Intent(SelectionActivity.this, HomeActivity.class);\r\n            startActivity(homeIntent);\r\n            finish(); // Fermer l'activité actuelle\r\n        });\r\n\r\n        musicButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation); // Appliquer l'animation\r\n            setActiveButton(musicButton); // Mettre musicButton comme actif\r\n            Toast.makeText(this, \"Music\", Toast.LENGTH_SHORT).show();\r\n        });\r\n\r\n        settingsButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation); // Appliquer l'animation\r\n            setActiveButton(settingsButton); // Mettre settingsButton comme actif\r\n            startActivity(new Intent(SelectionActivity.this, SettingsActivity.class)); // Démarrer SettingsActivity\r\n            finish();\r\n        });\r\n\r\n        favoriteButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation); // Appliquer l'animation\r\n            setActiveButton(favoriteButton); // Mettre favoriteButton comme actif\r\n            Toast.makeText(this, \"Favorites\", Toast.LENGTH_SHORT).show();\r\n        });\r\n\r\n        // Mettre à jour l'état actif de chaque bouton après l'animation\r\n        setActiveButton(musicButton); // Exemple : mettre musicButton comme bouton actif\r\n\r\n        // Login button listener\r\n        ImageButton loginIcon = findViewById(R.id.loginIcon);\r\n        loginIcon.setOnClickListener(v -> {\r\n            Intent loginIntent = new Intent(SelectionActivity.this, LoginActivity.class);\r\n            startActivity(loginIntent);\r\n        });\r\n    }\r\n\r\n    // Méthode pour définir l'état actif de chaque bouton\r\n    private void setActiveButton(LinearLayout activeButton) {\r\n        LinearLayout homeButton = findViewById(R.id.homeButton);\r\n        LinearLayout musicButton = findViewById(R.id.musicButton);\r\n        LinearLayout favoriteButton = findViewById(R.id.favoriteButton);\r\n        LinearLayout settingsButton = findViewById(R.id.settingsButton);\r\n\r\n        List<LinearLayout> buttons = new ArrayList<>();\r\n        buttons.add(homeButton);\r\n        buttons.add(musicButton);\r\n        buttons.add(favoriteButton);\r\n        buttons.add(settingsButton);\r\n\r\n        for (LinearLayout button : buttons) {\r\n            button.setBackground(null); // Réinitialise le fond précédent\r\n\r\n            if (button == activeButton) {\r\n                button.setAlpha(1.0f);\r\n                button.setBackgroundResource(R.drawable.nav_button_background_selected);\r\n            } else {\r\n                button.setAlpha(0.4f);\r\n                button.setBackgroundResource(R.drawable.nav_button_background);\r\n            }\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/projet/SelectionActivity.java b/app/src/main/java/com/example/projet/SelectionActivity.java
+--- a/app/src/main/java/com/example/projet/SelectionActivity.java	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/java/com/example/projet/SelectionActivity.java	(date 1744626588408)
+@@ -88,7 +88,7 @@
+                 button.setAlpha(1.0f);
+                 button.setBackgroundResource(R.drawable.nav_button_background_selected);
+             } else {
+-                button.setAlpha(0.4f);
++                button.setAlpha(0.85f);
+                 button.setBackgroundResource(R.drawable.nav_button_background);
+             }
+         }
+Index: app/src/main/res/values-fr/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">projet</string>\r\n\r\n    <style name=\"TransparentDialog\" parent=\"Theme.AppCompat.Dialog\">\r\n        <item name=\"android:windowBackground\">@android:color/transparent</item>\r\n        <item name=\"android:windowNoTitle\">true</item>\r\n    </style>\r\n\r\n    <string name=\"english\">Anglais</string>\r\n    <string name=\"french\">Français</string>\r\n    <string name=\"current_language\">Langue actuelle</string>\r\n\r\n    <string-array name=\"languages\">\r\n        <item>@string/english</item>\r\n        <item>@string/french</item>\r\n    </string-array>\r\n\r\n    <string name=\"settings\">Paramètres</string>\r\n    <string name=\"volume\">Volume</string>\r\n    <string name=\"mute\">Couper le son</string>\r\n    <string name=\"language\">Langue</string>\r\n    <string name=\"home\">Accueil</string>\r\n    <string name=\"music\">Musique</string>\r\n    <string name=\"favorites\">Favoris</string>\r\n</resources>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values-fr/strings.xml b/app/src/main/res/values-fr/strings.xml
+--- a/app/src/main/res/values-fr/strings.xml	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/res/values-fr/strings.xml	(date 1744626015272)
+@@ -1,25 +1,46 @@
+ <resources>
+-    <string name="app_name">projet</string>
+-
+-    <style name="TransparentDialog" parent="Theme.AppCompat.Dialog">
+-        <item name="android:windowBackground">@android:color/transparent</item>
+-        <item name="android:windowNoTitle">true</item>
+-    </style>
+ 
+-    <string name="english">Anglais</string>
+-    <string name="french">Français</string>
+-    <string name="current_language">Langue actuelle</string>
+-
+-    <string-array name="languages">
+-        <item>@string/english</item>
+-        <item>@string/french</item>
+-    </string-array>
+-
++    <!-- Chaînes traduites -->
++    <string name="app_name">TapIt</string>
++    <string name="tap_to_start">Appuyez pour commencer</string>
++    <string name="cool">COOl</string>
++    <string name="resume">Reprendre</string>
++    <string name="pause">PAUSE</string>
++    <string name="restart">Redémarrer</string>
+     <string name="settings">Paramètres</string>
+-    <string name="volume">Volume</string>
+-    <string name="mute">Couper le son</string>
+-    <string name="language">Langue</string>
+     <string name="home">Accueil</string>
+-    <string name="music">Musique</string>
+-    <string name="favorites">Favoris</string>
++    <string name="game_over">Fin de la partie</string>
++    <string name="score_placeholder">Score: </string>
++    <string name="select_song">Sélectionner une chanson</string>
++    <string name="genre">Genre</string>
++    <string name="pop">POP</string>
++    <string name="jazz">Jazz</string>
++    <string name="classical">Classique</string>
++    <string name="hip_hop">HIP HOP</string>
++    <string name="rock">Rock</string>
++    <string name="difficulty">Difficulté</string>
++    <string name="easy">Facile</string>
++    <string name="medium">Medium</string>
++    <string name="hard">Difficile</string>
++    <string name="language">Langue</string>
++    <string name="mute">Couper le son</string>
++    <string name="login">Connexion</string>
++    <string name="create_account">Créer un compte</string>
++    <string name="or_login_with">Ou connectez-vous avec</string>
++    <string name="username">Nom d’utilisateur</string>
++    <string name="password">Mot de passe</string>
++    <string name="name">NOM</string>
++    <string name="email">EMAIL</string>
++    <string name="sign_up">Créer un compte</string>
++    <string name="already_have_account">Vous avez déjà un compte ?</string>
++    <string name="login_now">Connectez-vous !</string>
++    <string name="no_account_yet">Pas encore de compte ?</string>
++    <string name="signup">Créer un compte</string>
++
++    <!-- Langues -->
++    <string name="english">Anglais</string>
++    <string name="french">Français</string>
++
++
++
+ </resources>
+Index: app/src/main/res/layout/activity_home.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout\r\n    xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:background=\"@drawable/purple\"\r\n    android:padding=\"10dp\">\r\n\r\n    <VideoView\r\n    android:id=\"@+id/videoView\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"500dp\"\r\n    android:paddingBottom=\"0dp\"\r\n    android:layout_gravity=\"center\"/>\r\n\r\n        <!-- Titre -->\r\n    <TextView\r\n        android:fontFamily=\"@font/font6\"\r\n\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"SELECT A SONG\"\r\n        android:textSize=\"24sp\"\r\n        android:textColor=\"#B2C5D7\"\r\n        android:textStyle=\"bold\"\r\n        android:paddingBottom=\"10dp\"\r\n        android:layout_gravity=\"center\"/>\r\n\r\n        <ListView\r\n        android:fontFamily=\"@font/font6\"\r\n\r\n        android:id=\"@+id/songListView\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        android:layout_weight=\"1\"\r\n        android:divider=\"@android:color/transparent\"\r\n        android:dividerHeight=\"10dp\"\r\n        android:padding=\"10dp\"\r\n        android:background=\"#00000000\"/>\r\n\r\n        <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"80dp\"\r\n        android:orientation=\"horizontal\"\r\n        android:gravity=\"center\"\r\n        android:background=\"@android:color/transparent\"\r\n        android:padding=\"8dp\"\r\n        android:weightSum=\"4\">\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/homeButton\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\"\r\n            android:padding=\"5dp\">\r\n\r\n            <ImageView\r\n                android:layout_width=\"50dp\"\r\n                android:layout_height=\"50dp\"\r\n                android:src=\"@drawable/ic_home\"\r\n                android:scaleType=\"centerInside\"\r\n                android:contentDescription=\"Home icon\" />\r\n\r\n            <TextView\r\n                android:layout_width=\"wrap_content\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:text=\"Home\"\r\n                android:textColor=\"#FFFFFF\"\r\n                android:textSize=\"12sp\"\r\n                android:layout_marginTop=\"4dp\"\r\n                android:gravity=\"center\"/>\r\n    </LinearLayout>\r\n\r\n    <LinearLayout\r\n        android:id=\"@+id/musicButton\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"match_parent\"\r\n        android:layout_weight=\"1\"\r\n        android:gravity=\"center\"\r\n        android:orientation=\"vertical\"\r\n        android:padding=\"5dp\">\r\n\r\n        <ImageView\r\n            android:layout_width=\"50dp\"\r\n            android:layout_height=\"50dp\"\r\n            android:src=\"@drawable/ic_music\"\r\n            android:scaleType=\"centerInside\"\r\n            android:contentDescription=\"music icon\" />\r\n        <TextView\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:text=\"Music\"\r\n            android:textColor=\"#FFFFFF\"\r\n            android:textSize=\"12sp\"\r\n            android:layout_marginTop=\"4dp\"\r\n            android:gravity=\"center\"/>\r\n    </LinearLayout>\r\n\r\n<LinearLayout\r\n    android:id=\"@+id/favoriteButton\"\r\n    android:layout_width=\"0dp\"\r\n    android:layout_height=\"match_parent\"\r\n    android:layout_weight=\"1\"\r\n    android:gravity=\"center\"\r\n    android:orientation=\"vertical\"\r\n    android:padding=\"5dp\">\r\n\r\n    <ImageView\r\n        android:layout_width=\"50dp\"\r\n        android:layout_height=\"50dp\"\r\n        android:src=\"@drawable/ic_favorite\"\r\n        android:scaleType=\"centerInside\"\r\n        android:contentDescription=\"fav icon\" />\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Favorites\"\r\n        android:textColor=\"#FFFFFF\"\r\n        android:textSize=\"12sp\"\r\n        android:layout_marginTop=\"4dp\"\r\n        android:gravity=\"center\"/>\r\n</LinearLayout>\r\n\r\n<LinearLayout\r\n    android:id=\"@+id/settingsButton\"\r\n    android:layout_width=\"0dp\"\r\n    android:layout_height=\"match_parent\"\r\n    android:layout_weight=\"1\"\r\n    android:gravity=\"center\"\r\n    android:orientation=\"vertical\"\r\n    android:padding=\"5dp\">\r\n\r\n    <ImageView\r\n        android:layout_width=\"50dp\"\r\n        android:layout_height=\"50dp\"\r\n        android:src=\"@drawable/ic_settings\"\r\n        android:scaleType=\"centerInside\"\r\n        android:contentDescription=\"setting icon\" />\r\n\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"Settings\"\r\n        android:textColor=\"#FFFFFF\"\r\n        android:textSize=\"12sp\"\r\n        android:layout_marginTop=\"4dp\"\r\n        android:gravity=\"center\"/>\r\n</LinearLayout>\r\n\r\n</LinearLayout>\r\n\r\n</LinearLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_home.xml b/app/src/main/res/layout/activity_home.xml
+--- a/app/src/main/res/layout/activity_home.xml	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/res/layout/activity_home.xml	(date 1744621167286)
+@@ -1,19 +1,19 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:orientation="vertical"
+-    android:background="@drawable/purple"
+-    android:padding="10dp">
++    android:padding="0dp"
++    android:background="@drawable/purple">
+ 
+     <VideoView
+     android:id="@+id/videoView"
+     android:layout_width="match_parent"
+-    android:layout_height="500dp"
+-    android:paddingBottom="0dp"
+-    android:layout_gravity="center"/>
++    android:layout_height="wrap_content"
++    android:adjustViewBounds="true"
++    android:padding="0dp"
++    android:layout_margin="0dp" />
+ 
+         <!-- Titre -->
+     <TextView
+@@ -21,7 +21,7 @@
+ 
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:text="SELECT A SONG"
++        android:text="@string/select_song"
+         android:textSize="24sp"
+         android:textColor="#B2C5D7"
+         android:textStyle="bold"
+Index: app/src/main/java/com/example/projet/GameView.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.projet;\r\nimport android.app.Activity;\r\nimport android.app.AlertDialog;\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.graphics.Bitmap;\r\nimport android.graphics.BitmapFactory;\r\nimport android.graphics.BlurMaskFilter;\r\nimport android.graphics.Canvas;\r\nimport android.graphics.Color;\r\nimport android.graphics.Paint;\r\nimport android.graphics.Typeface;\r\nimport android.view.LayoutInflater;\r\nimport android.view.MotionEvent;\r\nimport android.view.SurfaceHolder;\r\nimport android.view.SurfaceView;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.TextView;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.Iterator;\r\nimport java.util.Random;\r\nimport com.example.projet.Tile;\r\n\r\n\r\npublic class GameView extends SurfaceView implements Runnable {\r\n    private Thread gameThread;\r\n    private boolean isPlaying = true;\r\n    private boolean isGameOver = false;\r\n    private boolean isDialogShown = false;\r\n\r\n    private boolean isPaused = false;\r\n\r\n\r\n    private SurfaceHolder holder;\r\n    private Paint paint;\r\n    private ArrayList<Tile> tiles;\r\n    private int screenWidth, screenHeight;\r\n    private int tileWidth, tileHeight;\r\n    private int tileSpeed ;\r\n    private int score = 0;\r\n    private Random random;\r\n    private SoundManager soundManager;\r\n\r\n\r\n\r\n    private Bitmap background;\r\n    private Bitmap tileImage;\r\n    private Bitmap pauseButtonImage;\r\n    private Bitmap redTileImage;  // Image pour la tuile rouge\r\n    private Tile lastMissedTile = null; // Dernière tuile ratée\r\n\r\n    //private long lastSpeedIncreaseTime = 0;\r\n\r\n    private final int SPEED_INCREASE_INTERVAL = 3000;\r\n    ; // Augmenter la hauteur pour que ce soit plus rectangulaire\r\n    private Bitmap star;\r\n    private Bitmap filledStar;\r\n    // Variables globales pour le feedback\r\n    private String feedbackText = \"\";\r\n    private long feedbackStartTime = 0;\r\n    private final int FEEDBACK_DURATION = 1000; // Durée en ms (1 seconde)\r\n    private int baseSpeed = 25; // Vitesse de base\r\n    private int speedIncreaseInterval = 5000; // Intervalle d'augmentation de vitesse (5 secondes)\r\n    private long lastSpeedIncreaseTime = System.currentTimeMillis();\r\n    private float speedMultiplier = 1.0f; // Multiplicateur de vitesse initial\r\n    private int[] lastTileY;\r\n    public GameView(Context context, int width, int height) {\r\n        super(context);\r\n        screenWidth = width;\r\n        screenHeight = height;\r\n        holder = getHolder();\r\n        paint = new Paint();\r\n        tiles = new ArrayList<>();\r\n        random = new Random();\r\n        soundManager = new SoundManager(context);\r\n\r\n        tileWidth = screenWidth / 4;\r\n        tileHeight = 300;\r\n        tileSpeed = 25;\r\n        //lastTileY = new int[4];\r\n\r\n        background = BitmapFactory.decodeResource(getResources(), R.drawable.purple);\r\n        background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, false);\r\n\r\n        tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.tile_button);\r\n        tileImage = Bitmap.createScaledBitmap(tileImage, tileWidth, tileHeight, false);\r\n\r\n        pauseButtonImage = BitmapFactory.decodeResource(getResources(), R.drawable.pause_button);\r\n        pauseButtonImage = Bitmap.createScaledBitmap(pauseButtonImage, 100, 100, false);\r\n\r\n        redTileImage = BitmapFactory.decodeResource(getResources(), R.drawable.red);\r\n        redTileImage = Bitmap.createScaledBitmap(redTileImage,(int)(screenWidth / 3.2), 450, false);\r\n\r\n        soundManager.playBackgroundMusic();\r\n        // Chargement et redimensionnement des étoiles UNE SEULE FOIS\r\n        star = BitmapFactory.decodeResource(getResources(), R.drawable.star1);\r\n        star = Bitmap.createScaledBitmap(star, 100, 100, false);\r\n\r\n        filledStar = BitmapFactory.decodeResource(getResources(), R.drawable.filled_star);\r\n        filledStar = Bitmap.createScaledBitmap(filledStar, 80, 80, false);\r\n        addTile();\r\n    }\r\n\r\n    @Override\r\n    public void run() {\r\n        while (isPlaying) {\r\n            update();\r\n            draw();\r\n            try {\r\n                Thread.sleep(30);\r\n            } catch (InterruptedException e) {\r\n                e.printStackTrace();\r\n            }\r\n        }\r\n    }\r\n    private void addTile() {\r\n        // Si aucune tuile → on en crée 2 d'un coup\r\n        if (tiles.isEmpty()) {\r\n            spawnTileInRandomColumn();\r\n            spawnTileInRandomColumn();\r\n            return;\r\n        }\r\n\r\n        // Si la dernière tuile est assez basse → on en ajoute une nouvelle\r\n        Tile lastTile = tiles.get(tiles.size() - 1);\r\n        if (lastTile.y > tileHeight / 2) { // Dès qu'elle a parcouru 50% de sa hauteur\r\n            spawnTileInRandomColumn();\r\n        }\r\n    }\r\n\r\n    private void spawnTileInRandomColumn() {\r\n        int column;\r\n        do {\r\n            column = random.nextInt(4); // Colonne aléatoire (0-3)\r\n        } while (!isColumnValid(column)); // Vérifie qu'on ne répète pas la colonne précédente\r\n\r\n        // Calcul de la position Y avec un espacement\r\n        int minGap = tileHeight; // Espacement de 3 tuiles entre chaque\r\n        int spawnY = -tileHeight; // Position de départ en haut (juste hors écran)\r\n\r\n        // Si des tuiles existent déjà, on part de la dernière position\r\n        if (!tiles.isEmpty()) {\r\n            Tile lastTile = tiles.get(tiles.size() - 1);\r\n            spawnY = lastTile.y - minGap; // Nouvelle tuile placée plus haut\r\n        }\r\n\r\n        // Ajout d'une SEULE tuile avec la bonne position\r\n        tiles.add(new Tile(column * tileWidth, spawnY, tileWidth, tileHeight));\r\n    }\r\n\r\n    private boolean isColumnValid(int newColumn) {\r\n        if (tiles.isEmpty()) return true; // Aucune restriction si pas de tuiles\r\n\r\n        Tile lastTile = tiles.get(tiles.size() - 1);\r\n        int lastColumn = lastTile.x / tileWidth;\r\n\r\n        return newColumn != lastColumn; // Interdit la même colonne que la précédente\r\n    }\r\n\r\n\r\n    private void update() {\r\n        if (isGameOver) return;\r\n\r\n        // Augmentation progressive de la vitesse\r\n        long currentTime = System.currentTimeMillis();\r\n        if (currentTime - lastSpeedIncreaseTime > speedIncreaseInterval) {\r\n            speedMultiplier += 0.1f; // Augmente la vitesse de 10% à chaque intervalle\r\n            lastSpeedIncreaseTime = currentTime;\r\n        }\r\n\r\n        // Calcul de la vitesse actuelle\r\n        tileSpeed = (int)(baseSpeed * speedMultiplier);\r\n\r\n        // Augmentation supplémentaire basée sur le score\r\n        tileSpeed += score / 5;\r\n\r\n        for (Tile tile : tiles) {\r\n            tile.y += tileSpeed; // Déplacement vers le bas\r\n\r\n            if (tile.y + tile.height > screenHeight && !tile.isError) {\r\n                tile.isError = true;\r\n                isGameOver = true;\r\n            }\r\n        }\r\n        if (shouldAddTile()) {  // ← Ajoute cette condition\r\n            addTile();\r\n        }\r\n    }\r\n\r\n    private boolean shouldAddTile() {\r\n        return tiles.isEmpty() || tiles.get(tiles.size() - 1).y > 100;\r\n    }\r\n\r\n    private void draw() {\r\n        if (holder.getSurface().isValid()) {\r\n            Canvas canvas = holder.lockCanvas();\r\n            canvas.drawBitmap(background, 0, 0, null);\r\n\r\n            paint.setColor(Color.LTGRAY);\r\n            for (int i = 1; i < 4; i++) {\r\n                canvas.drawLine(i * tileWidth, 0, i * tileWidth, screenHeight, paint);\r\n            }\r\n            paint.setColor(Color.WHITE);\r\n            paint.setStrokeWidth(5);\r\n            for (int i = 1; i < 4; i++) {\r\n                canvas.drawLine(i * tileWidth, 0, i * tileWidth, screenHeight, paint);\r\n            }\r\n\r\n            for (Tile tile : tiles) {\r\n\r\n                //Bitmap tileBitmap = (tile.isError) ? redTileImage : tileImage;\r\n                //canvas.drawBitmap(tileBitmap, tile.x, tile.y, null);\r\n                paint.setColor(tile.isError ? Color.RED : Color.BLACK);\r\n                canvas.drawRect(tile.x, tile.y, tile.x + tile.width, tile.y + tile.height, paint);\r\n            }\r\n            if (isGameOver && !isDialogShown) {\r\n                isDialogShown = true;\r\n                Activity activity = (Activity) getContext();\r\n                activity.runOnUiThread(() -> {\r\n                    new GameOverDialog(activity).show(score);\r\n                });\r\n            }\r\n            // Bouton de pause\r\n            canvas.drawBitmap(pauseButtonImage, screenWidth - pauseButtonImage.getWidth() - 20, 20, null);\r\n\r\n            // Affichage des étoiles, score et texte dynamique\r\n            drawStars(canvas);\r\n            drawScore(canvas);\r\n            drawFeedback(canvas);\r\n\r\n            // drawDynamicText(canvas);\r\n\r\n            holder.unlockCanvasAndPost(canvas);\r\n        }\r\n    }\r\n\r\n\r\n    private void drawScore(Canvas canvas) {\r\n        float scoreX = screenWidth / 2;\r\n        float scoreY = 300; // Ajusté pour être en dessous des étoiles\r\n\r\n        // Effet néon : Dessiner plusieurs couches avec une opacité dégradée\r\n        Paint neonPaint = new Paint();\r\n        neonPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));\r\n        neonPaint.setTextSize(120);\r\n        neonPaint.setColor(Color.WHITE);\r\n        neonPaint.setTextAlign(Paint.Align.CENTER);\r\n        neonPaint.setMaskFilter(new BlurMaskFilter(20, BlurMaskFilter.Blur.OUTER)); // Ajoute un flou lumineux\r\n\r\n        // Plusieurs couches pour un effet plus prononcé\r\n        for (int i = 6; i > 0; i--) {\r\n            neonPaint.setAlpha(40 * i); // Plus on s'éloigne, plus c'est transparent\r\n            canvas.drawText(\"\" + score, scoreX, scoreY, neonPaint);\r\n        }\r\n\r\n        // Texte principal en blanc pur (sans effet flou)\r\n        Paint mainPaint = new Paint();\r\n        mainPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));\r\n        mainPaint.setTextSize(120);\r\n        mainPaint.setColor(Color.WHITE);\r\n        mainPaint.setTextAlign(Paint.Align.CENTER);\r\n\r\n        canvas.drawText(\"\" + score, scoreX, scoreY, mainPaint);\r\n    }\r\n\r\n\r\n\r\n\r\n\r\n\r\n    private void drawStars(Canvas canvas) {\r\n        int maxStars = 3;\r\n        int filledStars = Math.min(score / 10, maxStars); // Maximum 3 étoiles\r\n\r\n        // Définir des tailles différentes (Petite, Moyenne, Grande)\r\n        int[] starSizes = {200, 200, 200}; // Ajustable selon ton besoin\r\n\r\n        // Définir l'espacement dynamique entre les étoiles\r\n        int spacing = 0;\r\n\r\n        // Calcul de la largeur totale pour centrer correctement\r\n        int totalWidth = starSizes[0] + starSizes[1] + starSizes[2] + (2 * spacing);\r\n        int startX = (screenWidth / 2) - (totalWidth / 2);\r\n        int starY = 30; // Ajuste la hauteur comme tu veux\r\n\r\n        for (int i = 0; i < maxStars; i++) {\r\n            int size = starSizes[i];\r\n\r\n            // Sélectionner l’étoile remplie ou vide selon le score\r\n            Bitmap resizedStar = Bitmap.createScaledBitmap(\r\n                    (i < filledStars) ? filledStar : star, size, size, false\r\n            );\r\n\r\n            // Dessiner l’étoile\r\n            canvas.drawBitmap(resizedStar, startX, starY, null);\r\n\r\n            // Mise à jour de la position X pour la prochaine étoile\r\n            startX += size + spacing;\r\n        }\r\n    }\r\n    // Appeler cette méthode quand le joueur réussit des tuiles\r\n    private void showFeedback(String message) {\r\n        feedbackText = message;\r\n        feedbackStartTime = System.currentTimeMillis();\r\n    }\r\n\r\n    // Dessiner le feedback animé\r\n    private void drawFeedback(Canvas canvas) {\r\n        if (!feedbackText.isEmpty()) {\r\n            long elapsedTime = System.currentTimeMillis() - feedbackStartTime;\r\n\r\n            if (elapsedTime < FEEDBACK_DURATION) {\r\n                // Gestion de l’opacité pour le fade-out progressif\r\n                int alpha = 255;\r\n                if (elapsedTime > FEEDBACK_DURATION / 2) {\r\n                    alpha = (int) ((1 - ((elapsedTime - FEEDBACK_DURATION / 2) / (FEEDBACK_DURATION / 2.0))) * 255);\r\n                }\r\n\r\n                float x = screenWidth / 2;\r\n                float y = screenHeight / 3;\r\n\r\n                // Effet néon : plusieurs couches de texte flou\r\n                Paint neonPaint = new Paint();\r\n                neonPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));\r\n                neonPaint.setTextSize(120);\r\n                neonPaint.setColor(Color.WHITE);\r\n                neonPaint.setTextAlign(Paint.Align.CENTER);\r\n                neonPaint.setAlpha(alpha);\r\n                neonPaint.setMaskFilter(new BlurMaskFilter(30, BlurMaskFilter.Blur.OUTER));\r\n\r\n                for (int i = 5; i > 0; i--) {  // Ajoute plusieurs couches pour un effet plus intense\r\n                    neonPaint.setAlpha(alpha / (i + 1)); // Atténuation progressive du halo\r\n                    canvas.drawText(feedbackText, x, y, neonPaint);\r\n                }\r\n\r\n                // Texte principal en blanc pur\r\n                Paint mainPaint = new Paint();\r\n                mainPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));\r\n                mainPaint.setTextSize(120);\r\n                mainPaint.setColor(Color.WHITE);\r\n                mainPaint.setTextAlign(Paint.Align.CENTER);\r\n                mainPaint.setAlpha(alpha);\r\n\r\n                canvas.drawText(feedbackText, x, y, mainPaint);\r\n            } else {\r\n                feedbackText = \"\"; // Cacher le feedback après expiration\r\n            }\r\n        }\r\n    }\r\n    private void showPauseMenu() {\r\n        // Vérification si le Context est une instance d'Activity\r\n        isGameOver=false;\r\n        if (getContext() instanceof Activity) {\r\n            Activity activity = (Activity) getContext();\r\n            activity.runOnUiThread(() -> {\r\n                AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.TransparentDialog);\r\n                LayoutInflater inflater = activity.getLayoutInflater();\r\n                View dialogView = inflater.inflate(R.layout.pause_menu, null);\r\n                builder.setView(dialogView);\r\n\r\n                AlertDialog dialog = builder.create();\r\n                dialog.setCancelable(false);\r\n\r\n                // Supprimer le fond gris de la boîte de dialogue\r\n                dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));\r\n\r\n                Button resumeButton = dialogView.findViewById(R.id.resume_button);\r\n                resumeButton.setOnClickListener(v -> {\r\n                    v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).withEndAction(() -> {\r\n                        v.animate().scaleX(1f).scaleY(1f).setDuration(100);\r\n                        dialog.dismiss();\r\n                        isPaused = false;\r\n                        isPlaying = true;\r\n                        startGame();\r\n                    });\r\n                });\r\n\r\n                Button restartButton = dialogView.findViewById(R.id.restart_button);\r\n                restartButton.setOnClickListener(v -> {\r\n                    v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).withEndAction(() -> {\r\n                        v.animate().scaleX(1f).scaleY(1f).setDuration(100);\r\n                        dialog.dismiss();\r\n                        isPaused = false;\r\n                        isPlaying = true;\r\n                        restartGame();\r\n                    });\r\n                });\r\n\r\n                Button homeButton = dialogView.findViewById(R.id.home_button);\r\n                homeButton.setOnClickListener(v -> {\r\n                    v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).withEndAction(() -> {\r\n                        v.animate().scaleX(1f).scaleY(1f).setDuration(100);\r\n                        Intent intent = new Intent(getContext(), HomeActivity.class);\r\n                        getContext().startActivity(intent);\r\n                        activity.finish();\r\n                    });\r\n                });\r\n                Button settingsButton = dialogView.findViewById(R.id.settings_button);\r\n                settingsButton.setOnClickListener(v -> {\r\n                    v.animate().scaleX(1.1f).scaleY(1.1f).setDuration(100).withEndAction(() -> {\r\n                        v.animate().scaleX(1f).scaleY(1f).setDuration(100);\r\n                        Intent settingsIntent = new Intent(getContext(), SettingsActivity.class);\r\n                        getContext().startActivity(settingsIntent);\r\n                    });\r\n                });\r\n\r\n                dialog.show();\r\n            });\r\n        }\r\n    }\r\n\r\n\r\n\r\n    public void restartGame() {\r\n        resetGameState(); // Réinitialiser toutes les variables\r\n        startGame(); // Démarrer une nouvelle parti\r\n\r\n    }\r\n\r\n\r\n    public void resetGameState() {\r\n        tiles.clear();\r\n        score = 0;\r\n        speedMultiplier = 1.0f; // Réinitialiser le multiplicateur\r\n        lastSpeedIncreaseTime = System.currentTimeMillis();\r\n        isDialogShown = false;\r\n        isGameOver = false;\r\n    }\r\n\r\n\r\n\r\n    public void startGame() {\r\n        isPlaying = true;\r\n        gameThread = new Thread(this);\r\n        gameThread.start();\r\n        soundManager.playBackgroundMusic();\r\n    }\r\n\r\n    public void stopGame() {\r\n        isPlaying = false;\r\n        try {\r\n            gameThread.join();\r\n        } catch (InterruptedException e) {\r\n            e.printStackTrace();\r\n        }\r\n        soundManager.stopBackgroundMusic();\r\n    }\r\n\r\n    private void pauseGame() {\r\n        isPlaying = false;\r\n        isPaused = true;\r\n        showPauseMenu();\r\n    }\r\n\r\n    @Override\r\n    public boolean onTouchEvent(MotionEvent event) {\r\n        if (isGameOver || isPaused) return true;\r\n\r\n        if (event.getAction() == MotionEvent.ACTION_DOWN) {\r\n            float touchX = event.getX();\r\n            float touchY = event.getY();\r\n\r\n            // 1. Vérifier le bouton pause\r\n            if (touchX > screenWidth - pauseButtonImage.getWidth() - 20 &&\r\n                    touchX < screenWidth - 20 &&\r\n                    touchY > 20 && touchY < 20 + pauseButtonImage.getHeight()) {\r\n                pauseGame();\r\n                return true;\r\n            }\r\n\r\n            // 2. Vérifier si le clic est dans la grille\r\n            if (touchX < 0 || touchX > screenWidth) {\r\n                return false;\r\n            }\r\n\r\n            // 3. Vérifier la collision avec les tuiles noires\r\n            boolean hitValidTile = false;\r\n            int column = (int)(touchX / tileWidth);\r\n            float clickY = touchY;\r\n\r\n            // Vérifier d'abord si on touche une tuile noire existante\r\n            for (Tile tile : new ArrayList<>(tiles)) {\r\n                if (tile.x == column * tileWidth &&\r\n                        clickY >= tile.y && clickY <= tile.y + tile.height) {\r\n\r\n                    // Tuile noire touchée correctement\r\n                    tiles.remove(tile);\r\n                    score++;\r\n                    showFeedback(\"Great!\");\r\n                    hitValidTile = true;\r\n                    break;\r\n                }\r\n            }\r\n\r\n            // 4. Si erreur (clic dans le vide)\r\n            if (!hitValidTile) {\r\n                // Vérifier qu'il n'y a pas déjà une tuile noire à cette position\r\n                boolean canPlaceRedTile = true;\r\n                for (Tile tile : tiles) {\r\n                    if (tile.x == column * tileWidth &&\r\n                            Math.abs(tile.y - clickY) < tile.height) {\r\n                        canPlaceRedTile = false;\r\n                        break;\r\n                    }\r\n                }\r\n\r\n                if (canPlaceRedTile) {\r\n                    // Créer une tuile rouge d'erreur SEULEMENT si la zone est libre\r\n                    Tile errorTile = new Tile(column * tileWidth, (int)clickY, tileWidth, tileHeight);\r\n                    errorTile.isError = true;\r\n                    tiles.add(errorTile);\r\n                    isGameOver = true;\r\n                }\r\n\r\n            }\r\n\r\n            return true;\r\n        }\r\n        return false;\r\n    }\r\n\r\n\r\n\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/projet/GameView.java b/app/src/main/java/com/example/projet/GameView.java
+--- a/app/src/main/java/com/example/projet/GameView.java	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/java/com/example/projet/GameView.java	(date 1744571366294)
+@@ -84,8 +84,7 @@
+         background = BitmapFactory.decodeResource(getResources(), R.drawable.purple);
+         background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, false);
+ 
+-        tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.tile_button);
+-        tileImage = Bitmap.createScaledBitmap(tileImage, tileWidth, tileHeight, false);
++
+ 
+         pauseButtonImage = BitmapFactory.decodeResource(getResources(), R.drawable.pause_button);
+         pauseButtonImage = Bitmap.createScaledBitmap(pauseButtonImage, 100, 100, false);
+Index: app/src/main/java/com/example/projet/GameOverDialog.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.projet;\r\n\r\nimport android.animation.ObjectAnimator;\r\nimport android.animation.PropertyValuesHolder;\r\nimport android.app.Activity;\r\nimport android.app.AlertDialog;\r\nimport android.content.Context;\r\nimport android.content.Intent;\r\nimport android.os.Build;\r\nimport android.os.VibrationEffect;\r\nimport android.os.Vibrator;\r\nimport android.view.LayoutInflater;\r\nimport android.view.MotionEvent;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.TextView;\r\n\r\npublic class GameOverDialog {\r\n    private AlertDialog dialog;\r\n    private Context context;\r\n\r\n    public GameOverDialog(Context context) {\r\n        this.context = context;\r\n    }\r\n\r\n    public void show(int score) {\r\n        Activity activity = (Activity) context;\r\n        activity.runOnUiThread(() -> {\r\n            AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.TransparentDialog);\r\n            LayoutInflater inflater = activity.getLayoutInflater();\r\n            View dialogView = inflater.inflate(R.layout.game_over_dialog, null);\r\n            builder.setView(dialogView);\r\n\r\n            dialog = builder.create();\r\n            dialog.setCancelable(false);\r\n\r\n            // Supprimer le fond gris de la boîte de dialogue\r\n            dialog.getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));\r\n\r\n            TextView scoreText = dialogView.findViewById(R.id.score_text);\r\n            scoreText.setText(\"Score : \" + score);\r\n\r\n            Button continueButton = dialogView.findViewById(R.id.continue_button);\r\n            applyClickEffect(continueButton); // \uD83D\uDC48 Ajout effet\r\n\r\n            continueButton.setOnClickListener(v -> {\r\n                dialog.dismiss();\r\n                ((GameView) ((Activity) context).findViewById(R.id.gameView)).restartGame();\r\n            });\r\n\r\n            Button homeButton = dialogView.findViewById(R.id.home_button);\r\n            applyClickEffect(homeButton); // \uD83D\uDC48 Ajout effet\r\n\r\n            homeButton.setOnClickListener(v -> {\r\n                Intent intent = new Intent(context, HomeActivity.class);\r\n                context.startActivity(intent);\r\n                activity.finish();\r\n            });\r\n\r\n            dialog.show();\r\n        });\r\n\r\n    }\r\n    private void applyClickEffect(Button button) {\r\n        button.setOnTouchListener((v, event) -> {\r\n            if (event.getAction() == MotionEvent.ACTION_DOWN) {\r\n                // Effet de rétrécissement\r\n                ObjectAnimator scaleDown = ObjectAnimator.ofPropertyValuesHolder(\r\n                        button,\r\n                        PropertyValuesHolder.ofFloat(View.SCALE_X, 0.9f),\r\n                        PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.9f)\r\n                );\r\n                scaleDown.setDuration(100);\r\n                scaleDown.start();\r\n\r\n                // Vibration courte (si dispo)\r\n                Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);\r\n                if (vibrator != null && vibrator.hasVibrator()) {\r\n                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {\r\n                        // Pour Android 8.0 (API 26+) et plus récent\r\n                        vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE));\r\n                    } else {\r\n                        // Pour les versions plus anciennes\r\n                        vibrator.vibrate(50);\r\n                    }\r\n                }\r\n            } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {\r\n                // Retour à la taille normale\r\n                ObjectAnimator scaleUp = ObjectAnimator.ofPropertyValuesHolder(\r\n                        button,\r\n                        PropertyValuesHolder.ofFloat(View.SCALE_X, 1f),\r\n                        PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f)\r\n                );\r\n                scaleUp.setDuration(100);\r\n                scaleUp.start();\r\n            }\r\n            return false; // Laisse le clic fonctionner normalement\r\n        });\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/projet/GameOverDialog.java b/app/src/main/java/com/example/projet/GameOverDialog.java
+--- a/app/src/main/java/com/example/projet/GameOverDialog.java	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/java/com/example/projet/GameOverDialog.java	(date 1744626673333)
+@@ -19,9 +19,13 @@
+     private AlertDialog dialog;
+     private Context context;
+ 
++
+     public GameOverDialog(Context context) {
+         this.context = context;
++
+     }
++
++
+ 
+     public void show(int score) {
+         Activity activity = (Activity) context;
+@@ -60,6 +64,7 @@
+             dialog.show();
+         });
+ 
++
+     }
+     private void applyClickEffect(Button button) {
+         button.setOnTouchListener((v, event) -> {
+Index: app/src/main/res/layout/activity_selection.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:background=\"@drawable/purple\"\r\n    android:padding=\"20dp\">\r\n    <!-- Login Button -->\r\n    <ImageButton\r\n        android:id=\"@+id/loginIcon\"\r\n        android:layout_width=\"50dp\"\r\n        android:layout_height=\"50dp\"\r\n        android:layout_alignParentTop=\"true\"\r\n        android:layout_margin=\"10dp\"\r\n        android:layout_marginTop=\"-48dp\"\r\n        android:layout_marginBottom=\"10dp\"\r\n        android:background=\"?attr/selectableItemBackgroundBorderless\"\r\n        android:contentDescription=\"Login\"\r\n        android:scaleType=\"centerInside\"\r\n        android:src=\"@drawable/ic_login\" />\r\n\r\n    <TextView\r\n        android:fontFamily=\"@font/font6\"\r\n\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"GENRE\"\r\n        android:textSize=\"24sp\"\r\n        android:textStyle=\"bold\"\r\n        android:textColor=\"@android:color/white\"\r\n        android:gravity=\"center\"\r\n        android:layout_marginTop=\"20dp\"\r\n        android:background=\"@drawable/title_background\"\r\n        android:paddingStart=\"20dp\"\r\n        android:paddingEnd=\"20dp\"\r\n        android:paddingTop=\"10dp\"\r\n        android:paddingBottom=\"10dp\"/>\r\n\r\n\r\n    <GridLayout\r\n        android:fontFamily=\"@font/font6\"\r\n\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:columnCount=\"2\"\r\n        android:rowCount=\"2\"\r\n        android:layout_marginTop=\"10dp\">\r\n\r\n        <Button\r\n            android:id=\"@+id/pop_button\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/button_background\"\r\n            android:backgroundTint=\"#F2EFEF\"\r\n            android:text=\"POP\"\r\n            android:textColor=\"@android:color/white\"\r\n            app:rippleColor=\"#CCCCCC\" />\r\n        <Button\r\n            android:id=\"@+id/classical_button\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/button_background\"\r\n            android:text=\"CLASSICAL\"\r\n            android:textColor=\"@android:color/white\"/>\r\n        <Button\r\n            android:id=\"@+id/rock_button\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/button_background\"\r\n            android:text=\"ROCK\"\r\n            android:textColor=\"@android:color/white\"/>\r\n        <Button\r\n            android:id=\"@+id/hiphop_button\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/button_background\"\r\n            android:text=\"HIP HOP\"\r\n            android:textColor=\"@android:color/white\"/>\r\n\r\n    </GridLayout>\r\n\r\n\r\n    <TextView\r\n        android:fontFamily=\"@font/font6\"\r\n\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:text=\"DIFFICULTY\"\r\n        android:textSize=\"24sp\"\r\n        android:textStyle=\"bold\"\r\n        android:textColor=\"@android:color/white\"\r\n        android:gravity=\"center\"\r\n        android:layout_marginTop=\"20dp\"\r\n        android:background=\"@drawable/title_background\"\r\n        android:paddingStart=\"20dp\"\r\n        android:paddingEnd=\"20dp\"\r\n        android:paddingTop=\"10dp\"\r\n        android:paddingBottom=\"10dp\"/>\r\n\r\n    <GridLayout\r\n        android:fontFamily=\"@font/font6\"\r\n\r\n        android:layout_width=\"327dp\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginTop=\"0dp\"\r\n        android:columnCount=\"2\"\r\n        android:rowCount=\"2\">\r\n\r\n        <Button\r\n            android:id=\"@+id/easy_button\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/button_background\"\r\n            android:text=\"EASY\"\r\n            android:textColor=\"@android:color/white\" />\r\n\r\n        <Button\r\n            android:id=\"@+id/normal_button\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/button_background\"\r\n            android:text=\"NORMAL\"\r\n            android:textColor=\"@android:color/white\" />\r\n\r\n        <Button\r\n            android:id=\"@+id/hard_button\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:background=\"@drawable/button_background\"\r\n            android:text=\"HARD\"\r\n            android:textColor=\"@android:color/white\" />\r\n    </GridLayout>\r\n\r\n    <!-- Espace vide pour pousser la barre de navigation en bas -->\r\n    <View\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"0dp\"\r\n        android:layout_weight=\"1\"/>\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"80dp\"\r\n        android:orientation=\"horizontal\"\r\n        android:gravity=\"center\"\r\n        android:padding=\"5dp\"\r\n        android:background=\"@android:color/transparent\">\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/homeButton\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\"\r\n            android:padding=\"5dp\">\r\n\r\n            <ImageView\r\n                android:layout_width=\"50dp\"\r\n                android:layout_height=\"50dp\"\r\n                android:src=\"@drawable/ic_home\"\r\n                android:scaleType=\"centerInside\"\r\n                android:contentDescription=\"Home icon\"\r\n                />\r\n\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/musicButton\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\"\r\n            android:padding=\"5dp\">\r\n\r\n            <ImageView\r\n                android:layout_width=\"50dp\"\r\n                android:layout_height=\"50dp\"\r\n                android:src=\"@drawable/ic_music\"\r\n                android:scaleType=\"centerInside\"\r\n                android:contentDescription=\"music icon\" />\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/favoriteButton\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\"\r\n            android:padding=\"5dp\">\r\n\r\n            <ImageView\r\n                android:layout_width=\"50dp\"\r\n                android:layout_height=\"50dp\"\r\n                android:src=\"@drawable/ic_favorite\"\r\n                android:scaleType=\"centerInside\"\r\n                android:contentDescription=\"fav icon\" />\r\n\r\n\r\n        </LinearLayout>\r\n\r\n        <LinearLayout\r\n            android:id=\"@+id/settingsButton\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_weight=\"1\"\r\n            android:gravity=\"center\"\r\n            android:orientation=\"vertical\"\r\n            android:padding=\"5dp\">\r\n\r\n            <ImageView\r\n                android:layout_width=\"50dp\"\r\n                android:layout_height=\"50dp\"\r\n                android:src=\"@drawable/ic_settings\"\r\n                android:scaleType=\"centerInside\"\r\n                android:contentDescription=\"setting icon\" />\r\n\r\n\r\n        </LinearLayout>\r\n\r\n    </LinearLayout>\r\n\r\n\r\n\r\n\r\n</LinearLayout>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_selection.xml b/app/src/main/res/layout/activity_selection.xml
+--- a/app/src/main/res/layout/activity_selection.xml	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/res/layout/activity_selection.xml	(date 1744624745041)
+@@ -22,115 +22,127 @@
+ 
+     <TextView
+         android:fontFamily="@font/font6"
+-
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:text="GENRE"
++        android:text="@string/genre"
+         android:textSize="24sp"
+         android:textStyle="bold"
+         android:textColor="@android:color/white"
+         android:gravity="center"
+         android:layout_marginTop="20dp"
+-        android:background="@drawable/title_background"
++        android:background="@drawable/custom_back_button"
+         android:paddingStart="20dp"
+         android:paddingEnd="20dp"
+         android:paddingTop="10dp"
+         android:paddingBottom="10dp"/>
+ 
+-
+-    <GridLayout
+-        android:fontFamily="@font/font6"
+-
++    <!-- Genre Buttons -->
++    <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:columnCount="2"
+-        android:rowCount="2"
++        android:orientation="horizontal"
++        android:gravity="center"
+         android:layout_marginTop="10dp">
+ 
+         <Button
+-            android:id="@+id/pop_button"
++            android:id="@+id/genre_pop"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-            android:background="@drawable/button_background"
+-            android:backgroundTint="#F2EFEF"
+-            android:text="POP"
++            android:text="@string/pop"
++            android:layout_margin="5dp"
+             android:textColor="@android:color/white"
+-            app:rippleColor="#CCCCCC" />
++            android:background="@android:color/transparent"/>
++
+         <Button
+-            android:id="@+id/classical_button"
++            android:id="@+id/genre_rock"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-            android:background="@drawable/button_background"
+-            android:text="CLASSICAL"
+-            android:textColor="@android:color/white"/>
++            android:text="@string/rock"
++            android:layout_margin="5dp"
++            android:textColor="@android:color/white"
++            android:background="@android:color/transparent"/>
++    </LinearLayout>
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:orientation="horizontal"
++        android:gravity="center">
++
+         <Button
+-            android:id="@+id/rock_button"
++            android:id="@+id/genre_jazz"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-            android:background="@drawable/button_background"
+-            android:text="ROCK"
+-            android:textColor="@android:color/white"/>
++            android:text="@string/jazz"
++            android:layout_margin="5dp"
++            android:textColor="@android:color/white"
++            android:background="@android:color/transparent"/>
++
+         <Button
+-            android:id="@+id/hiphop_button"
++            android:id="@+id/genre_classical"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-            android:background="@drawable/button_background"
+-            android:text="HIP HOP"
+-            android:textColor="@android:color/white"/>
+-
+-    </GridLayout>
+-
++            android:text="@string/classical"
++            android:layout_margin="5dp"
++            android:textColor="@android:color/white"
++            android:background="@android:color/transparent"/>
++    </LinearLayout>
+ 
+     <TextView
+         android:fontFamily="@font/font6"
+-
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:text="DIFFICULTY"
++        android:text="@string/difficulty"
+         android:textSize="24sp"
+         android:textStyle="bold"
+         android:textColor="@android:color/white"
+         android:gravity="center"
+         android:layout_marginTop="20dp"
+-        android:background="@drawable/title_background"
++        android:background="@drawable/custom_back_button"
+         android:paddingStart="20dp"
+         android:paddingEnd="20dp"
+         android:paddingTop="10dp"
+         android:paddingBottom="10dp"/>
+ 
+-    <GridLayout
+-        android:fontFamily="@font/font6"
+ 
+-        android:layout_width="327dp"
++
++    <!-- Difficulty Buttons -->
++    <LinearLayout
++        android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+-        android:layout_marginTop="0dp"
+-        android:columnCount="2"
+-        android:rowCount="2">
++        android:orientation="horizontal"
++        android:gravity="center"
++        android:layout_marginTop="10dp">
+ 
+         <Button
+-            android:id="@+id/easy_button"
++            android:id="@+id/difficulty_easy"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-            android:background="@drawable/button_background"
+-            android:text="EASY"
+-            android:textColor="@android:color/white" />
++            android:text="@string/easy"
++            android:layout_margin="5dp"
++            android:textColor="@android:color/white"
++            android:background="@android:color/transparent"/>
+ 
+         <Button
+-            android:id="@+id/normal_button"
++            android:id="@+id/difficulty_medium"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-            android:background="@drawable/button_background"
+-            android:text="NORMAL"
+-            android:textColor="@android:color/white" />
++            android:text="@string/medium"
++            android:layout_margin="5dp"
++            android:textColor="@android:color/white"
++            android:background="@android:color/transparent"/>
+ 
+         <Button
+-            android:id="@+id/hard_button"
++            android:id="@+id/difficulty_hard"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-            android:background="@drawable/button_background"
+-            android:text="HARD"
+-            android:textColor="@android:color/white" />
+-    </GridLayout>
++            android:text="@string/hard"
++            android:layout_margin="5dp"
++            android:textColor="@android:color/white"
++            android:background="@android:color/transparent"/>
++    </LinearLayout>
++    <!-- Enlève le fond -->
++
+ 
+     <!-- Espace vide pour pousser la barre de navigation en bas -->
+     <View
+@@ -182,6 +194,7 @@
+                 android:scaleType="centerInside"
+                 android:contentDescription="music icon" />
+ 
++
+         </LinearLayout>
+ 
+         <LinearLayout
+@@ -224,7 +237,4 @@
+ 
+     </LinearLayout>
+ 
+-
+-
+-
+ </LinearLayout>
+Index: app/src/main/java/com/example/projet/HomeActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.projet;\r\n\r\nimport android.content.Intent;\r\nimport android.net.Uri;\r\nimport android.os.AsyncTask;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.ImageButton;\r\nimport android.widget.LinearLayout;\r\nimport android.widget.ListView;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\nimport android.widget.VideoView;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport org.json.JSONArray;\r\nimport org.json.JSONObject;\r\n\r\nimport java.io.BufferedReader;\r\nimport java.io.InputStreamReader;\r\nimport java.net.HttpURLConnection;\r\nimport java.net.URL;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\nimport android.view.animation.Animation;\r\nimport android.view.animation.AnimationUtils;\r\npublic class HomeActivity extends AppCompatActivity {\r\n\r\n    private VideoView videoView;\r\n    private ListView songListView;\r\n    private List<Song> songList;\r\n    private SongAdapter songAdapter;\r\n    private SoundManager soundManager;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_home);\r\n\r\n        // Initialisation des vues\r\n        videoView = findViewById(R.id.videoView);\r\n        songListView = findViewById(R.id.songListView);\r\n        soundManager = new SoundManager(this);\r\n\r\n        // Charger la vidéo\r\n        Uri videoUri = Uri.parse(\"android.resource://\" + getPackageName() + \"/\" + R.raw.piano);\r\n        videoView.setVideoURI(videoUri);\r\n\r\n        soundManager.playBackgroundMusic();\r\n\r\n        // Liste des sons\r\n        songList = new ArrayList<>();\r\n        songList.add(new Song(\"Piano Note 1\", \"piano_note1\"));\r\n        songList.add(new Song(\"Piano Note 2\", \"piano_note2\"));\r\n        songList.add(new Song(\"Piano Note 3\", \"piano_note3\"));\r\n\r\n        songAdapter = new SongAdapter(this, songList, soundManager);\r\n        songListView.setAdapter(songAdapter);\r\n\r\n        Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale);\r\n\r\n        // Boutons\r\n        LinearLayout homeButton = findViewById(R.id.homeButton);\r\n        LinearLayout musicButton = findViewById(R.id.musicButton);\r\n        LinearLayout favoriteButton = findViewById(R.id.favoriteButton);\r\n        LinearLayout settingsButton = findViewById(R.id.settingsButton);\r\n\r\n        homeButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation);\r\n\r\n            // Met à jour les styles des boutons pour indiquer que \"Home\" est actif\r\n            setActiveButton(homeButton);\r\n\r\n            // Message de confirmation\r\n            Toast.makeText(HomeActivity.this, \"Déjà sur la page d'accueil\", Toast.LENGTH_SHORT).show();\r\n        });\r\n\r\n\r\n\r\n        musicButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation);\r\n            setActiveButton(musicButton);\r\n            startActivity(new Intent(HomeActivity.this, SelectionActivity.class));\r\n        });\r\n\r\n        settingsButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation);\r\n            setActiveButton(settingsButton);\r\n            startActivity(new Intent(HomeActivity.this, SettingsActivity.class));\r\n        });\r\n\r\n        favoriteButton.setOnClickListener(v -> {\r\n            v.startAnimation(clickAnimation);\r\n            setActiveButton(favoriteButton);\r\n            Toast.makeText(this, \"Favorites\", Toast.LENGTH_SHORT).show();\r\n        });\r\n        NavigationHelper.setupNavigationBar(this);\r\n        setActiveButton(homeButton); // Active visuellement le bouton Home dès l’ouverture de l’activité\r\n\r\n    }\r\n\r\n\r\n    @Override\r\n    protected void onResume() {\r\n        super.onResume();\r\n        videoView.start(); // Redémarre la vidéo quand l'activité reprend\r\n    }\r\n\r\n    @Override\r\n    protected void onPause() {\r\n        super.onPause();\r\n        videoView.pause(); // Met en pause la vidéo quand l'activité est en pause\r\n    }\r\n\r\n    @Override\r\n    protected void onDestroy() {\r\n        super.onDestroy();\r\n        soundManager.release(); // Libérer les ressources\r\n    }\r\n\r\n\r\n    private void setActiveButton(LinearLayout activeButton) {\r\n        LinearLayout homeButton = findViewById(R.id.homeButton);\r\n        LinearLayout musicButton = findViewById(R.id.musicButton);\r\n        LinearLayout favoriteButton = findViewById(R.id.favoriteButton);\r\n        LinearLayout settingsButton = findViewById(R.id.settingsButton);\r\n\r\n        List<LinearLayout> buttons = new ArrayList<>();\r\n        buttons.add(homeButton);\r\n        buttons.add(musicButton);\r\n        buttons.add(favoriteButton);\r\n        buttons.add(settingsButton);\r\n\r\n        for (LinearLayout button : buttons) {\r\n            button.setBackground(null); // enlève tout résidu visuel\r\n\r\n            if (button == activeButton) {\r\n                button.setAlpha(1.0f);\r\n                button.setBackgroundResource(R.drawable.nav_button_background_selected);\r\n            } else {\r\n                button.setAlpha(0.5f);\r\n                button.setBackgroundResource(R.drawable.nav_button_background);\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n\r\n\r\n}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/projet/HomeActivity.java b/app/src/main/java/com/example/projet/HomeActivity.java
+--- a/app/src/main/java/com/example/projet/HomeActivity.java	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/java/com/example/projet/HomeActivity.java	(date 1744626337124)
+@@ -35,8 +35,11 @@
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
++        String currentLang = LanguageUtils.getSavedLanguage(this);
++        LanguageUtils.setLocale(this, currentLang);
++
++        // Maintenant on définit le contenu
+         setContentView(R.layout.activity_home);
+-
+         // Initialisation des vues
+         videoView = findViewById(R.id.videoView);
+         songListView = findViewById(R.id.songListView);
+@@ -138,7 +141,7 @@
+                 button.setAlpha(1.0f);
+                 button.setBackgroundResource(R.drawable.nav_button_background_selected);
+             } else {
+-                button.setAlpha(0.5f);
++                button.setAlpha(0.85f);
+                 button.setBackgroundResource(R.drawable.nav_button_background);
+             }
+         }
+Index: app/src/main/java/com/example/projet/DatabaseHelper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/projet/DatabaseHelper.java b/app/src/main/java/com/example/projet/DatabaseHelper.java
+new file mode 100644
+--- /dev/null	(date 1744618762230)
++++ b/app/src/main/java/com/example/projet/DatabaseHelper.java	(date 1744618762230)
+@@ -0,0 +1,100 @@
++package com.example.projet;
++
++import android.content.ContentValues;
++import android.content.Context;
++import android.database.Cursor;
++import android.database.sqlite.SQLiteDatabase;
++import android.database.sqlite.SQLiteOpenHelper;
++
++public class DatabaseHelper extends SQLiteOpenHelper {
++
++    private static final String DATABASE_NAME = "User.db";
++    private static final int DATABASE_VERSION = 2;
++
++    private static final String TABLE_USERS = "users";
++    private static final String COLUMN_ID = "id";
++    private static final String COLUMN_USERNAME = "username";
++    private static final String COLUMN_PASSWORD = "password";
++    private static final String COLUMN_SCORE = "score";
++
++    public DatabaseHelper(Context context) {
++        super(context, DATABASE_NAME, null, DATABASE_VERSION);
++    }
++
++    @Override
++    public void onCreate(SQLiteDatabase db) {
++        String createTable = "CREATE TABLE " + TABLE_USERS + " (" +
++                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
++                COLUMN_USERNAME + " TEXT, " +  // Le nom d'utilisateur
++                "email TEXT UNIQUE, " +        // L’email est maintenant séparé
++                COLUMN_PASSWORD + " TEXT, " +
++                COLUMN_SCORE + " INTEGER DEFAULT 0)";
++
++        db.execSQL(createTable);
++    }
++
++    @Override
++    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
++        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
++        onCreate(db);
++    }
++
++
++    // Ajouter un nouvel utilisateur
++    public boolean addUser(String username, String email, String password) {
++        SQLiteDatabase db = this.getWritableDatabase();
++        ContentValues values = new ContentValues();
++        values.put(COLUMN_USERNAME, username); // Le nom
++        values.put("email", email);            // L’email
++        values.put(COLUMN_PASSWORD, password);
++
++        long result = db.insert(TABLE_USERS, null, values);
++        return result != -1;
++    }
++
++
++    // Vérifier les informations de connexion
++    public boolean checkUser(String identifier, String password) {
++        SQLiteDatabase db = this.getReadableDatabase();
++        Cursor cursor = db.query(
++                TABLE_USERS,
++                new String[]{COLUMN_ID},
++                "(" + COLUMN_USERNAME + "=? OR email=?) AND " + COLUMN_PASSWORD + "=?",
++                new String[]{identifier, identifier, password},
++                null, null, null
++        );
++
++        boolean exists = cursor.getCount() > 0;
++        cursor.close();
++        return exists;
++    }
++
++
++    // Mettre à jour le score d'un utilisateur
++    public boolean updateScore(String username, int score) {
++        SQLiteDatabase db = this.getWritableDatabase();
++        ContentValues values = new ContentValues();
++        values.put(COLUMN_SCORE, score);
++
++        int rowsAffected = db.update(TABLE_USERS, values,
++                COLUMN_USERNAME + "=?", new String[]{username});
++        return rowsAffected > 0;
++    }
++
++    // Récupérer le score d'un utilisateur
++    public int getScore(String username) {
++        SQLiteDatabase db = this.getReadableDatabase();
++        Cursor cursor = db.query(TABLE_USERS,
++                new String[]{COLUMN_SCORE},
++                COLUMN_USERNAME + "=?",
++                new String[]{username},
++                null, null, null);
++
++        int score = 0;
++        if (cursor.moveToFirst()) {
++            score = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_SCORE));
++        }
++        cursor.close();
++        return score;
++    }
++}
+Index: app/src/main/res/drawable/nav_button_background.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><shape xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:shape=\"rectangle\">\r\n    <!-- Fond rose clair #feedf0 avec 80% d'opacité pour l'état non sélectionné -->\r\n    <solid android:color=\"#FFFEEDF0\" /> <!-- Rose clair avec 100% d'opacité -->\r\n    <corners android:radius=\"50dp\" />\r\n</shape>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/nav_button_background.xml b/app/src/main/res/drawable/nav_button_background.xml
+--- a/app/src/main/res/drawable/nav_button_background.xml	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/res/drawable/nav_button_background.xml	(date 1744568618251)
+@@ -1,6 +1,5 @@
+ <shape xmlns:android="http://schemas.android.com/apk/res/android"
+     android:shape="rectangle">
+-    <!-- Fond rose clair #feedf0 avec 80% d'opacité pour l'état non sélectionné -->
+-    <solid android:color="#FFFEEDF0" /> <!-- Rose clair avec 100% d'opacité -->
++    <solid android:color="#FFEBBEC1" /> <!-- 100% opaque -->
+     <corners android:radius="50dp" />
+ </shape>
+Index: app/src/main/java/com/example/projet/LoginActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.projet;\r\n\r\nimport android.app.Activity;\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.GestureDetector;\r\nimport android.view.MotionEvent;\r\nimport android.widget.Button;\r\nimport android.widget.TextView;\r\n\r\npublic class LoginActivity extends Activity {\r\n\r\n    private GestureDetector gestureDetector;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_login);\r\n\r\n        // Initialisation des vues\r\n        Button btnLogin = findViewById(R.id.btn_login);\r\n        TextView goToSignup = findViewById(R.id.go_to_signup);\r\n\r\n        // Détecteur de gestes pour le swipe\r\n        gestureDetector = new GestureDetector(this, new SwipeGestureListener());\r\n\r\n        goToSignup.setOnClickListener(v -> {\r\n            Intent intent = new Intent(LoginActivity.this, SignupActivity.class);\r\n            startActivity(intent);\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public boolean onTouchEvent(MotionEvent event) {\r\n        // Permet de capturer les événements de swipe\r\n        return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);\r\n    }\r\n\r\n    // Classe interne pour détecter les swipes\r\n    private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {\r\n        @Override\r\n        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {\r\n            float diffX = e2.getX() - e1.getX();\r\n            if (Math.abs(diffX) > 100) { // Seulement si la distance du swipe est assez grande\r\n                if (diffX < 0) {\r\n                    // Swipe vers la gauche (Passer à SignupActivity)\r\n                    Intent intent = new Intent(LoginActivity.this, SignupActivity.class);\r\n                    startActivity(intent);\r\n                }\r\n                return true;\r\n            }\r\n            return false;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/projet/LoginActivity.java b/app/src/main/java/com/example/projet/LoginActivity.java
+--- a/app/src/main/java/com/example/projet/LoginActivity.java	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/java/com/example/projet/LoginActivity.java	(date 1744618154126)
+@@ -3,53 +3,45 @@
+ import android.app.Activity;
+ import android.content.Intent;
+ import android.os.Bundle;
+-import android.view.GestureDetector;
+-import android.view.MotionEvent;
+-import android.widget.Button;
+-import android.widget.TextView;
++import android.view.View;
++import android.widget.EditText;
++import android.widget.Toast;
+ 
+ public class LoginActivity extends Activity {
+ 
+-    private GestureDetector gestureDetector;
+-
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_login);
+ 
+         // Initialisation des vues
+-        Button btnLogin = findViewById(R.id.btn_login);
+-        TextView goToSignup = findViewById(R.id.go_to_signup);
++        EditText usernameInput = findViewById(R.id.username); // Champ nom d'utilisateur
++        EditText passwordInput = findViewById(R.id.password); // Champ mot de passe
+ 
+-        // Détecteur de gestes pour le swipe
+-        gestureDetector = new GestureDetector(this, new SwipeGestureListener());
++        findViewById(R.id.btn_login).setOnClickListener(v -> {
++            String username = usernameInput.getText().toString();
++            String password = passwordInput.getText().toString();
+ 
+-        goToSignup.setOnClickListener(v -> {
+-            Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+-            startActivity(intent);
+-        });
+-    }
+-
+-    @Override
+-    public boolean onTouchEvent(MotionEvent event) {
+-        // Permet de capturer les événements de swipe
+-        return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
+-    }
++            if (username.isEmpty() || password.isEmpty()) {
++                Toast.makeText(LoginActivity.this, "Veuillez remplir tous les champs.", Toast.LENGTH_SHORT).show();
++                return;
++            }
++
++            DatabaseHelper dbHelper = new DatabaseHelper(LoginActivity.this);
++            if (dbHelper.checkUser(username, password)) {
++                Toast.makeText(LoginActivity.this, "Connexion réussie !", Toast.LENGTH_SHORT).show();
++                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
++                intent.putExtra("USERNAME", username);
++                startActivity(intent);
++            } else {
++                Toast.makeText(LoginActivity.this, "Nom d'utilisateur ou mot de passe incorrect.", Toast.LENGTH_SHORT).show();
++            }
++        });
+ 
+-    // Classe interne pour détecter les swipes
+-    private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
+-        @Override
+-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+-            float diffX = e2.getX() - e1.getX();
+-            if (Math.abs(diffX) > 100) { // Seulement si la distance du swipe est assez grande
+-                if (diffX < 0) {
+-                    // Swipe vers la gauche (Passer à SignupActivity)
+-                    Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+-                    startActivity(intent);
+-                }
+-                return true;
+-            }
+-            return false;
+-        }
++        // Redirection vers la page d'inscription
++        findViewById(R.id.go_to_signup).setOnClickListener(v -> {
++            Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
++            startActivity(intent);
++        });
+     }
+-}
++}
+\ No newline at end of file
+Index: app/src/main/java/com/example/projet/SignupActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.projet;\r\n\r\nimport android.app.Activity;\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.GestureDetector;\r\nimport android.view.MotionEvent;\r\nimport android.widget.Button;\r\nimport android.widget.TextView;\r\n\r\npublic class SignupActivity extends Activity {\r\n\r\n    private GestureDetector gestureDetector;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_signup);\r\n\r\n        // Initialisation des vues\r\n        Button btnSignup = findViewById(R.id.btn_signup);\r\n        TextView goToLogin = findViewById(R.id.go_to_login);\r\n\r\n        // Détecteur de gestes pour le swipe\r\n        gestureDetector = new GestureDetector(this, new SwipeGestureListener());\r\n\r\n        goToLogin.setOnClickListener(v -> {\r\n            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);\r\n            startActivity(intent);\r\n        });\r\n    }\r\n\r\n    @Override\r\n    public boolean onTouchEvent(MotionEvent event) {\r\n        // Permet de capturer les événements de swipe\r\n        return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);\r\n    }\r\n\r\n    // Classe interne pour détecter les swipes\r\n    private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {\r\n        @Override\r\n        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {\r\n            float diffX = e2.getX() - e1.getX();\r\n            if (Math.abs(diffX) > 100) { // Seulement si la distance du swipe est assez grande\r\n                if (diffX > 0) {\r\n                    // Swipe vers la droite (Retour à LoginActivity)\r\n                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);\r\n                    startActivity(intent);\r\n                } else {\r\n                    // Swipe vers la gauche\r\n                    // Tu pourrais mettre une autre activité ici si tu veux\r\n                }\r\n                return true;\r\n            }\r\n            return false;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/projet/SignupActivity.java b/app/src/main/java/com/example/projet/SignupActivity.java
+--- a/app/src/main/java/com/example/projet/SignupActivity.java	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/java/com/example/projet/SignupActivity.java	(date 1744618652927)
+@@ -3,56 +3,41 @@
+ import android.app.Activity;
+ import android.content.Intent;
+ import android.os.Bundle;
+-import android.view.GestureDetector;
+-import android.view.MotionEvent;
+-import android.widget.Button;
+-import android.widget.TextView;
++import android.view.View;
++import android.widget.EditText;
++import android.widget.Toast;
+ 
+ public class SignupActivity extends Activity {
+ 
+-    private GestureDetector gestureDetector;
+-
+     @Override
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_signup);
+ 
+         // Initialisation des vues
+-        Button btnSignup = findViewById(R.id.btn_signup);
+-        TextView goToLogin = findViewById(R.id.go_to_login);
+-
+-        // Détecteur de gestes pour le swipe
+-        gestureDetector = new GestureDetector(this, new SwipeGestureListener());
++        EditText nameInput = findViewById(R.id.name); // Champ nom
++        EditText emailInput = findViewById(R.id.email); // Champ email
++        EditText passwordInput = findViewById(R.id.signup_password); // Champ mot de passe
+ 
+-        goToLogin.setOnClickListener(v -> {
+-            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+-            startActivity(intent);
+-        });
+-    }
++        // Gestion du bouton d'inscription
++        findViewById(R.id.btn_signup).setOnClickListener(v -> {
++            String name = nameInput.getText().toString();
++            String email = emailInput.getText().toString();
++            String password = passwordInput.getText().toString();
+ 
+-    @Override
+-    public boolean onTouchEvent(MotionEvent event) {
+-        // Permet de capturer les événements de swipe
+-        return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event);
+-    }
++            if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
++                Toast.makeText(SignupActivity.this, "Veuillez remplir tous les champs.", Toast.LENGTH_SHORT).show();
++                return;
++            }
+ 
+-    // Classe interne pour détecter les swipes
+-    private class SwipeGestureListener extends GestureDetector.SimpleOnGestureListener {
+-        @Override
+-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+-            float diffX = e2.getX() - e1.getX();
+-            if (Math.abs(diffX) > 100) { // Seulement si la distance du swipe est assez grande
+-                if (diffX > 0) {
+-                    // Swipe vers la droite (Retour à LoginActivity)
+-                    Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+-                    startActivity(intent);
+-                } else {
+-                    // Swipe vers la gauche
+-                    // Tu pourrais mettre une autre activité ici si tu veux
+-                }
+-                return true;
++            DatabaseHelper dbHelper = new DatabaseHelper(SignupActivity.this);
++            if (dbHelper.addUser(name, email, password)) {
++                Toast.makeText(SignupActivity.this, "Inscription réussie !", Toast.LENGTH_SHORT).show();
++                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
++                startActivity(intent);
++            } else {
++                Toast.makeText(SignupActivity.this, "Email déjà utilisé.", Toast.LENGTH_SHORT).show();
+             }
+-            return false;
+-        }
++        });
+     }
+-}
++}
+\ No newline at end of file
+Index: app/src/main/res/values/style.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/style.xml b/app/src/main/res/values/style.xml
+new file mode 100644
+--- /dev/null	(date 1744619170429)
++++ b/app/src/main/res/values/style.xml	(date 1744619170429)
+@@ -0,0 +1,6 @@
++<resources>
++    <style name="TransparentDialog" parent="Theme.AppCompat.Dialog">
++        <item name="android:windowBackground">@android:color/transparent</item>
++        <item name="android:windowNoTitle">true</item>
++    </style>
++</resources>
+Index: app/src/main/res/drawable/nav_button_background_selected.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><shape xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    android:shape=\"rectangle\">\r\n    <!-- Fond rose clair #f6bbc4 avec 80% d'opacité pour l'état sélectionné -->\r\n    <solid android:color=\"#99F6BBC4\" /> <!-- Rose clair avec 80% d'opacité -->\r\n    <corners android:radius=\"50dp\" />\r\n</shape>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/nav_button_background_selected.xml b/app/src/main/res/drawable/nav_button_background_selected.xml
+--- a/app/src/main/res/drawable/nav_button_background_selected.xml	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/res/drawable/nav_button_background_selected.xml	(date 1744568608877)
+@@ -1,6 +1,5 @@
+ <shape xmlns:android="http://schemas.android.com/apk/res/android"
+     android:shape="rectangle">
+-    <!-- Fond rose clair #f6bbc4 avec 80% d'opacité pour l'état sélectionné -->
+-    <solid android:color="#99F6BBC4" /> <!-- Rose clair avec 80% d'opacité -->
++    <solid android:color="#FFC98086" /> <!-- 100% opaque -->
+     <corners android:radius="50dp" />
+ </shape>
+Index: app/src/main/java/com/example/projet/LanguageUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/projet/LanguageUtils.java b/app/src/main/java/com/example/projet/LanguageUtils.java
+new file mode 100644
+--- /dev/null	(date 1744626673340)
++++ b/app/src/main/java/com/example/projet/LanguageUtils.java	(date 1744626673340)
+@@ -0,0 +1,39 @@
++package com.example.projet;
++
++import android.app.Activity;
++import android.content.SharedPreferences;
++import android.content.res.Configuration;
++import android.os.Build;
++import android.util.DisplayMetrics;
++
++import java.util.Locale;
++
++public class LanguageUtils {
++
++    public static void setLocale(Activity activity, String langCode) {
++        // Mettre à jour la langue dans les préférences partagées
++        SharedPreferences sharedPreferences = activity.getSharedPreferences("MyPrefs", Activity.MODE_PRIVATE);
++        SharedPreferences.Editor editor = sharedPreferences.edit();
++        editor.putString("app_language", langCode);
++        editor.apply();
++
++        // Configurer la langue pour l'application
++        Locale locale = new Locale(langCode);
++        Locale.setDefault(locale);
++        Configuration config = activity.getResources().getConfiguration();
++
++        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
++            config.setLocale(locale);
++        } else {
++            config.locale = locale;
++        }
++
++        DisplayMetrics dm = activity.getResources().getDisplayMetrics();
++        activity.getResources().updateConfiguration(config, dm);
++    }
++
++    public static String getSavedLanguage(Activity activity) {
++        SharedPreferences prefs = activity.getSharedPreferences("MyPrefs", Activity.MODE_PRIVATE);
++        return prefs.getString("app_language", "en"); // Default is English
++    }
++}
+Index: app/src/main/res/drawable/button_background.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/button_background.xml b/app/src/main/res/drawable/button_background.xml
+new file mode 100644
+--- /dev/null	(date 1744570161642)
++++ b/app/src/main/res/drawable/button_background.xml	(date 1744570161642)
+@@ -0,0 +1,5 @@
++<shape xmlns:android="http://schemas.android.com/apk/res/android"
++    android:shape="rectangle">
++    <solid android:color="@android:color/white"/>
++    <corners android:radius="12dp" />
++</shape>
+Index: app/src/main/java/com/example/projet/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.projet;\r\n\r\nimport android.app.Activity;\r\nimport android.content.SharedPreferences;\r\nimport android.content.res.Configuration;\r\nimport android.graphics.Point;\r\nimport android.os.Bundle;\r\nimport android.os.StrictMode;\r\nimport android.view.Display;\r\nimport android.view.Window;\r\nimport android.view.WindowManager;\r\nimport android.widget.Toast;\r\nimport java.io.InputStreamReader;\r\nimport java.io.BufferedReader;\r\nimport java.net.HttpURLConnection;\r\nimport java.net.URL;\r\nimport java.util.Locale;\r\n\r\npublic class MainActivity extends Activity {\r\n    private GameView gameView;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n\r\n        Display display = getWindowManager().getDefaultDisplay();\r\n        Point size = new Point();\r\n        display.getSize(size);\r\n\r\n        gameView = new GameView(this, size.x, size.y);\r\n        setContentView(gameView);\r\n        /*\r\n        SharedPreferences prefs = getSharedPreferences(\"MyPrefs\", MODE_PRIVATE);\r\n        String lang = prefs.getString(\"app_language\", \"en\");\r\n        Locale locale = new Locale(lang);\r\n        Locale.setDefault(locale);\r\n        Configuration config = new Configuration();\r\n        config.setLocale(locale);\r\n        getResources().updateConfiguration(config, getResources().getDisplayMetrics());*/\r\n\r\n\r\n        // Mettre en plein écran\r\n        /*\r\n        requestWindowFeature(Window.FEATURE_NO_TITLE);\r\n        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);\r\n\r\n        gameView = new GameView(this, getWindowManager().getDefaultDisplay().getWidth(),\r\n                getWindowManager().getDefaultDisplay().getHeight());\r\n        setContentView(gameView);\r\n\r\n        // Autoriser les connexions réseau sur le thread principal pour des fins de test\r\n        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();\r\n        StrictMode.setThreadPolicy(policy);*/\r\n    }\r\n\r\n    @Override\r\n    protected void onResume() {\r\n        super.onResume();\r\n        gameView.startGame();\r\n    }\r\n\r\n    @Override\r\n    protected void onPause() {\r\n        super.onPause();\r\n        gameView.stopGame();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/example/projet/MainActivity.java b/app/src/main/java/com/example/projet/MainActivity.java
+--- a/app/src/main/java/com/example/projet/MainActivity.java	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/java/com/example/projet/MainActivity.java	(date 1744620878434)
+@@ -28,6 +28,8 @@
+         display.getSize(size);
+ 
+         gameView = new GameView(this, size.x, size.y);
++        String currentLang = LanguageUtils.getSavedLanguage(this);
++        LanguageUtils.setLocale(this, currentLang);
+         setContentView(gameView);
+         /*
+         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+Index: app/src/main/res/values/arrays.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string-array name=\"languages_array\">\r\n        <item>@string/english</item>\r\n        <item>@string/french</item>\r\n\r\n\r\n    </string-array>\r\n</resources>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/arrays.xml b/app/src/main/res/values/arrays.xml
+--- a/app/src/main/res/values/arrays.xml	(revision 2f93785b47a2724a670b82e1baec2375ac426048)
++++ b/app/src/main/res/values/arrays.xml	(date 1744620075991)
+@@ -1,8 +1,6 @@
+ <resources>
+-    <string-array name="languages_array">
++    <string-array name="languages">
+         <item>@string/english</item>
+         <item>@string/french</item>
+-
+-
+     </string-array>
+ </resources>
