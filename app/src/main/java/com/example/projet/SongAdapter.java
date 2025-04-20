@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
         TextView titleTextView = convertView.findViewById(R.id.songTitle);
         TextView artistTextView = convertView.findViewById(R.id.songArtist);
         //Button favoriteButton = convertView.findViewById(R.id.favoriteButton);
-        Button playButton = convertView.findViewById(R.id.playButton);
+       // Button playButton = convertView.findViewById(R.id.playButton);
 
         titleTextView.setText(song.getTitle());
         artistTextView.setText(song.getArtist());
@@ -70,6 +71,12 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
 
 
+        ImageButton playButton = convertView.findViewById(R.id.playButton);
+        TypedValue outValue = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.selectableItemBackgroundBorderless, outValue, true);
+        playButton.setBackgroundResource(outValue.resourceId);
+        playButton.setClickable(true);
+        playButton.setFocusable(true);
 
         // Bouton Play
         // Modifiez le onClickListener du bouton play

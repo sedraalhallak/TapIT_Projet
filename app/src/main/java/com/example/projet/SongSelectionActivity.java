@@ -42,11 +42,43 @@ public class SongSelectionActivity extends AppCompatActivity {
 
         songsLayout = findViewById(R.id.songsLayout);
         testButton = findViewById(R.id.testButton);
+        Button skipButton = findViewById(R.id.skipButton);
+        /*skipButton.setVisibility(View.GONE);
+        new Handler().postDelayed(() -> {
+            skipButton.setVisibility(View.VISIBLE);
+            skipButton.setAlpha(0f);
+            skipButton.animate().alpha(1f).setDuration(500);
+        }, 3000);
+        skipButton.setOnClickListener(v -> {
+            Intent intent = new Intent(SongSelectionActivity.this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        });*/
+        skipButton.setVisibility(View.GONE);
+
+        new Handler().postDelayed(() -> {
+            skipButton.setVisibility(View.VISIBLE);
+            skipButton.setAlpha(0f);
+            skipButton.animate().alpha(1f).setDuration(500);
+        }, 3000);
+
+// 🟣 OnClick avec animation + redirection
+        skipButton.setOnClickListener(v -> {
+            // 💥 Animation de clic
+            Animation clickAnim = AnimationUtils.loadAnimation(SongSelectionActivity.this, R.anim.click_scale);
+            skipButton.startAnimation(clickAnim);
+
+            // ⏳ On attend un peu que l'effet se joue (100ms)
+            new Handler().postDelayed(() -> {
+                Intent intent = new Intent(SongSelectionActivity.this, HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }, 120);
+        });
+
 
         errorText = findViewById(R.id.errorText);
         testButton.setEnabled(false);
-        TypeWriterTextView typeWriter = findViewById(R.id.titleText);
-        typeWriter.animateText("Start the tutorial by selecting a track");
 
 
         loadSongs();

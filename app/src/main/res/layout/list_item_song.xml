@@ -34,8 +34,8 @@
     <!-- Boutons -->
     <ImageButton
         android:id="@+id/favoriteButton"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
         android:scaleType="centerInside"
         android:adjustViewBounds="true"
@@ -43,11 +43,15 @@
         android:src="@drawable/ic_favorite"
         android:contentDescription="Bouton Favori" />
 
-
-    <Button
+    <ImageButton
         android:id="@+id/playButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:text="▶️" />
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_play"
+        android:contentDescription="Lire la chanson" />
+
 </LinearLayout>
