@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -101,6 +102,7 @@ public class SettingsActivity extends BaseActivity {
         });
 
         NavigationHelper.setupNavigationBar(this);
+        ProfileUtils.setupProfileAvatar(this, R.id.profileAvatar);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.piano_note1);
         mediaPlayer.setLooping(true);
@@ -137,11 +139,8 @@ public class SettingsActivity extends BaseActivity {
             sharedPreferences.edit().putBoolean("isMuted", isChecked).apply();
         });
 
-        ImageButton loginIcon = findViewById(R.id.loginIcon);
-        loginIcon.setOnClickListener(v -> {
-            Intent loginIntent = new Intent(SettingsActivity.this, LoginActivity.class);
-            startActivity(loginIntent);
-        });
+
+
 
         setActiveButton(settingsButton);
     }
@@ -177,5 +176,13 @@ public class SettingsActivity extends BaseActivity {
         if (mediaPlayer != null) {
             mediaPlayer.release();
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Rafraîchir l'avatar à chaque retour sur l'activité
+        ImageView profileAvatar = findViewById(R.id.profileAvatar);
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        profileAvatar.setImageResource(prefs.getInt("avatarId", R.drawable.a1));
     }
 }

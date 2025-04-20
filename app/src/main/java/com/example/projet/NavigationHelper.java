@@ -1,10 +1,14 @@
 package com.example.projet;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +66,20 @@ public class NavigationHelper {
             } else {
                 Toast.makeText(activity, "Settings", Toast.LENGTH_SHORT).show();
             }
+        });
+    }
+    public static void setupProfileAvatar(Activity activity, int layoutId) {
+        ImageView profileAvatar = activity.findViewById(layoutId);
+        SharedPreferences prefs = activity.getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
+        int avatarId = prefs.getInt("avatarId", R.drawable.a1);
+        profileAvatar.setImageResource(avatarId);
+
+        profileAvatar.setOnClickListener(v -> {
+            String loggedInUser = prefs.getString("loggedInUsername", null);
+            Intent intent = new Intent(activity,
+                    loggedInUser != null ? ProfileActivity.class : LoginActivity.class);
+            activity.startActivity(intent);
         });
     }
 }

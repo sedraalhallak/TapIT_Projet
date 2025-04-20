@@ -1,0 +1,69 @@
+package com.example.projet;
+
+import android.content.Context;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+
+public class AvatarAdapter extends BaseAdapter {
+    private Context context;
+    private int[] avatarIds;
+    private int selectedId;
+
+    public AvatarAdapter(Context context, int[] avatarIds, int selectedId) {
+        this.context = context;
+        this.avatarIds = avatarIds;
+        this.selectedId = selectedId;
+    }
+
+    @Override
+    public int getCount() {
+        return avatarIds.length;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return avatarIds[position];
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ImageView imageView;
+        if (convertView == null) {
+            imageView = new ImageView(context);
+            // Dimensions fixes pour chaque item
+            int size = calculateCellSize(context);
+            imageView.setLayoutParams(new GridView.LayoutParams(size, size));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imageView.setAdjustViewBounds(true);
+        } else {
+            imageView = (ImageView) convertView;
+        }
+
+        imageView.setImageResource(avatarIds[position]);
+
+        // Style dynamique
+        imageView.setBackgroundResource(avatarIds[position] == selectedId
+                ? R.drawable.avatar_selected_border
+                : R.drawable.avatar_default_border);
+
+        return imageView;
+    }
+
+    private int calculateCellSize(Context context) {
+        // Calcule la taille en fonction de l'écran
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        int screenWidth = metrics.widthPixels;
+        int padding = (int) (16 * metrics.density); // Convertit dp en pixels
+        int spacing = (int) (20 * metrics.density);
+        return (screenWidth - 2 * padding - 2 * spacing) / 3;
+    }
+}

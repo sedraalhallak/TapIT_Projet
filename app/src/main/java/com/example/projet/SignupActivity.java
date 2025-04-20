@@ -40,5 +40,12 @@ public class SignupActivity extends BaseActivity {
                 Toast.makeText(SignupActivity.this, "Email déjà utilisé.", Toast.LENGTH_SHORT).show();
             }
         });
+        // Gestion du bouton "Retour à la connexion"
+        findViewById(R.id.btn_back_to_login).setOnClickListener(v -> {
+            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish(); // Pour fermer l'écran actuel si tu veux éviter retour arrière
+        });
+
     }
 }

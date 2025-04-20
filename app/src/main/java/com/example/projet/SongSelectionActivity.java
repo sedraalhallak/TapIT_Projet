@@ -26,7 +26,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 public class SongSelectionActivity extends AppCompatActivity {
-    private static final String API_BASE_URL = "http://10.0.2.2:8000/";
+    private static final String API_BASE_URL = "http://192.168.0.49:8000/";
 
     private LinearLayout songsLayout;
     private Button testButton;

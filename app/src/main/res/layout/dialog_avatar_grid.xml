@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/avatarGrid"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:numColumns="3"
+    android:columnWidth="100dp"
+    android:stretchMode="none"
+    android:gravity="center"
+    android:horizontalSpacing="20dp"
+    android:verticalSpacing="20dp"
+    android:padding="16dp"
+    android:clipToPadding="false"
+    android:layout_marginHorizontal="16dp">
+    </GridView>

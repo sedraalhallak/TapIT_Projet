@@ -1,11 +1,13 @@
 package com.example.projet;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -53,6 +55,7 @@ public class SelectionActivity extends BaseActivity {
 
         NavigationHelper.setupNavigationBar(this);
         setActiveButton(musicButton);
+        ProfileUtils.setupProfileAvatar(this, R.id.profileAvatar);
     }
 
     private void setActiveButton(LinearLayout activeButton) {
@@ -77,5 +80,13 @@ public class SelectionActivity extends BaseActivity {
                 button.setBackgroundResource(R.drawable.nav_button_background);
             }
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Rafraîchir l'avatar à chaque retour sur l'activité
+        ImageView profileAvatar = findViewById(R.id.profileAvatar);
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        profileAvatar.setImageResource(prefs.getInt("avatarId", R.drawable.a1));
     }
 }

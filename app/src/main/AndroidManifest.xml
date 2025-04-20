@@ -29,6 +29,7 @@
 
 
 
+
         <!-- MainActivity sans intent-filter MAIN -->
         <activity android:name=".MainActivity"
             android:exported="true">
@@ -44,10 +45,13 @@
         <activity android:name=".SettingsActivity"/>
         <activity android:name=".FavoritesActivity">
 
+
             <!-- Vous pouvez ajouter ici des attributs si nécessaire -->
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".SignupActivity" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".EditProfileActivity" />
 
 
 

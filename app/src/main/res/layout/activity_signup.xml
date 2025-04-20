@@ -87,7 +87,7 @@
         android:fontFamily="@font/font6"
 
         android:id="@+id/go_to_login"
-        android:text="Déjà un compte? Connexion!"
+        android:text="Déjà un compte?"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:layout_width="wrap_content"
@@ -95,4 +95,19 @@
         android:gravity="center"
         android:padding="10dp"
         android:layout_marginTop="10dp"/>
+    <Button
+        android:id="@+id/btn_back_to_login"
+        android:text="Retour à la connexion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/custom_back_button"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"/>
+
+
 </LinearLayout>

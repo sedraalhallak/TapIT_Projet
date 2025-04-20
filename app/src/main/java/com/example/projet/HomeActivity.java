@@ -1,6 +1,10 @@
 package com.example.projet;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,6 +13,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -33,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     private List<Song> songList;
     private SongAdapter songAdapter;
     private SoundManager soundManager;
+    private BroadcastReceiver profileUpdateReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,15 @@ public class HomeActivity extends AppCompatActivity {
         LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
         LinearLayout settingsButton = findViewById(R.id.settingsButton);
 
+        profileUpdateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                ImageView profileAvatar = findViewById(R.id.profileAvatar);
+                profileAvatar.setImageResource(prefs.getInt("avatarId", R.drawable.a1));
+            }
+        };
+
         homeButton.setOnClickListener(v -> {
             Toast.makeText(this, "Déjà sur la page d'accueil", Toast.LENGTH_SHORT).show();
         });
@@ -86,13 +101,37 @@ public class HomeActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(v -> {
             startActivity(new Intent(this, SettingsActivity.class));
         });
+        ImageView profileAvatar = findViewById(R.id.profileAvatar);
+
+        // Charger l'avatar depuis SharedPreferences
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        int avatarId = prefs.getInt("avatarId", R.drawable.a1); // Valeur par défaut
+        profileAvatar.setImageResource(avatarId);
+
+        // Gestion du clic
+        registerReceiver(profileUpdateReceiver, new IntentFilter("PROFILE_UPDATED"));
+
+        profileAvatar.setOnClickListener(v -> {
+            String loggedInUser = prefs.getString("loggedInUsername", null);
+            if (loggedInUser != null) {
+                startActivity(new Intent(HomeActivity.this, ProfileActivity.class));
+            } else {
+                startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+            }
+        });
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        // Rafraîchir l'avatar à chaque retour sur l'écran
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        ImageView profileAvatar = findViewById(R.id.profileAvatar);
+        profileAvatar.setImageResource(prefs.getInt("avatarId", R.drawable.a1));
+
         if (!videoView.isPlaying()) {
-            videoView.start(); // Redémarrer la vidéo si elle est en pause
+            videoView.start();
         }
     }
 
@@ -100,6 +139,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         videoView.pause(); // Mettre la vidéo en pause
+        unregisterReceiver(profileUpdateReceiver);
     }
 
     @Override
@@ -140,7 +180,7 @@ public class HomeActivity extends AppCompatActivity {
         protected List<Song> doInBackground(Void... voids) {
             List<Song> songs = new ArrayList<>();
             try {
-                URL url = new URL("http://10.0.2.2:8000/api/songs"); // Remplacez par votre URL API
+                URL url = new URL("http://192.168.0.49:8000/api/songs"); // Remplacez par votre URL API
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
 
@@ -179,6 +219,17 @@ public class HomeActivity extends AppCompatActivity {
             songAdapter.notifyDataSetChanged(); // Rafraîchir la ListView
         }
 
+    }
+    // Ajoutez cette méthode pour gérer le résultat
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && data != null && data.getBooleanExtra("avatarUpdated", false)) {
+            SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+            ImageView profileAvatar = findViewById(R.id.profileAvatar);
+            profileAvatar.setImageResource(prefs.getInt("avatarId", R.drawable.a1));
+        }
     }
 
 

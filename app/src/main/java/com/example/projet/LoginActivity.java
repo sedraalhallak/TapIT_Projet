@@ -2,6 +2,7 @@ package com.example.projet;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -31,9 +32,12 @@ public class LoginActivity extends BaseActivity {
             DatabaseHelper dbHelper = new DatabaseHelper(LoginActivity.this);
             if (dbHelper.checkUser(username, password)) {
                 Toast.makeText(LoginActivity.this, "Connexion réussie !", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 intent.putExtra("USERNAME", username);
                 startActivity(intent);
+                SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                prefs.edit().putString("loggedInUsername", username).apply();
+
             } else {
                 Toast.makeText(LoginActivity.this, "Nom d'utilisateur ou mot de passe incorrect.", Toast.LENGTH_SHORT).show();
             }

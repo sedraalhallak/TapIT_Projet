@@ -9,19 +9,16 @@
     <!-- Login Button -->
 
     <!-- Genre Buttons -->
-    <ImageButton
-        android:id="@+id/loginIcon"
-        android:layout_width="65dp"
-        android:layout_height="54dp"
-        android:layout_alignParentTop="true"
+    <ImageView
+        android:id="@+id/profileAvatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="top|start"
         android:layout_margin="10dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="20dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Login"
-        android:padding="10dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/ic_login" />
+        android:background="@drawable/circle_background"
+        android:contentDescription="Profil"
+        android:scaleType="centerCrop"
+        android:src="@drawable/a1" />
 
     <TextView
         android:layout_width="wrap_content"

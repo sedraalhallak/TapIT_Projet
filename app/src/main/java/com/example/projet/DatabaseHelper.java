@@ -5,11 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "User.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3; // Incrémentez la version
 
     private static final String TABLE_USERS = "users";
     private static final String COLUMN_ID = "id";
@@ -25,9 +26,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createTable = "CREATE TABLE " + TABLE_USERS + " (" +
                 COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_USERNAME + " TEXT, " +  // Le nom d'utilisateur
-                "email TEXT UNIQUE, " +        // L’email est maintenant séparé
+                COLUMN_USERNAME + " TEXT, " +
+                "email TEXT UNIQUE, " +
                 COLUMN_PASSWORD + " TEXT, " +
+                "display_name TEXT, " +
+                "avatar_id INTEGER DEFAULT 1, " + // Colonne ajoutée avec valeur par défaut
                 COLUMN_SCORE + " INTEGER DEFAULT 0)";
 
         db.execSQL(createTable);
@@ -35,8 +38,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
-        onCreate(db);
+        // Pour les utilisateurs existants, ajoutez les colonnes manquantes
+        if (oldVersion < 2) {
+            db.execSQL("ALTER TABLE " + TABLE_USERS + " ADD COLUMN display_name TEXT");
+        }
+        if (oldVersion < 3) {
+            db.execSQL("ALTER TABLE " + TABLE_USERS + " ADD COLUMN avatar_id INTEGER DEFAULT 1");
+        }
     }
 
 
@@ -97,4 +105,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return score;
     }
+    public boolean updateUser(String oldUsername, String newUsername, String newDisplayName, int avatarId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put("username", newUsername);
+            values.put("display_name", newDisplayName);
+            values.put("avatar_id", avatarId);
+
+            // Vérifiez d'abord si l'utilisateur existe
+            Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE username = ?",
+                    new String[]{oldUsername});
+            boolean exists = cursor.getCount() > 0;
+            cursor.close();
+
+            if (!exists) {
+                Log.e("DB_ERROR", "User not found: " + oldUsername);
+                return false;
+            }
+
+            int rows = db.update(TABLE_USERS, values, "username = ?", new String[]{oldUsername});
+            db.setTransactionSuccessful();
+            return rows > 0;
+        } catch (Exception e) {
+            Log.e("DB_ERROR", "Update failed", e);
+            return false;
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
 }

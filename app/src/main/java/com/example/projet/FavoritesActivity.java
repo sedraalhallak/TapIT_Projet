@@ -1,8 +1,11 @@
 package com.example.projet;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -50,6 +53,7 @@ public class FavoritesActivity extends AppCompatActivity {
 
         NavigationHelper.setupNavigationBar(this);
         setActiveButton(favoriteButton);
+        ProfileUtils.setupProfileAvatar(this, R.id.profileAvatar);
         /*homeButton.setOnClickListener(v -> {
             Toast.makeText(this, "Déjà sur la page d'accueil", Toast.LENGTH_SHORT).show();
         });
@@ -72,7 +76,9 @@ public class FavoritesActivity extends AppCompatActivity {
         favoriteButton.setOnClickListener(v -> {
             Toast.makeText(this, "Déjà sur la page des favoris", Toast.LENGTH_SHORT).show();
         });
-        settingsButton.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));}
+        settingsButton.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
+
+    }
 
 
 
@@ -97,6 +103,36 @@ public class FavoritesActivity extends AppCompatActivity {
             } else {
                 button.setAlpha(0.85f);
                 button.setBackgroundResource(R.drawable.nav_button_background);
+            }
+        }
+
+    }
+    public class SelectionActivity extends AppCompatActivity {
+        // ...
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_selection);
+
+            // Initialiser l'avatar (remplacez R.id.profileAvatar par votre ID)
+            ProfileUtils.setupProfileAvatar(this, R.id.profileAvatar);
+
+            // ... reste de votre code
+        }
+
+        @Override
+        protected void onResume() {
+            super.onResume();
+
+            // Rafraîchir l'avatar
+            ImageView profileAvatar = findViewById(R.id.profileAvatar);
+            SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+            profileAvatar.setImageResource(prefs.getInt("avatarId", R.drawable.a1));
+
+            // Gestion spécifique de la vidéo
+            if (!videoView.isPlaying()) {
+                videoView.start();
             }
         }
     }
