@@ -1,15 +1,18 @@
 package com.example.projet;
 
-import android.content.BroadcastReceiver;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 public class ProfileActivity extends BaseActivity {
 
@@ -30,40 +33,87 @@ public class ProfileActivity extends BaseActivity {
         ImageView avatarImageView = findViewById(R.id.avatarImageView);
         editIcon = findViewById(R.id.editIcon);
         logoutButton = findViewById(R.id.logoutButton);
+        TextView bioTextView = findViewById(R.id.bioTextView);
 
-        // Récupérer les informations depuis SharedPreferences
+        // Chargement des données du profil
         loadProfileData();
 
-
-        // Gestion du clic sur l'icône de modification
-        // Modifiez le onClickListener de editIcon :
+        // Lancer EditProfileActivity
         editIcon.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
-            startActivityForResult(intent, 1); // Utilisez startActivityForResult au lieu de startActivity
+            startActivityForResult(intent, 1);
         });
 
+        // Fermer l'activité
         ImageView closeButton = findViewById(R.id.closeButton);
-        closeButton.setOnClickListener(v -> {
-            // Retour à l'activité précédente
-            finish();
-        });
+        closeButton.setOnClickListener(v -> finish());
 
-
-        // Gestion du clic sur le bouton de déconnexion
+        // Déconnexion avec popup personnalisé
         logoutButton.setOnClickListener(v -> {
-            SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-            prefs.edit()
-                    .remove("loggedInUsername")
-                    .remove("displayName")
-                    .remove("avatarId")
-                    .apply();
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_logout, null);
+            ImageView sadGif = dialogView.findViewById(R.id.sadGif);
+            TextView confirmationText = dialogView.findViewById(R.id.logout_confirmation_text);
+            Button yesButton = dialogView.findViewById(R.id.yes_button);
+            Button noButton = dialogView.findViewById(R.id.no_button);
 
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
+            // Texte de confirmation visible
+            confirmationText.setText("Are you sure you want to log out?");
+            confirmationText.setTextColor(getResources().getColor(android.R.color.white)); // Assure qu'il est blanc
+
+            // Charger le GIF
+            Glide.with(ProfileActivity.this)
+                    .asGif()
+                    .load(R.drawable.sad)
+                    .into(sadGif);
+
+            AlertDialog dialog = new AlertDialog.Builder(ProfileActivity.this)
+                    .setView(dialogView)
+                    .create();
+
+            // Bouton "Oui" avec animation
+            yesButton.setOnClickListener(view -> {
+                animateButtonClick(view);
+                SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                prefs.edit()
+                        .remove("loggedInUsername")
+                        .remove("displayName")
+                        .remove("avatarId")
+                        .remove("bio")
+                        .apply();
+
+                Toast.makeText(ProfileActivity.this, "Déconnecté", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                finish();
+            });
+
+            noButton.setOnClickListener(view -> {
+                animateButtonClick(view);
+                // Délai pour laisser l'animation se jouer avant de fermer
+                view.postDelayed(dialog::dismiss, 200);
+            });
+
+
+            // Affichage + fond transparent
+            dialog.show();
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         });
-
-
     }
+
+    // ➕ Animation clic pour effet visuel
+    private void animateButtonClick(View button) {
+        button.animate()
+                .scaleX(0.9f)
+                .scaleY(0.9f)
+                .setDuration(100)
+                .withEndAction(() -> {
+                    button.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(100)
+                            .start();
+                }).start();
+    }
+
     private void loadProfileData() {
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         currentUsername = prefs.getString("loggedInUsername", "");
@@ -72,18 +122,16 @@ public class ProfileActivity extends BaseActivity {
 
         usernameTextView.setText(currentUsername);
         displayNameTextView.setText(displayName);
-        ((ImageView)findViewById(R.id.avatarImageView)).setImageResource(avatarId);
+        ((ImageView) findViewById(R.id.avatarImageView)).setImageResource(avatarId);
+        String bio = prefs.getString("bio", "");
+        ((TextView) findViewById(R.id.bioTextView)).setText(bio);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             loadProfileData();
-
         }
     }
-
-
-
 }

@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 public class AvatarAdapter extends BaseAdapter {
     private Context context;
     private int[] avatarIds;
@@ -34,7 +36,7 @@ public class AvatarAdapter extends BaseAdapter {
         return position;
     }
 
-    @Override
+   /* @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
         if (convertView == null) {
@@ -56,7 +58,34 @@ public class AvatarAdapter extends BaseAdapter {
                 : R.drawable.avatar_default_border);
 
         return imageView;
-    }
+    }*/
+   @Override
+   public View getView(int position, View convertView, ViewGroup parent) {
+       ImageView imageView;
+       if (convertView == null) {
+           imageView = new ImageView(context);
+           // Dimensions fixes pour chaque item
+           int size = calculateCellSize(context);
+           imageView.setLayoutParams(new GridView.LayoutParams(size, size));
+           imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+           imageView.setAdjustViewBounds(true);
+       } else {
+           imageView = (ImageView) convertView;
+       }
+
+       // Utiliser Glide pour charger l'avatar avec l'effet "cercle"
+       Glide.with(context)
+               .load(avatarIds[position])
+               .circleCrop()  // Transforme l'image en cercle
+               .into(imageView);
+
+       // Style dynamique pour la bordure
+       imageView.setBackgroundResource(avatarIds[position] == selectedId
+               ? R.drawable.avatar_selected_border
+               : R.drawable.avatar_default_border);
+
+       return imageView;
+   }
 
     private int calculateCellSize(Context context) {
         // Calcule la taille en fonction de l'écran

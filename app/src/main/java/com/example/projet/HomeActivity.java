@@ -108,8 +108,8 @@ public class HomeActivity extends AppCompatActivity {
         int avatarId = prefs.getInt("avatarId", R.drawable.a1); // Valeur par défaut
         profileAvatar.setImageResource(avatarId);
 
-        // Gestion du clic
-        registerReceiver(profileUpdateReceiver, new IntentFilter("PROFILE_UPDATED"));
+        // Gestion du clica
+        //registerReceiver(profileUpdateReceiver, new IntentFilter("PROFILE_UPDATED"));
 
         profileAvatar.setOnClickListener(v -> {
             String loggedInUser = prefs.getString("loggedInUsername", null);
@@ -138,9 +138,10 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        videoView.pause(); // Mettre la vidéo en pause
-        unregisterReceiver(profileUpdateReceiver);
+        videoView.pause();
+
     }
+
 
     @Override
     protected void onDestroy() {
@@ -180,7 +181,7 @@ public class HomeActivity extends AppCompatActivity {
         protected List<Song> doInBackground(Void... voids) {
             List<Song> songs = new ArrayList<>();
             try {
-                URL url = new URL("http://192.168.0.49:8000/api/songs"); // Remplacez par votre URL API
+                URL url = new URL("http://10.0.2.2:8000/api/songs"); // Remplacez par votre URL API
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
 

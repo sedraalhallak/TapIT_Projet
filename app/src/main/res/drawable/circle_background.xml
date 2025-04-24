@@ -1,7 +1,5 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-    <solid android:color="#FFFFFF"/>
-    <size
-        android:width="150dp"
-        android:height="150dp"/>
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#1AFFFFFF"/> <!-- Choisissez la couleur de fond que vous souhaitez -->
+    <corners android:radius="25dp"/> <!-- Ajustez cette valeur pour que l'avatar soit circulaire -->
 </shape>

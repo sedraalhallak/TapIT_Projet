@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -52,6 +53,12 @@ public class SelectionActivity extends BaseActivity {
             setActiveButton(settingsButton);
             startActivity(new Intent(this, SettingsActivity.class));
         });
+        Button timedModeBtn = findViewById(R.id.btnTimedMode);
+        timedModeBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(SelectionActivity.this, TimedModeActivity.class);
+            startActivity(intent);
+        });
+
 
         NavigationHelper.setupNavigationBar(this);
         setActiveButton(musicButton);

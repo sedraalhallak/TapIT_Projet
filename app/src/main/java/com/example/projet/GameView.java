@@ -499,6 +499,7 @@ public class GameView extends SurfaceView implements Runnable {
             e.printStackTrace();
         }
     }
+    
 
     private void pauseGame() {
         isPlaying = false;

@@ -202,10 +202,10 @@
     <!-- Login Button -->
     <ImageView
         android:id="@+id/profileAvatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="top|start"
-        android:layout_margin="10dp"
+        android:layout_margin="30dp"
         android:background="@drawable/circle_background"
         android:contentDescription="Profil"
         android:scaleType="centerCrop"

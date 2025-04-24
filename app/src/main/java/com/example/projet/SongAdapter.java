@@ -82,7 +82,7 @@ public class SongAdapter extends ArrayAdapter<Song> {
         // Modifiez le onClickListener du bouton play
         playButton.setOnClickListener(v -> {
             try {
-                String baseUrl = "http://192.168.0.49:8000/song_files/";
+                String baseUrl = "http://10.0.2.2:8000/song_files/";
                 String songUrl = baseUrl + song.getFilename();
 
                 // Vérifiez que les données sont valides

@@ -10,7 +10,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "User.db";
-    private static final int DATABASE_VERSION = 3; // Incrémentez la version
+    private static final int DATABASE_VERSION = 4; // Incrémentez la version
 
     private static final String TABLE_USERS = "users";
     private static final String COLUMN_ID = "id";
@@ -30,6 +30,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "email TEXT UNIQUE, " +
                 COLUMN_PASSWORD + " TEXT, " +
                 "display_name TEXT, " +
+                "bio TEXT, " +                    // 👈 nouvelle colonne
+
                 "avatar_id INTEGER DEFAULT 1, " + // Colonne ajoutée avec valeur par défaut
                 COLUMN_SCORE + " INTEGER DEFAULT 0)";
 
@@ -45,6 +47,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (oldVersion < 3) {
             db.execSQL("ALTER TABLE " + TABLE_USERS + " ADD COLUMN avatar_id INTEGER DEFAULT 1");
         }
+        if (oldVersion < 4) {
+            db.execSQL("ALTER TABLE " + TABLE_USERS + " ADD COLUMN bio TEXT");
+        }
+
     }
 
 
@@ -105,14 +111,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return score;
     }
-    public boolean updateUser(String oldUsername, String newUsername, String newDisplayName, int avatarId) {
+    public boolean updateUser(String oldUsername, String newUsername, String newDisplayName, int avatarId,String bio) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
             values.put("username", newUsername);
-            values.put("display_name", newDisplayName);
+            values.put("display_name", "");
             values.put("avatar_id", avatarId);
+            values.put("bio", bio);  // 👈 ici
+
 
             // Vérifiez d'abord si l'utilisateur existe
             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE username = ?",

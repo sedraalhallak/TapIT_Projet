@@ -11,14 +11,15 @@
     <!-- Genre Buttons -->
     <ImageView
         android:id="@+id/profileAvatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="top|start"
-        android:layout_margin="10dp"
+        android:layout_margin="30dp"
         android:background="@drawable/circle_background"
         android:contentDescription="Profil"
         android:scaleType="centerCrop"
         android:src="@drawable/a1" />
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -140,6 +141,13 @@
             android:textColor="@android:color/white"
             android:background="@android:color/transparent"/>
     </LinearLayout>
+    <Button
+        android:id="@+id/btnTimedMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Timed Mode"
+        android:layout_marginTop="20dp"/>
+
     <!-- Enlève le fond -->
 
 

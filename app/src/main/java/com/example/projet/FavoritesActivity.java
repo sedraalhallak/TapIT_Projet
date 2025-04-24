@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -41,6 +43,13 @@ public class FavoritesActivity extends AppCompatActivity {
         ListView favoriteListView = findViewById(R.id.favoriteListView);
         soundManager = new SoundManager(this);
         favoriteSongs = FavoriteManager.getFavorites(this);
+        TextView emptyMessage = findViewById(R.id.emptyFavoritesMessage);
+
+        if (favoriteSongs.isEmpty()) {
+            emptyMessage.setVisibility(View.VISIBLE);
+        } else {
+            emptyMessage.setVisibility(View.GONE);
+        }
 
         songAdapter = new SongAdapter(this, favoriteSongs, soundManager);
         favoriteListView.setAdapter(songAdapter);

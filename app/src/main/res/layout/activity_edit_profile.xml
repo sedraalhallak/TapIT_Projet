@@ -13,15 +13,17 @@
 
         <ImageView
             android:id="@+id/closeButton"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:src="@drawable/ic_close"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:layout_margin="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
             android:contentDescription="Fermer"
             android:clickable="true"
-            android:focusable="true"/>
+            android:focusable="true" />
+
 
     </RelativeLayout>
 
@@ -30,11 +32,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Modifier le Profil"
-        android:textSize="24sp"
+        android:textSize="28sp"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="30dp"/>
+        android:fontFamily="@font/font6"
+
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="40dp"/>
 
     <!-- Avatar centré -->
     <ImageView
@@ -56,6 +60,8 @@
         <!-- Champ Nom d'utilisateur -->
         <TextView
             android:layout_width="wrap_content"
+            android:fontFamily="@font/font6"
+
             android:layout_height="wrap_content"
             android:text="Nom d'utilisateur"
             android:textColor="#FFFFFF"
@@ -74,26 +80,24 @@
             android:padding="10dp"
             android:layout_marginBottom="20dp"/>
 
-        <!-- Champ Nom d'affichage -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nom d'affichage"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:layout_marginBottom="5dp"/>
-
         <EditText
-            android:id="@+id/editDisplayName"
+            android:id="@+id/editBio"
+
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Votre nom d'affichage"
-            android:inputType="text"
-            android:background="@drawable/edittext_background"
-            android:textColor="#FFFFFF"
+            android:hint="Bio (160 caractères max)"
+            android:maxLength="160"
+            android:minLines="1"
+            android:maxLines="2"
+            android:inputType="textMultiLine"
             android:textColorHint="#AAAAAA"
+            android:background="@drawable/edittext_background"
+            android:layout_marginTop="16dp"
             android:padding="10dp"
-            android:layout_marginBottom="30dp"/>
+            android:textColor="#FFFFFF"/>
+
+
+
     </LinearLayout>
 
     <!-- Bouton Enregistrer -->
@@ -102,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Enregistrer"
-        android:backgroundTint="#4CAF50"
+        android:background="@drawable/custom_back_button"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:layout_marginTop="20dp"

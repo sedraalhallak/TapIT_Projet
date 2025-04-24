@@ -3,29 +3,20 @@ package com.example.projet;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.util.Arrays;
+import com.google.android.material.snackbar.Snackbar;
 
 public class EditProfileActivity extends BaseActivity {
 
-    private EditText editUsername, editDisplayName;
+    private EditText editUsername;
     private Button saveButton;
     private ImageView editAvatarImageView;
     private DatabaseHelper dbHelper;
@@ -41,8 +32,8 @@ public class EditProfileActivity extends BaseActivity {
         // Initialisation des vues
         editAvatarImageView = findViewById(R.id.editAvatarImageView);
         editUsername = findViewById(R.id.editUsername);
-        editDisplayName = findViewById(R.id.editDisplayName);
         saveButton = findViewById(R.id.saveButton);
+        EditText bioField = findViewById(R.id.editBio);
 
         // Récupérer l'utilisateur connecté
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -50,9 +41,7 @@ public class EditProfileActivity extends BaseActivity {
 
         // Charger les valeurs actuelles
         editUsername.setText(currentUsername);
-        editDisplayName.setText(prefs.getString("displayName", "Nom d'affichage"));
-
-        // Charger l'avatar actuel
+        bioField.setText(prefs.getString("bio", ""));
         selectedAvatarId = prefs.getInt("avatarId", R.drawable.a1);
         editAvatarImageView.setImageResource(selectedAvatarId);
 
@@ -65,40 +54,39 @@ public class EditProfileActivity extends BaseActivity {
         });
 
         // Gestion du clic sur le bouton Enregistrer
-        // Dans saveButton.setOnClickListener :
         saveButton.setOnClickListener(v -> {
             String newUsername = editUsername.getText().toString().trim();
-            String newDisplayName = editDisplayName.getText().toString().trim();
+            String newBio = bioField.getText().toString().trim();
 
-            if (newUsername.isEmpty() || newDisplayName.isEmpty()) {
+            if (newUsername.isEmpty()) {
                 Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (dbHelper.updateUser(currentUsername, newUsername, newDisplayName, selectedAvatarId)) {
-                // 1. Mettre à jour SharedPreferences
+            // Mise à jour de la base
+            if (dbHelper.updateUser(currentUsername, newUsername, "", selectedAvatarId, newBio)) {
+                // Mettre à jour SharedPreferences
                 SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
                 editor.putString("loggedInUsername", newUsername);
-                editor.putString("displayName", newDisplayName);
                 editor.putInt("avatarId", selectedAvatarId);
+                editor.putString("bio", newBio);
                 editor.apply();
 
-                // 2. Retourner le résultat AVEC les données
+                // Retourner le résultat
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("newUsername", newUsername);
-                resultIntent.putExtra("newDisplayName", newDisplayName);
                 resultIntent.putExtra("newAvatarId", selectedAvatarId);
                 setResult(RESULT_OK, resultIntent);
+                Snackbar.make(saveButton, "Profil mis à jour avec succès", Snackbar.LENGTH_SHORT).show();
 
-                // 3. Fermer l'activité
                 finish();
             } else {
                 Toast.makeText(this, "Échec de la mise à jour", Toast.LENGTH_SHORT).show();
             }
         });
+
         ImageView closeButton = findViewById(R.id.closeButton);
         closeButton.setOnClickListener(v -> {
-            // Annuler les modifications et fermer
             setResult(RESULT_CANCELED);
             finish();
         });
@@ -114,11 +102,9 @@ public class EditProfileActivity extends BaseActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Choisissez votre avatar");
 
-        // Inflater la vue personnalisée
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_avatar_grid, null);
         GridView gridView = dialogView.findViewById(R.id.avatarGrid);
 
-        // Configurer l'adapter
         AvatarAdapter adapter = new AvatarAdapter(this, avatarIds, selectedAvatarId);
         gridView.setAdapter(adapter);
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Fond semi-transparent foncé -->
+    <solid android:color="#88000000" /> <!-- gris foncé, 80% d'opacité -->
+
+    <corners android:radius="20dp" />
+    <padding android:left="20dp" android:right="20dp" android:top="20dp" android:bottom="20dp" />
+</shape>

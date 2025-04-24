@@ -31,7 +31,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         try {
-            String songUrl = "http://192.168.0.49:8000/song_files/" + songFilename;
+            String songUrl = "http://10.0.2.2:8000/song_files/" + songFilename;
             mediaPlayer = MediaPlayer.create(this, Uri.parse(songUrl));
             if (mediaPlayer != null) {
                 mediaPlayer.setLooping(true);
