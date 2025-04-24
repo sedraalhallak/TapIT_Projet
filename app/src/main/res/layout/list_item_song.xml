@@ -29,6 +29,16 @@
             android:layout_height="wrap_content"
             android:text="Artiste"
             android:textSize="14sp" />
+        <TextView
+            android:id="@+id/songHighScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="High Score: 0"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
+            android:paddingBottom="8dp"/>
+
+
     </LinearLayout>
 
     <!-- Boutons -->

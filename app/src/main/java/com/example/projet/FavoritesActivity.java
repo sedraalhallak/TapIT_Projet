@@ -16,7 +16,9 @@ import android.widget.VideoView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FavoritesActivity extends AppCompatActivity {
     private VideoView videoView;
@@ -30,13 +32,15 @@ public class FavoritesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
+
         // Initialisation des vues
         videoView = findViewById(R.id.videoView);
-        // Charger la vidéo en arrière-plan
         Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.piano);
         videoView.setVideoURI(videoUri);
         videoView.start();
 
+        // Charger les scores
+        loadScores();
 
         Toast.makeText(this, "Page des favoris", Toast.LENGTH_SHORT).show();
 
@@ -51,7 +55,8 @@ public class FavoritesActivity extends AppCompatActivity {
             emptyMessage.setVisibility(View.GONE);
         }
 
-        songAdapter = new SongAdapter(this, favoriteSongs, soundManager);
+        // Passer les scores à l'adaptateur
+        songAdapter = new SongAdapter(this, favoriteSongs, soundManager, songScores);
         favoriteListView.setAdapter(songAdapter);
 
         // Navigation
@@ -63,31 +68,30 @@ public class FavoritesActivity extends AppCompatActivity {
         NavigationHelper.setupNavigationBar(this);
         setActiveButton(favoriteButton);
         ProfileUtils.setupProfileAvatar(this, R.id.profileAvatar);
-        /*homeButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Déjà sur la page d'accueil", Toast.LENGTH_SHORT).show();
-        });
-        NavigationHelper.setupNavigationBar(this);
-        setActiveButton(favoriteButton);  // C’est bien ici qu’on indique qu’on est sur "favoris"
 
-
-        musicButton.setOnClickListener(v -> {
-            startActivity(new Intent(this, SelectionActivity.class));
-        });
-
-        favoriteButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Déjà sur la page des favoris", Toast.LENGTH_SHORT).show();
-        });
-        settingsButton.setOnClickListener(v -> {
-            startActivity(new Intent(this, SettingsActivity.class));
-        });*/
         homeButton.setOnClickListener(v -> startActivity(new Intent(this, HomeActivity.class)));
         musicButton.setOnClickListener(v -> startActivity(new Intent(this, SelectionActivity.class)));
         favoriteButton.setOnClickListener(v -> {
             Toast.makeText(this, "Déjà sur la page des favoris", Toast.LENGTH_SHORT).show();
         });
         settingsButton.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
-
     }
+    private Map<String, Integer> songScores = new HashMap<>();
+
+    // Méthode pour charger les scores depuis SharedPreferences
+    private void loadScores() {
+        String username = getCurrentUsername();
+        SharedPreferences prefs = getSharedPreferences("SongScores_" + username, MODE_PRIVATE);
+        Map<String, ?> allEntries = prefs.getAll();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            songScores.put(entry.getKey(), (Integer) entry.getValue());
+        }
+    }
+    private String getCurrentUsername() {
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        return prefs.getString("username", "defaultUser");
+    }
+
 
 
 
@@ -143,6 +147,12 @@ public class FavoritesActivity extends AppCompatActivity {
             if (!videoView.isPlaying()) {
                 videoView.start();
             }
+            loadScores(); // recharge les scores à chaque fois
+            if (songAdapter != null) {
+                songAdapter.updateScores(songScores); // tu dois ajouter cette méthode dans ton adapter
+                songAdapter.notifyDataSetChanged();
+            }
+
         }
     }
 

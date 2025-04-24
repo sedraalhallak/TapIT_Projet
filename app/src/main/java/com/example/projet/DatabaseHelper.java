@@ -10,7 +10,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "User.db";
-    private static final int DATABASE_VERSION = 4; // Incrémentez la version
+    private static final int DATABASE_VERSION = 6; // Incrémentez la version
 
     private static final String TABLE_USERS = "users";
     private static final String COLUMN_ID = "id";
@@ -47,7 +47,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (oldVersion < 3) {
             db.execSQL("ALTER TABLE " + TABLE_USERS + " ADD COLUMN avatar_id INTEGER DEFAULT 1");
         }
-        if (oldVersion < 4) {
+        if (oldVersion < 6) {
             db.execSQL("ALTER TABLE " + TABLE_USERS + " ADD COLUMN bio TEXT");
         }
 

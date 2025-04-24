@@ -3,6 +3,7 @@ package com.example.projet;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,7 +27,8 @@ public class MainActivity extends BaseActivity {
     private int currentMusicPosition = 0; // Stocke la position actuelle de la musique
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
-
+    private String songTitle;
+    private int highScore = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LanguageUtils.applySavedLocale(this);
@@ -44,7 +46,7 @@ public class MainActivity extends BaseActivity {
         int screenHeight = metrics.heightPixels;
 
         // Récupérer l'URL de la chanson depuis l'intent
-        Intent intent = getIntent();
+        Intent intent = getIntent(); // Déclaration unique de 'intent'
         if (intent == null ||
                 !intent.hasExtra("song_title") ||
                 !intent.hasExtra("song_artist") ||
@@ -54,6 +56,10 @@ public class MainActivity extends BaseActivity {
             showErrorDialog("Erreur : Données manquantes");
             return; // Ne pas appeler finish()
         }
+
+        // Récupérez les informations de la chanson
+        songTitle = intent.getStringExtra("song_title");
+        loadHighScore(); // Charge le meilleur score pour cette chanson
 
         songUrl = intent.getStringExtra("song_url");
         if (songUrl == null || songUrl.isEmpty()) {
@@ -74,6 +80,74 @@ public class MainActivity extends BaseActivity {
         // Charger et jouer la musique en arrière-plan
         loadAndPlayMusic();
     }
+
+
+
+// Méthode pour obtenir le titre de la chanson
+
+    public String getSongTitle() {
+
+        return songTitle;
+
+    }
+
+
+
+// Méthode pour obtenir le meilleur score
+
+    public int getSongHighScore() {
+
+        return highScore;
+
+    }
+
+
+
+// Méthode pour mettre à jour le meilleur score
+
+    public void updateSongHighScore(String title, int newScore) {
+        if (newScore > highScore) {
+            highScore = newScore;
+            saveHighScore(title, newScore); // Sauvegarde le nouveau score
+        }
+    }
+
+
+
+
+// Méthode pour charger le score depuis SharedPreferences
+
+    private void loadHighScore() {
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String username = prefs.getString("loggedInUsername", null);
+        if (username != null) {
+            SharedPreferences scoresPrefs = getSharedPreferences("SongScores", MODE_PRIVATE);
+            String key = username + "_" + songTitle;
+            highScore = scoresPrefs.getInt(key, 0);
+        }
+    }
+
+
+
+
+// Méthode pour sauvegarder le score dans SharedPreferences
+
+    private void saveHighScore(String title, int score) {
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String username = prefs.getString("loggedInUsername", null);
+        if (username != null) {
+            SharedPreferences.Editor editor = getSharedPreferences("SongScores", MODE_PRIVATE).edit();
+            String key = username + "_" + title;
+            editor.putInt(key, score);
+            editor.apply();
+        }
+    }
+
+
+
+
+
+
     public boolean isValidUrl(String url) {
         try {
             URL u = new URL(url);

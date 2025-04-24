@@ -4,6 +4,8 @@ public class Song {
     private String title;
     private String artist;
     private String filename;
+    private int highScore;
+
 
     public Song() {}
 
@@ -23,5 +25,13 @@ public class Song {
 
     public String getFilename() {
         return filename;
+    }
+
+    public int getHighScore() {
+        return highScore;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
     }
 }

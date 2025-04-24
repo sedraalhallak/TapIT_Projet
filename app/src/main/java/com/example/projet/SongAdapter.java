@@ -18,18 +18,27 @@ import com.example.projet.Song;
 import com.example.projet.SoundManager;
 
 import java.util.List;
+import java.util.Map;
 
 public class SongAdapter extends ArrayAdapter<Song> {
     private Context context;
     private List<Song> songs;
     private SoundManager soundManager;
+    private Map<String, Integer> songScores;
 
-    public SongAdapter(Context context, List<Song> songs, SoundManager soundManager) {
+
+    public SongAdapter(Context context, List<Song> songs, SoundManager soundManager,Map<String, Integer> songScores) {
         super(context, 0, songs);
         this.context = context;
         this.songs = songs;
         this.soundManager = soundManager;
+        this.songScores = songScores;
+
     }
+    public void updateScores(Map<String, Integer> newScores) {
+        this.songScores = newScores;
+    }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -40,10 +49,15 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         Song song = songs.get(position);
 
+        TextView scoreTextView = convertView.findViewById(R.id.songHighScore); // Nouveau TextView pour le score
+// Afficher le score
+        int highScore = songScores.containsKey(song.getTitle()) ? songScores.get(song.getTitle()) : 0;        scoreTextView.setText(highScore > 0 ? "Meilleur: " + highScore : "Pas encore joué");
+
+
         TextView titleTextView = convertView.findViewById(R.id.songTitle);
         TextView artistTextView = convertView.findViewById(R.id.songArtist);
         //Button favoriteButton = convertView.findViewById(R.id.favoriteButton);
-       // Button playButton = convertView.findViewById(R.id.playButton);
+        // Button playButton = convertView.findViewById(R.id.playButton);
 
         titleTextView.setText(song.getTitle());
         artistTextView.setText(song.getArtist());
@@ -105,6 +119,11 @@ public class SongAdapter extends ArrayAdapter<Song> {
                 Log.e("DEBUG", "Erreur lancement activité: " + e.getMessage());
             }
         });
+        /*
+        // Après avoir défini le titre et l'artiste
+        TextView scoreTextView = convertView.findViewById(R.id.songHighScore);
+        int highScore = song.getHighScore();
+        scoreTextView.setText(highScore > 0 ? "Meilleur: "+highScore : "Pas encore joué");*/
 
         return convertView;
     }

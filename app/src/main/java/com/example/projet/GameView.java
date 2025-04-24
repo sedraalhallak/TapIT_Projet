@@ -499,7 +499,7 @@ public class GameView extends SurfaceView implements Runnable {
             e.printStackTrace();
         }
     }
-    
+
 
     private void pauseGame() {
         isPlaying = false;
@@ -548,9 +548,26 @@ public class GameView extends SurfaceView implements Runnable {
                     errorTile.isError = true;
                     tiles.add(errorTile);
                     isGameOver = true;
+
+                    // Enregistrement du score dans MainActivity
+                    if (getContext() instanceof MainActivity) {
+                        MainActivity mainActivity = (MainActivity) getContext();
+                        String songTitle = mainActivity.getSongTitle();
+                        int currentScore = score;
+
+                        // Vérifier si c'est un nouveau meilleur score
+                        if (currentScore > mainActivity.getSongHighScore()) {
+                            mainActivity.updateSongHighScore(songTitle, currentScore);
+                        }
+                    }
+
                     if (getContext() instanceof MainActivity) {
                         ((MainActivity) getContext()).stopMusic();
                     }
+
+
+
+
                     if (!isDialogShown) {
                         isDialogShown = true;
                         Activity activity = (Activity) getContext();
