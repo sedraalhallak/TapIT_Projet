@@ -7,12 +7,12 @@ import android.media.MediaPlayer;
 public class MusicManager {
     private static MediaPlayer mediaPlayer;
     static boolean isPlaying = false;
-    static boolean shouldPlay = true; // Nouveau flag global
+    static boolean shouldPlay = true;
 
     public static void start(Context context) {
         if (!shouldPlay) {
             if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                mediaPlayer.pause(); // Arrêt forcé si shouldPlay est false
+                mediaPlayer.pause();
             }
             return;
         }
@@ -44,7 +44,6 @@ public class MusicManager {
         }
     }
 
-    // Nouvelle méthode pour contrôler le comportement
     public static void setShouldPlay(boolean play) {
         shouldPlay = play;
         if (!play && isPlaying) {

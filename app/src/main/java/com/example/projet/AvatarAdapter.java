@@ -36,29 +36,6 @@ public class AvatarAdapter extends BaseAdapter {
         return position;
     }
 
-   /* @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
-        if (convertView == null) {
-            imageView = new ImageView(context);
-            // Dimensions fixes pour chaque item
-            int size = calculateCellSize(context);
-            imageView.setLayoutParams(new GridView.LayoutParams(size, size));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setAdjustViewBounds(true);
-        } else {
-            imageView = (ImageView) convertView;
-        }
-
-        imageView.setImageResource(avatarIds[position]);
-
-        // Style dynamique
-        imageView.setBackgroundResource(avatarIds[position] == selectedId
-                ? R.drawable.avatar_selected_border
-                : R.drawable.avatar_default_border);
-
-        return imageView;
-    }*/
    @Override
    public View getView(int position, View convertView, ViewGroup parent) {
        ImageView imageView;
@@ -73,10 +50,9 @@ public class AvatarAdapter extends BaseAdapter {
            imageView = (ImageView) convertView;
        }
 
-       // Utiliser Glide pour charger l'avatar avec l'effet "cercle"
        Glide.with(context)
                .load(avatarIds[position])
-               .circleCrop()  // Transforme l'image en cercle
+               .circleCrop()
                .into(imageView);
 
        // Style dynamique pour la bordure
@@ -88,10 +64,9 @@ public class AvatarAdapter extends BaseAdapter {
    }
 
     private int calculateCellSize(Context context) {
-        // Calcule la taille en fonction de l'écran
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         int screenWidth = metrics.widthPixels;
-        int padding = (int) (16 * metrics.density); // Convertit dp en pixels
+        int padding = (int) (16 * metrics.density);
         int spacing = (int) (20 * metrics.density);
         return (screenWidth - 2 * padding - 2 * spacing) / 3;
     }

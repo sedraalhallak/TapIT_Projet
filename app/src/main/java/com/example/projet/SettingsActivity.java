@@ -27,11 +27,11 @@ public class SettingsActivity extends BaseActivity {
         LinearLayout settingsButton = findViewById(R.id.settingsButton);
         Button changeLanguageBtn = findViewById(R.id.changeLanguageBtn);
 
-        // Gérer la langue
+        // language
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String currentLang = prefs.getString("locale", "fr");
 
-        // Mettre à jour le texte du bouton
+
         updateLanguageButtonText(changeLanguageBtn, currentLang);
 
         changeLanguageBtn.setOnClickListener(v -> {
@@ -39,10 +39,10 @@ public class SettingsActivity extends BaseActivity {
             prefs.edit().putString("locale", newLang).apply();
             LanguageUtils.setLocale(this, newLang);
 
-            // Mettre à jour le texte du bouton après avoir changé la langue
+
             updateLanguageButtonText(changeLanguageBtn, newLang);
 
-            // Redémarre l'activité pour appliquer le changement
+
             Intent intent = getIntent();
             finish();
             startActivity(intent);
@@ -71,7 +71,7 @@ public class SettingsActivity extends BaseActivity {
         });
 
         settingsButton.setOnClickListener(v -> {
-            // Déjà sur cette activité
+            // already in it
         });
 
         setActiveButton(settingsButton);

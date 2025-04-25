@@ -10,7 +10,7 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "User.db";
-    private static final int DATABASE_VERSION = 6; // Incrémentez la version
+    private static final int DATABASE_VERSION = 6;
 
     private static final String TABLE_USERS = "users";
     private static final String COLUMN_ID = "id";
@@ -30,9 +30,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "email TEXT UNIQUE, " +
                 COLUMN_PASSWORD + " TEXT, " +
                 "display_name TEXT, " +
-                "bio TEXT, " +                    // 👈 nouvelle colonne
+                "bio TEXT, " +
 
-                "avatar_id INTEGER DEFAULT 1, " + // Colonne ajoutée avec valeur par défaut
+                "avatar_id INTEGER DEFAULT 1, " +
                 COLUMN_SCORE + " INTEGER DEFAULT 0)";
 
         db.execSQL(createTable);
@@ -42,7 +42,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Pour les utilisateurs existants, ajoutez les colonnes manquantes
         if (oldVersion < 2) {
             db.execSQL("ALTER TABLE " + TABLE_USERS + " ADD COLUMN display_name TEXT");
         }
@@ -56,12 +55,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    // Ajouter un nouvel utilisateur
+    // add new user
     public boolean addUser(String username, String email, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_USERNAME, username); // Le nom
-        values.put("email", email);            // L’email
+        values.put(COLUMN_USERNAME, username);
+        values.put("email", email);
         values.put(COLUMN_PASSWORD, password);
 
         long result = db.insert(TABLE_USERS, null, values);
@@ -69,7 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    // Vérifier les informations de connexion
+    // check connection informations
     public boolean checkUser(String identifier, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(
@@ -86,7 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    // Mettre à jour le score d'un utilisateur
+    // update use score
     public boolean updateScore(String username, int score) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -97,7 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected > 0;
     }
 
-    // Récupérer le score d'un utilisateur
+    // get user score
     public int getScore(String username) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_USERS,
@@ -124,7 +123,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             values.put("bio", bio);  // 👈 ici
 
 
-            // Vérifiez d'abord si l'utilisateur existe
+
             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE username = ?",
                     new String[]{oldUsername});
             boolean exists = cursor.getCount() > 0;

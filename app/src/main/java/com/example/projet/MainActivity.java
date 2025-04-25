@@ -34,20 +34,19 @@ public class MainActivity extends BaseActivity {
         LanguageUtils.applySavedLocale(this);
         super.onCreate(savedInstanceState);
 
-        // Configuration plein écran
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        // Récupérer les dimensions de l'écran
+
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int screenWidth = metrics.widthPixels;
         int screenHeight = metrics.heightPixels;
 
-        // Récupérer l'URL de la chanson depuis l'intent
-        Intent intent = getIntent(); // Déclaration unique de 'intent'
+
+        Intent intent = getIntent();
         if (intent == null ||
                 !intent.hasExtra("song_title") ||
                 !intent.hasExtra("song_artist") ||
@@ -55,18 +54,18 @@ public class MainActivity extends BaseActivity {
                 !intent.hasExtra("song_url")) {
             Log.e("DEBUG", "Données manquantes dans l'Intent");
             showErrorDialog("Erreur : Données manquantes");
-            return; // Ne pas appeler finish()
+            return;
         }
 
-        // Récupérez les informations de la chanson
+        // get songs inftomations
         songTitle = intent.getStringExtra("song_title");
-        loadHighScore(); // Charge le meilleur score pour cette chanson
+        loadHighScore();
 
         songUrl = intent.getStringExtra("song_url");
         if (songUrl == null || songUrl.isEmpty()) {
             Log.e("DEBUG", "URL de la chanson invalide");
             showErrorDialog("Erreur : URL de la chanson invalide");
-            return; // Ne pas appeler finish()
+            return;
         }
         Log.d("DEBUG", "Données reçues : ");
         Log.d("DEBUG", "Titre : " + intent.getStringExtra("song_title"));
@@ -74,17 +73,15 @@ public class MainActivity extends BaseActivity {
         Log.d("DEBUG", "Nom du fichier : " + intent.getStringExtra("song_filename"));
         Log.d("DEBUG", "URL : " + intent.getStringExtra("song_url"));
 
-        // Initialiser la vue de jeu
+        // Gameview
         gameView = new GameView(this, screenWidth, screenHeight);
         setContentView(gameView);
 
-        // Charger et jouer la musique en arrière-plan
         loadAndPlayMusic();
     }
 
 
 
-// Méthode pour obtenir le titre de la chanson
 
     public String getSongTitle() {
 
@@ -97,7 +94,6 @@ public class MainActivity extends BaseActivity {
 
 
 
-// Méthode pour obtenir le meilleur score
 
     public int getSongHighScore() {
 
@@ -107,19 +103,16 @@ public class MainActivity extends BaseActivity {
 
 
 
-// Méthode pour mettre à jour le meilleur score
 
     public void updateSongHighScore(String title, int newScore) {
         if (newScore > highScore) {
             highScore = newScore;
-            saveHighScore(title, newScore); // Sauvegarde le nouveau score
+            saveHighScore(title, newScore);
         }
     }
 
 
 
-
-// Méthode pour charger le score depuis SharedPreferences
 
     private void loadHighScore() {
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -134,7 +127,7 @@ public class MainActivity extends BaseActivity {
 
 
 
-// Méthode pour sauvegarder le score dans SharedPreferences
+
 
     private void saveHighScore(String title, int score) {
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -153,7 +146,7 @@ public class MainActivity extends BaseActivity {
         if (username != null && songTitle != null) {
             SharedPreferences starPrefs = getSharedPreferences("SongStars", MODE_PRIVATE);
             String key = username + "_" + songTitle;
-            return starPrefs.getInt(key, 0); // 0 par défaut
+            return starPrefs.getInt(key, 0);
         }
         return 0;
     }
@@ -170,7 +163,7 @@ public class MainActivity extends BaseActivity {
             HttpURLConnection huc = (HttpURLConnection) u.openConnection();
             huc.setRequestMethod("GET");
             huc.connect();
-            return huc.getResponseCode() == 200;  // Vérifier que la connexion est réussie
+            return huc.getResponseCode() == 200;
         } catch (IOException e) {
             return false;
         }
@@ -181,7 +174,7 @@ public class MainActivity extends BaseActivity {
             try {
                 mediaPlayer = new MediaPlayer();
                 mediaPlayer.setDataSource(songUrl);
-                mediaPlayer.prepare(); // Préparation synchrone
+                mediaPlayer.prepare();
 
                 mainHandler.post(() -> {
                     try {
@@ -234,20 +227,20 @@ public class MainActivity extends BaseActivity {
     }
     public void pauseMusic() {
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-            currentMusicPosition = mediaPlayer.getCurrentPosition(); // Sauvegarde la position actuelle
+            currentMusicPosition = mediaPlayer.getCurrentPosition();
             mediaPlayer.pause();
         }
     }
     public void restartMusic() {
         if (mediaPlayer != null) {
-            mediaPlayer.seekTo(0); // Rembobiner au début
+            mediaPlayer.seekTo(0);
             mediaPlayer.start();
         }
     }
 
     public void resumeMusic() {
         if (mediaPlayer != null && !mediaPlayer.isPlaying()) {
-            mediaPlayer.seekTo(currentMusicPosition); // Reprendre à la position sauvegardée
+            mediaPlayer.seekTo(currentMusicPosition);
             mediaPlayer.start();
         }
     }
@@ -262,7 +255,7 @@ public class MainActivity extends BaseActivity {
         executor.shutdownNow();
     }
 
-    // Méthode pour synchroniser les actions de jeu avec la musique
+
     public long getCurrentMusicPosition() {
         return mediaPlayer != null ? mediaPlayer.getCurrentPosition() : 0;
     }

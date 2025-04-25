@@ -12,11 +12,11 @@ public class ProfileUtils {
         ImageView profileAvatar = activity.findViewById(avatarViewId);
         SharedPreferences prefs = activity.getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
-        // Charger l'avatar
+        // load avatar
         int avatarId = prefs.getInt("avatarId", R.drawable.a1);
         profileAvatar.setImageResource(avatarId);
 
-        // Gestion du clic
+        // Click
         profileAvatar.setOnClickListener(v -> {
             String loggedInUser = prefs.getString("loggedInUsername", null);
             Intent intent = new Intent(activity,

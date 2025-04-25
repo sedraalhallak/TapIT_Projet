@@ -47,32 +47,32 @@ public class HomeActivity extends AppCompatActivity {
         Log.d("DEBUG", "L'activité " + getClass().getSimpleName() + " a été lancée.");
         setContentView(R.layout.activity_home);
 
-        // Initialisation des vues
+
         videoView = findViewById(R.id.videoView);
         songListView = findViewById(R.id.songListView);
         soundManager = new SoundManager(this);
 
-        // Charger la vidéo en arrière-plan
+
         Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.piano);
         videoView.setVideoURI(videoUri);
         videoView.setOnPreparedListener(mp -> {
-            mp.setLooping(true);  // Active la boucle infinie
-            mp.setVolume(0f, 0f); // Désactive le son (optionnel)
-            mp.start();           // Démarre la lecture
+            mp.setLooping(true);
+            mp.setVolume(0f, 0f);
+            mp.start();
         });
 
-        // Initialiser la liste des chansons
+
         songList = new ArrayList<>();
         songAdapter = new SongAdapter(this, songList, soundManager,songScores);
         songListView.setAdapter(songAdapter);
 
-        // Charger les scores des chansons
-        loadScores(); // Charge les scores depuis SharedPreferences
 
-        // Appeler l'API pour récupérer les chansons
+        loadScores();
+
+        // API to get songs
         new FetchSongsTask().execute();
 
-        // Gestion des boutons de navigation
+        // Buttons
         LinearLayout homeButton = findViewById(R.id.homeButton);
         LinearLayout musicButton = findViewById(R.id.musicButton);
         LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
@@ -110,7 +110,7 @@ public class HomeActivity extends AppCompatActivity {
 
         ImageView profileAvatar = findViewById(R.id.profileAvatar);
 
-        // Charger l'avatar depuis SharedPreferences
+        // load avatar
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         int avatarId = prefs.getInt("avatarId", R.drawable.a1);
         profileAvatar.setImageResource(avatarId);
@@ -125,7 +125,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    // Méthodes pour gérer les scores
+
     private void loadScores() {
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String username = prefs.getString("loggedInUsername", null);

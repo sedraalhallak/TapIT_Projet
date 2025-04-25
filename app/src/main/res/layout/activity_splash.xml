@@ -8,7 +8,6 @@
     android:focusable="true"
     tools:context=".SplashActivity">
 
-    <!-- GIF de fond plein écran -->
     <ImageView
         android:id="@+id/backgroundgif"
         android:layout_width="match_parent"
@@ -16,12 +15,11 @@
         android:scaleType="centerCrop"
         android:adjustViewBounds="true" />
 
-    <!-- Contenu par-dessus le GIF -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- GIF animé central (click) -->
+
         <ImageView
             android:id="@+id/gifImage"
             android:layout_width="250dp"
@@ -31,19 +29,5 @@
         />
 
 
-
-
-        <!-- Texte animé du slogan -->
-        <!-- <TextView
-            android:id="@+id/catchyText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textSize="36sp"
-            android:textColor="#FFFFFF"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:visibility="visible"
-            android:fontFamily="@font/font6" />-->
     </RelativeLayout>
 </FrameLayout>

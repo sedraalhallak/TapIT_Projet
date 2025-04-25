@@ -15,12 +15,12 @@ public class SignupActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        // Initialisation des vues
-        EditText nameInput = findViewById(R.id.name); // Champ nom
-        EditText emailInput = findViewById(R.id.email); // Champ email
-        EditText passwordInput = findViewById(R.id.signup_password); // Champ mot de passe
 
-        // Gestion du bouton d'inscription
+        EditText nameInput = findViewById(R.id.name); // name
+        EditText emailInput = findViewById(R.id.email); // email
+        EditText passwordInput = findViewById(R.id.signup_password); // password
+
+
         findViewById(R.id.btn_signup).setOnClickListener(v -> {
             String name = nameInput.getText().toString();
             String email = emailInput.getText().toString();
@@ -40,11 +40,11 @@ public class SignupActivity extends BaseActivity {
                 Toast.makeText(SignupActivity.this, "Email déjà utilisé.", Toast.LENGTH_SHORT).show();
             }
         });
-        // Gestion du bouton "Retour à la connexion"
+
         findViewById(R.id.btn_back_to_login).setOnClickListener(v -> {
             Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
             startActivity(intent);
-            finish(); // Pour fermer l'écran actuel si tu veux éviter retour arrière
+            finish();
         });
 
     }

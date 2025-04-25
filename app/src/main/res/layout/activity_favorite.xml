@@ -44,7 +44,7 @@
             android:padding="10dp"
             android:background="#00000000"/>
 
-        <!-- Message centré -->
+        <!-- Message  -->
         <TextView
             android:id="@+id/emptyFavoritesMessage"
             android:layout_width="match_parent"

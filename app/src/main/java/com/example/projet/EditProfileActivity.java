@@ -21,7 +21,7 @@ public class EditProfileActivity extends BaseActivity {
     private ImageView editAvatarImageView;
     private DatabaseHelper dbHelper;
     private String currentUsername;
-    private int selectedAvatarId = R.drawable.a1; // ID par défaut
+    private int selectedAvatarId = R.drawable.a1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,31 +29,31 @@ public class EditProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        // Initialisation des vues
+        // View initialize
         editAvatarImageView = findViewById(R.id.editAvatarImageView);
         editUsername = findViewById(R.id.editUsername);
         saveButton = findViewById(R.id.saveButton);
         EditText bioField = findViewById(R.id.editBio);
 
-        // Récupérer l'utilisateur connecté
+
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         currentUsername = prefs.getString("loggedInUsername", "");
 
-        // Charger les valeurs actuelles
+
         editUsername.setText(currentUsername);
         bioField.setText(prefs.getString("bio", ""));
         selectedAvatarId = prefs.getInt("avatarId", R.drawable.a1);
         editAvatarImageView.setImageResource(selectedAvatarId);
 
-        // Initialiser la base de données
+        // database
         dbHelper = new DatabaseHelper(this);
 
-        // Gestion du clic sur l'avatar
+
         editAvatarImageView.setOnClickListener(v -> {
             showAvatarSelectionDialog();
         });
 
-        // Gestion du clic sur le bouton Enregistrer
+
         saveButton.setOnClickListener(v -> {
             String newUsername = editUsername.getText().toString().trim();
             String newBio = bioField.getText().toString().trim();
@@ -63,16 +63,16 @@ public class EditProfileActivity extends BaseActivity {
                 return;
             }
 
-            // Mise à jour de la base
+            // update database
             if (dbHelper.updateUser(currentUsername, newUsername, "", selectedAvatarId, newBio)) {
-                // Mettre à jour SharedPreferences
+
                 SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
                 editor.putString("loggedInUsername", newUsername);
                 editor.putInt("avatarId", selectedAvatarId);
                 editor.putString("bio", newBio);
                 editor.apply();
 
-                // Retourner le résultat
+
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("newUsername", newUsername);
                 resultIntent.putExtra("newAvatarId", selectedAvatarId);

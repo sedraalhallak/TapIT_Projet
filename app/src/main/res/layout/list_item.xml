@@ -4,7 +4,7 @@
     android:padding="10dp"
     android:background="#2E2E2E">
 
-    <!-- Nom de la chanson -->
+    <!-- songs name -->
     <TextView
         android:id="@+id/songTitle"
         android:layout_width="wrap_content"

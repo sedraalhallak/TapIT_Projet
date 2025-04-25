@@ -96,7 +96,6 @@ public class FavoriteManager {
             if (s.getTitle().equals(song.getTitle()) &&
                     s.getArtist().equals(song.getArtist()) &&
                     s.getFilename().equals(song.getFilename())) {
-                // Déjà dans les favoris
                 return;
             }
         }

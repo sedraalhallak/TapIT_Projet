@@ -25,7 +25,7 @@ public class PauseActivity extends BaseActivity {
     private Button resumeButton;
     private Button restartButton;
     private Button homeButton;
-    private Button settingsButton;  // Déclaration du bouton settings
+    private Button settingsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,17 +37,17 @@ public class PauseActivity extends BaseActivity {
         restartButton = findViewById(R.id.restart_button);
         homeButton = findViewById(R.id.home_button);
         settingsButton = findViewById(R.id.settings_button);
-    // Ajouter l'effet de clic pour tous les boutons
+
         applyClickEffect(resumeButton);
         applyClickEffect(restartButton);
         applyClickEffect(homeButton);
         applyClickEffect(settingsButton);
 
 
-        // Bouton "Reprendre" : Ferme l'écran de pause et reprend le jeu
+
         resumeButton.setOnClickListener(v -> finish());
 
-        // Bouton "Restart" : Redémarre le jeu complètement
+
         restartButton.setOnClickListener(v -> {
             Intent intent = new Intent(PauseActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -55,14 +55,13 @@ public class PauseActivity extends BaseActivity {
             finish();
         });
 
-        // Bouton "Home" : Retourne à l'écran d'accueil (SplashActivity)
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(PauseActivity.this, SplashActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         });
-        // Bouton "Settings" : Ouvre l'écran des paramètres
+
         settingsButton.setOnClickListener(v -> {
             Intent settingsIntent = new Intent(PauseActivity.this, SettingsActivity.class);
             startActivity(settingsIntent); // Démarre l'activité des paramètres
@@ -71,7 +70,7 @@ public class PauseActivity extends BaseActivity {
 
 
     }
-    // 📌 La méthode doit être ici, en dehors de onCreate() mais dans la classe
+
     private void applyClickEffect(Button button) {
         button.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -84,7 +83,7 @@ public class PauseActivity extends BaseActivity {
                 scaleDown.setDuration(100);
                 scaleDown.start();
 
-                // Vibration courte (si dispo)
+
                 Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 if (vibrator != null && vibrator.hasVibrator()) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -105,7 +104,7 @@ public class PauseActivity extends BaseActivity {
                 scaleUp.setDuration(100);
                 scaleUp.start();
             }
-            return false; // Laisse le clic fonctionner normalement
+            return false;
         });
     }
 

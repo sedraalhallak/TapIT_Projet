@@ -27,8 +27,6 @@ public class FavoritesActivity extends AppCompatActivity {
     private SongAdapter songAdapter;
     private List<Song> favoriteSongs;
     private SoundManager soundManager;
-
-    // ✅ Déclaré en haut pour qu'il soit utilisé partout
     private Map<String, Integer> songScores = new HashMap<>();
 
     @Override
@@ -36,21 +34,20 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
 
-        // ✅ Lancer la vidéo d’arrière-plan
+
         videoView = findViewById(R.id.videoView);
         Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.piano);
         videoView.setVideoURI(videoUri);
         videoView.setOnPreparedListener(mp -> {
-            mp.setLooping(true);  // Active la boucle infinie
-            mp.setVolume(0f, 0f); // Désactive le son (optionnel)
-            mp.start();           // Démarre la lecture
+            mp.setLooping(true);
+            mp.setVolume(0f, 0f);
+            mp.start();
         });
 
 
-        // ✅ Charger les scores AVANT d'initialiser l'adapter
+
         loadScores();
 
-        // ✅ Initialiser les vues
         favoriteListView = findViewById(R.id.favoriteListView);
         soundManager = new SoundManager(this);
         favoriteSongs = FavoriteManager.getFavorites(this);
@@ -62,11 +59,11 @@ public class FavoritesActivity extends AppCompatActivity {
             emptyMessage.setVisibility(View.GONE);
         }
 
-        // ✅ Initialisation de l’adapter avec les scores
+
         songAdapter = new SongAdapter(this, favoriteSongs, soundManager, songScores);
         favoriteListView.setAdapter(songAdapter);
 
-        // ✅ Navigation
+
         LinearLayout homeButton = findViewById(R.id.homeButton);
         LinearLayout musicButton = findViewById(R.id.musicButton);
         LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
@@ -96,7 +93,7 @@ public class FavoritesActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // ✅ Recharger les scores à chaque fois
+
         loadScores();
 
         if (songAdapter != null) {
@@ -110,7 +107,6 @@ public class FavoritesActivity extends AppCompatActivity {
         }
     }
 
-    // ✅ Chargement des scores depuis SharedPreferences
     private void loadScores() {
         SharedPreferences userPrefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String username = userPrefs.getString("loggedInUsername", "defaultUser");
@@ -149,7 +145,7 @@ public class FavoritesActivity extends AppCompatActivity {
         buttons.add(settingsButton);
 
         for (LinearLayout button : buttons) {
-            button.setBackground(null); // remove visual residue
+            button.setBackground(null);
 
             if (button == activeButton) {
                 button.setAlpha(1.0f);

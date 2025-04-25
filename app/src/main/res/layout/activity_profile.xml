@@ -7,7 +7,7 @@
     android:background="@drawable/purple"
     android:padding="20dp">
 
-    <!-- Barre supérieure avec titre -->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             app:shapeAppearanceOverlay="@style/CircleImage"
             android:layout_marginBottom="12dp"/>
 
-        <!-- Nom d'utilisateur -->
+        <!-- Username -->
         <TextView
             android:id="@+id/usernameTextView"
             android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
             android:textColor="#FFFFFF"
             android:textStyle="bold"/>
 
-        <!-- Bio centrée -->
+        <!-- Bio  -->
         <TextView
             android:fontFamily="@font/font6"
             android:id="@+id/bioTextView"
@@ -102,7 +102,7 @@
 
 
 
-    <!-- Bouton de déconnexion -->
+    <!-- Button logout -->
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"

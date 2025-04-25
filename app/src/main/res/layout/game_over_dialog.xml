@@ -64,7 +64,7 @@
             android:textColor="#FFFFFF"
             android:background="@drawable/custom_back_button"
             android:gravity="center"
-            android:layout_gravity="center" /> <!-- Centre le bouton -->
+            android:layout_gravity="center" />
 
     </LinearLayout>
 </RelativeLayout>

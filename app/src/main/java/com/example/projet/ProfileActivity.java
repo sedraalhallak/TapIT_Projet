@@ -27,27 +27,27 @@ public class ProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        // Initialisation des vues
+
         usernameTextView = findViewById(R.id.usernameTextView);
         ImageView avatarImageView = findViewById(R.id.avatarImageView);
         editIcon = findViewById(R.id.editIcon);
         logoutButton = findViewById(R.id.logoutButton);
         TextView bioTextView = findViewById(R.id.bioTextView);
 
-        // Chargement des données du profil
+
         loadProfileData();
 
-        // Lancer EditProfileActivity
+
         editIcon.setOnClickListener(v -> {
             Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
             startActivityForResult(intent, 1);
         });
 
-        // Fermer l'activité
+
         ImageView closeButton = findViewById(R.id.closeButton);
         closeButton.setOnClickListener(v -> finish());
 
-        // Déconnexion avec popup personnalisé
+
         logoutButton.setOnClickListener(v -> {
             View dialogView = getLayoutInflater().inflate(R.layout.dialog_logout, null);
             ImageView sadGif = dialogView.findViewById(R.id.sadGif);
@@ -55,11 +55,11 @@ public class ProfileActivity extends BaseActivity {
             Button yesButton = dialogView.findViewById(R.id.yes_button);
             Button noButton = dialogView.findViewById(R.id.no_button);
 
-            // Texte de confirmation visible
+
             confirmationText.setText("Are you sure you want to log out?");
             confirmationText.setTextColor(getResources().getColor(android.R.color.white)); // Assure qu'il est blanc
 
-            // Charger le GIF
+
             Glide.with(ProfileActivity.this)
                     .asGif()
                     .load(R.drawable.sad)
@@ -69,7 +69,7 @@ public class ProfileActivity extends BaseActivity {
                     .setView(dialogView)
                     .create();
 
-            // Bouton "Oui" avec animation
+
             yesButton.setOnClickListener(view -> {
                 animateButtonClick(view);
                 SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -86,18 +86,17 @@ public class ProfileActivity extends BaseActivity {
 
             noButton.setOnClickListener(view -> {
                 animateButtonClick(view);
-                // Délai pour laisser l'animation se jouer avant de fermer
+
                 view.postDelayed(dialog::dismiss, 200);
             });
 
 
-            // Affichage + fond transparent
+
             dialog.show();
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
         });
     }
 
-    // ➕ Animation clic pour effet visuel
     private void animateButtonClick(View button) {
         button.animate()
                 .scaleX(0.9f)

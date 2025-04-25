@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/purple">
 
-    <!-- Avatar/Profile -->
+    <!-- Avatar/Profil -->
     <ImageView
         android:id="@+id/profileAvatar"
         android:layout_width="80dp"
@@ -14,7 +14,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/a1" />
 
-    <!-- Titre Settings en dessous de l'avatar -->
+    <!-- Title -->
     <TextView
         android:fontFamily="@font/font6"
         android:layout_width="wrap_content"
@@ -26,7 +26,7 @@
         android:layout_below="@id/profileAvatar"
         android:layout_centerHorizontal="true" />
 
-    <!-- Section de langue -->
+    <!-- Section language -->
     <LinearLayout
         android:id="@+id/languageSection"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         android:orientation="horizontal"
         android:padding="20dp">
 
-        <!-- Icône de traduction -->
+        <!-- Icon traduction -->
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -45,7 +45,7 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_translate" />
 
-        <!-- Texte "Langue" -->
+        <!-- Text  -->
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <!-- Bouton pour changer de langue -->
+        <!-- Bouton change language -->
         <Button
             android:id="@+id/changeLanguageBtn"
             android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
-    <!-- Nouvelle section pour le bouton musique -->
+
     <LinearLayout
         android:id="@+id/musicSection"
         android:layout_width="match_parent"
@@ -86,7 +86,7 @@
         android:orientation="horizontal"
         android:padding="20dp">
 
-        <!-- Icône de musique -->
+        <!-- Icon music -->
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
@@ -95,7 +95,7 @@
             android:scaleType="centerInside"
             android:src="@drawable/ic_music" />
 
-        <!-- Texte "Musique" -->
+        <!-- Text -->
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -108,7 +108,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <!-- Bouton pour activer/désactiver la musique -->
+
         <Button
             android:id="@+id/toggle_music_btn"
             android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
-    <!-- Barre de navigation -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -138,7 +138,7 @@
 
 
 
-    <!-- Barre de navigation -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"

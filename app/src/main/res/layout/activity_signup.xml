@@ -7,7 +7,7 @@
     android:padding="20dp"
     android:gravity="center">
 
-    <!-- Titre INSCRIPTION -->
+    <!-- Title INSCRIPTION -->
     <TextView
         android:fontFamily="@font/font6"
 
@@ -19,7 +19,7 @@
         android:gravity="center"
         android:layout_marginBottom="20dp"/>
 
-    <!-- Champ Nom -->
+    <!-- Name -->
     <EditText
         android:id="@+id/name"
         android:hint="@string/Nom"
@@ -32,7 +32,7 @@
         android:textSize="16sp"
         android:layout_marginBottom="10dp"/>
 
-    <!-- Champ Email -->
+    <!-- Email -->
     <EditText
         android:id="@+id/email"
         android:hint="@string/Email"
@@ -46,7 +46,7 @@
         android:textSize="16sp"
         android:layout_marginBottom="10dp"/>
 
-    <!-- Champ Mot de passe -->
+    <!-- password -->
     <EditText
         android:id="@+id/signup_password"
         android:hint="@string/Motdepasse"
@@ -77,12 +77,12 @@
         android:textColor="@color/white"
         android:layout_gravity="center"/>
 
-    <!-- Espace pour équilibrer l'affichage -->
+
     <View
         android:layout_width="match_parent"
         android:layout_height="20dp"/>
 
-    <!-- Texte "Déjà un compte? Connexion!" -->
+
     <TextView
         android:fontFamily="@font/font6"
 

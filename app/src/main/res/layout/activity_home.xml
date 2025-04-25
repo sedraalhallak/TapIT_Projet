@@ -29,14 +29,14 @@
             android:contentDescription="Profil"
             android:scaleType="centerCrop"
             android:src="@drawable/a1" />
-        <!-- Ajout pour découper l'image en cercle -->
 
 
 
-        <!-- Valeur par défaut -->
+
+
     </FrameLayout>
 
-        <!-- Titre -->
+        <!-- Title -->
 
     <ListView
     android:fontFamily="@font/font6"

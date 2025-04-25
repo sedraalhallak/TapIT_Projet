@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/NomUtilisateur"
-        app:startIconDrawable="@android:drawable/ic_menu_myplaces"> <!-- Icône utilisateur -->
+        app:startIconDrawable="@android:drawable/ic_menu_myplaces"> <!-- Icon user -->
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/username"
@@ -89,7 +89,7 @@
         android:text="@string/Connexion"
         android:textColor="@color/white"
         android:gravity="center"
-        android:layout_gravity="center"/> <!-- Centre le bouton -->
+        android:layout_gravity="center"/>
     <TextView
         android:fontFamily="@font/font6"
 
@@ -131,7 +131,7 @@
         android:text="@string/Créeruncompte"
         android:textColor="@color/white"
         android:gravity="center"
-        android:layout_gravity="center"/> <!-- Centre le bouton -->
+        android:layout_gravity="center"/>
 
 
 

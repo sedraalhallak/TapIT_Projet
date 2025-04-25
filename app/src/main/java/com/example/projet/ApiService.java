@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ApiService {
 
-    // Récupère toutes les chansons
+    //Get all the songs
     @GET("api/songs")
     Call<List<Song>> getSongs();
 

@@ -16,11 +16,11 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Initialisation des vues
-        EditText usernameInput = findViewById(R.id.username); // Champ nom d'utilisateur
-        EditText passwordInput = findViewById(R.id.password); // Champ mot de passe
 
-        // Bouton de connexion
+        EditText usernameInput = findViewById(R.id.username);
+        EditText passwordInput = findViewById(R.id.password);
+
+
         findViewById(R.id.btn_login).setOnClickListener(v -> {
             String username = usernameInput.getText().toString();
             String password = passwordInput.getText().toString();
@@ -44,14 +44,14 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        // Redirection vers la page d'inscription
+
         findViewById(R.id.go_to_signup).setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(intent);
         });
 
-        // Fermer l'activité au clic sur l'icône de fermeture (X)
+
         ImageView closeButton = findViewById(R.id.closeButton);
-        closeButton.setOnClickListener(v -> finish()); // Ferme l'activité actuelle
+        closeButton.setOnClickListener(v -> finish());
     }
 }

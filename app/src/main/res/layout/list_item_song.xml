@@ -8,7 +8,7 @@
     android:orientation="horizontal"
     android:gravity="center_vertical">
 
-    <!-- Bloc texte (titre + artiste) -->
+    <!--  (title + artist) -->
     <LinearLayout
         android:layout_width="92dp"
         android:layout_height="wrap_content"
@@ -42,16 +42,14 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-    <!-- Conteneur pour les étoiles et les boutons (ils sont alignés horizontalement) -->
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical">
 
-        <!-- Étoiles décalées à gauche -->
 
-        <!-- Boutons -->
         <TextView
             android:id="@+id/songStars"
             android:layout_width="wrap_content"

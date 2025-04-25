@@ -87,7 +87,7 @@ public class SelectionActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Rafraîchir l'avatar à chaque retour sur l'activité
+
         ImageView profileAvatar = findViewById(R.id.profileAvatar);
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         profileAvatar.setImageResource(prefs.getInt("avatarId", R.drawable.a1));

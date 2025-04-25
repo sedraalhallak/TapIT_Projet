@@ -41,23 +41,20 @@ public class GameView extends SurfaceView implements Runnable {
     private Bitmap background;
     private Bitmap tileImage;
     private Bitmap pauseButtonImage;
-    private Bitmap redTileImage;  // Image pour la tuile rouge
+    private Bitmap redTileImage;
     private Bitmap star;
     private Bitmap filledStar;
-    private final int SPEED_INCREASE_INTERVAL = 3000;
-    private int baseSpeed = 25; // Vitesse de base
-    private int speedIncreaseInterval = 5000; // Intervalle d'augmentation de vitesse (5 secondes)
+    private int baseSpeed = 25;
+    private int speedIncreaseInterval = 5000;
     private long lastSpeedIncreaseTime = System.currentTimeMillis();
-    private float speedMultiplier = 1.0f; // Multiplicateur de vitesse initial
+    private float speedMultiplier = 1.0f;
 
-    // Variables globales pour le feedback
     private String feedbackText = "";
     private long feedbackStartTime = 0;
-    private final int FEEDBACK_DURATION = 1000; // Durée en ms (1 seconde)
+    private final int FEEDBACK_DURATION = 1000;
 
     // Variables pour l'effet de flash
     private int flashAlpha = 0;
-    int starY = 150;
 
     public GameView(Context context, int width, int height) {
         super(context);
@@ -71,7 +68,7 @@ public class GameView extends SurfaceView implements Runnable {
         tileHeight = 300;
         tileSpeed = 25;
 
-        // Chargement des ressources
+        // load ressources
         background = BitmapFactory.decodeResource(getResources(), R.drawable.purple);
         background = Bitmap.createScaledBitmap(background, screenWidth, screenHeight, false);
         pauseButtonImage = BitmapFactory.decodeResource(getResources(), R.drawable.pause_button);
@@ -79,7 +76,7 @@ public class GameView extends SurfaceView implements Runnable {
         redTileImage = BitmapFactory.decodeResource(getResources(), R.drawable.red);
         redTileImage = Bitmap.createScaledBitmap(redTileImage, (int) (screenWidth / 3.2), 450, false);
 
-        // Chargement et redimensionnement des étoiles
+        // load star dimentions
         star = BitmapFactory.decodeResource(getResources(), R.drawable.star1);
         star = Bitmap.createScaledBitmap(star, 80, 80, false);
         filledStar = BitmapFactory.decodeResource(getResources(), R.drawable.filled_star);
@@ -198,7 +195,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void drawScore(Canvas canvas) {
         float scoreX = screenWidth / 2;
-        float scoreY = 450; // Position du score
+        float scoreY = 450;
         Paint mainPaint = new Paint();
         mainPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         mainPaint.setTextSize(120);
@@ -209,14 +206,14 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void drawStars(Canvas canvas) {
         int maxStars = 3;
-        int filledStars = Math.min(score / 2, maxStars); // Maximum 3 stars
-        int[] starSizes = {200, 200, 200}; // Custom size for each star
+        int filledStars = Math.min(score / 2, maxStars);
+        int[] starSizes = {200, 200, 200};
         int spacing = 30;
         int totalWidth = starSizes[0] + starSizes[1] + starSizes[2] + (2 * spacing);
         int startX = (screenWidth / 2) - (totalWidth / 2);
         int starY = 150;
 
-        // Animation effect for star flickering
+
         long currentTime = System.currentTimeMillis();
         float opacity = (float) Math.abs(Math.sin(currentTime / 500.0)); // Flickering effect
         for (int i = 0; i < maxStars; i++) {
@@ -233,8 +230,8 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setStyle(filled ? Paint.Style.FILL_AND_STROKE : Paint.Style.STROKE);
         paint.setStrokeWidth(4);
         if (filled) {
-            paint.setColor(Color.parseColor("#FFD700"));  // Couleur or
-            paint.setMaskFilter(new BlurMaskFilter(15, BlurMaskFilter.Blur.NORMAL));  // Effet lumineux
+            paint.setColor(Color.parseColor("#FFD700"));
+            paint.setMaskFilter(new BlurMaskFilter(15, BlurMaskFilter.Blur.NORMAL));
         } else {
             paint.setColor(Color.LTGRAY);
         }

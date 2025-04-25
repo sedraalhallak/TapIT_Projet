@@ -50,7 +50,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (mediaPlayer != null) {
-            mediaPlayer.release(); // Libérer les ressources audio
+            mediaPlayer.release();
         }
     }
 }

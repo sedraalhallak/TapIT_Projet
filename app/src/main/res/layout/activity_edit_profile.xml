@@ -27,7 +27,7 @@
 
     </RelativeLayout>
 
-    <!-- Titre centré en haut -->
+    <!-- Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="40dp"/>
 
-    <!-- Avatar centré -->
+    <!-- Avatar  -->
     <ImageView
         android:id="@+id/editAvatarImageView"
         android:layout_width="150dp"
@@ -50,14 +50,13 @@
         android:background="@drawable/circle_background"
         android:layout_marginBottom="30dp"/>
 
-    <!-- Conteneur pour les champs de saisie -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingHorizontal="20dp">
 
-        <!-- Champ Nom d'utilisateur -->
+        <!-- username -->
         <TextView
             android:layout_width="wrap_content"
             android:fontFamily="@font/font6"
@@ -100,7 +99,7 @@
 
     </LinearLayout>
 
-    <!-- Bouton Enregistrer -->
+    <!-- save button -->
     <Button
         android:id="@+id/saveButton"
         android:layout_width="match_parent"

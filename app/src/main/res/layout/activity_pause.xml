@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@android:color/transparent"
-    android:padding="20dp"> <!-- Ajout de padding global pour espacer un peu les éléments -->
+    android:padding="20dp">
 
     <TextView
         android:id="@+id/pause_text"
@@ -18,7 +18,7 @@
         android:textSize="30sp"
         android:textStyle="bold" />
 
-    <!-- Bouton Reprendre -->
+    <!-- Resume button -->
     <Button
         android:id="@+id/resume_button"
         android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
         android:text="@string/Resume"
         android:textColor="#FFFFFF" />
 
-    <!-- Bouton Restart -->
+    <!-- Restart button -->
     <Button
         android:id="@+id/restart_button"
         android:text="@string/Restart"
