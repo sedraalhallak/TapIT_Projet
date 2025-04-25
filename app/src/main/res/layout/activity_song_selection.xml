@@ -13,7 +13,7 @@
     <!-- Titre en haut -->
     <TextView
         android:id="@+id/titleText"
-        android:text ="Start the tutorial by selecting a track"
+        android:text ="@string/Startthetutorialbyselectingatrack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="22sp"
@@ -67,7 +67,7 @@
         android:id="@+id/testButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TESTER"
+        android:text="@string/TESTER"
         android:enabled="false"
         android:layout_marginTop="16dp"
         android:textColor="#FFFFFF"
@@ -79,7 +79,7 @@
         android:id="@+id/skipButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Skip Tutorial"
+        android:text="@string/SkipTutorial"
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:fontFamily="@font/font6"

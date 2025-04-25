@@ -10,7 +10,7 @@
     <Button
         android:id="@+id/resume_button"
         android:fontFamily="@font/font6"
-        android:text="RESUME"
+        android:text="@string/Resume"
         android:textSize="22sp"
         android:textStyle="bold"
         android:shadowColor="#db719b"
@@ -31,7 +31,7 @@
         android:id="@+id/restart_button"
         android:fontFamily="@font/font6"
 
-        android:text="RESTART"
+        android:text="@string/Restart"
         android:textSize="22sp"
         android:textStyle="bold"
         android:shadowColor="#db719b"
@@ -52,7 +52,7 @@
         android:id="@+id/settings_button"
         android:fontFamily="@font/font6"
 
-        android:text="SETTINGS"
+        android:text="@string/Settings"
         android:textSize="22sp"
         android:textStyle="bold"
         android:shadowColor="#db719b"
@@ -73,7 +73,7 @@
         android:id="@+id/home_button"
         android:fontFamily="@font/font6"
 
-        android:text="HOME"
+        android:text="@string/Home"
         android:textSize="22sp"
         android:textStyle="bold"
         android:shadowColor="#db719b"

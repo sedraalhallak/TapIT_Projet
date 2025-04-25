@@ -19,6 +19,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
        // TextView catchyText = findViewById(R.id.catchyText);
         ImageView backgroundGif = findViewById(R.id.backgroundgif);
         Glide.with(this)

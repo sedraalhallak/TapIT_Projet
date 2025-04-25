@@ -29,7 +29,6 @@ public class ProfileActivity extends BaseActivity {
 
         // Initialisation des vues
         usernameTextView = findViewById(R.id.usernameTextView);
-        displayNameTextView = findViewById(R.id.displayNameTextView);
         ImageView avatarImageView = findViewById(R.id.avatarImageView);
         editIcon = findViewById(R.id.editIcon);
         logoutButton = findViewById(R.id.logoutButton);
@@ -81,8 +80,7 @@ public class ProfileActivity extends BaseActivity {
                         .remove("bio")
                         .apply();
 
-                Toast.makeText(ProfileActivity.this, "Déconnecté", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
                 finish();
             });
 
@@ -121,7 +119,7 @@ public class ProfileActivity extends BaseActivity {
         int avatarId = prefs.getInt("avatarId", R.drawable.a1);
 
         usernameTextView.setText(currentUsername);
-        displayNameTextView.setText(displayName);
+
         ((ImageView) findViewById(R.id.avatarImageView)).setImageResource(avatarId);
         String bio = prefs.getString("bio", "");
         ((TextView) findViewById(R.id.bioTextView)).setText(bio);

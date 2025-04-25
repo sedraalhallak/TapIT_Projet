@@ -42,7 +42,7 @@ public class SelectionActivity extends BaseActivity {
         });
 
         favoriteButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Clic Favoris", Toast.LENGTH_SHORT).show();
+
             Intent intent = new Intent(SelectionActivity.this, FavoritesActivity.class);
             startActivity(intent);
         });

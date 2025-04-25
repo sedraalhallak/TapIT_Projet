@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Modifier le Profil"
+        android:text="@string/ModifierleProfil"
         android:textSize="28sp"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
@@ -63,7 +63,7 @@
             android:fontFamily="@font/font6"
 
             android:layout_height="wrap_content"
-            android:text="Nom d'utilisateur"
+            android:text="@string/NomUtilisateur"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
             android:layout_marginBottom="5dp"/>
@@ -72,7 +72,7 @@
             android:id="@+id/editUsername"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Votre nom d'utilisateur"
+            android:hint="@string/VotrenomdUtilisateur"
             android:inputType="text"
             android:background="@drawable/edittext_background"
             android:textColor="#FFFFFF"
@@ -85,7 +85,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="Bio (160 caractères max)"
+            android:hint="@string/Bio"
             android:maxLength="160"
             android:minLines="1"
             android:maxLines="2"
@@ -105,7 +105,7 @@
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Enregistrer"
+        android:text="@string/Enregistrer"
         android:background="@drawable/custom_back_button"
         android:textColor="#FFFFFF"
         android:textSize="18sp"

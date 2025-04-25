@@ -158,6 +158,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
+
     private boolean shouldAddTile() {
         return tiles.isEmpty() || tiles.get(tiles.size() - 1).y > 100;
     }

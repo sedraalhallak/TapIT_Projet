@@ -1,46 +1,89 @@
 <resources>
-
-    <!-- Chaînes traduites -->
-    <string name="app_name">TapIt</string>
-    <string name="tap_to_start">Appuyez pour commencer</string>
-    <string name="cool">COOl</string>
-    <string name="resume">Reprendre</string>
-    <string name="pause">PAUSE</string>
-    <string name="restart">Redémarrer</string>
-    <string name="settings">Paramètres</string>
-    <string name="home">Accueil</string>
-    <string name="game_over">Fin de la partie</string>
-    <string name="score_placeholder">Score: </string>
-    <string name="select_song">Sélectionner une chanson</string>
-    <string name="genre">Genre</string>
-    <string name="pop">POP</string>
-    <string name="jazz">Jazz</string>
-    <string name="classical">Classique</string>
-    <string name="hip_hop">HIP HOP</string>
-    <string name="rock">Rock</string>
-    <string name="difficulty">Difficulté</string>
-    <string name="easy">Facile</string>
-    <string name="medium">Medium</string>
-    <string name="hard">Difficile</string>
-    <string name="language">Langue</string>
-    <string name="mute">Couper le son</string>
-    <string name="login">Connexion</string>
-    <string name="create_account">Créer un compte</string>
-    <string name="or_login_with">Ou connectez-vous avec</string>
-    <string name="username">Nom d’utilisateur</string>
-    <string name="password">Mot de passe</string>
-    <string name="name">NOM</string>
-    <string name="email">EMAIL</string>
-    <string name="sign_up">Créer un compte</string>
-    <string name="already_have_account">Vous avez déjà un compte ?</string>
-    <string name="login_now">Connectez-vous !</string>
-    <string name="no_account_yet">Pas encore de compte ?</string>
-    <string name="signup">Créer un compte</string>
-
-    <!-- Langues -->
+    <!-- App -->
     <string name="english">Anglais</string>
     <string name="french">Français</string>
 
 
+    <!-- Écran de démarrage et jeu -->
+    <string name="resume">Reprendre</string>
+    <string name="pause">Pause</string>
+    <string name="restart">Recommencer</string>
+    <string name="settings">Paramètres</string>
+    <string name="home">Accueil</string>
+    <string name="game_over">Jeu terminé</string>
+    <string name="score_placeholder">Score :</string>
+
+    <!-- Sélection de musique -->
+
+    <string name="genre">Genre</string>
+    <string name="pop">Pop</string>
+    <string name="classical">Classique</string>
+    <string name="jazz">Jazz</string>
+    <string name="hip_hop">Hip-hop</string>
+    <string name="rock">Rock</string>
+
+    <!-- Difficulté -->
+    <string name="difficulty">Difficulté</string>
+    <string name="easy">Facile</string>
+    <string name="medium">Moyen</string>
+    <string name="hard">Difficile</string>
+
+    <!-- Langue et son -->
+    <string name="Langue">Langue</string>
+    <string name="Changer">Changer</string>
+
+    <!-- Connexion / inscription -->
+    <string name="login">Connexion</string>
+    <string name="create_account">Créer un compte</string>
+    <string name="or_login_with">Ou connectez-vous avec</string>
+    <string name="password">Mot de passe</string>
+    <string name="name">Nom</string>
+    <string name="email">Email</string>
+    <string name="already_have_account">Vous avez déjà un compte ?</string>
+    <string name="login_now">Connectez-vous !</string>
+    <string name="no_account_yet">Pas encore de compte ?</string>
+    <!--page edit profil-->
+    <string name="ModifierleProfil">Modifier le Profil</string>
+    <string name="NomUtilisateur">Nom d\'Utilisateur</string>
+    <string name="VotrenomdUtilisateur">Votre nom d\'Utilisateur</string>
+    <string name="Bio">Bio</string>
+    <string name="Enregistrer">Enregistrer</string>
+    <!--Page connexion-->
+    <string name="Connexion">Connexion</string>
+    <string name="Motdepasse">Mot de passe</string>
+    <string name="Donthaveoneyet">Vous avez pas encore!</string>
+    <string name="SignUp">Inscription</string>
+    <string name="Créeruncompte">Créer un compte</string>
+    <string name="Profil">Profil</string>
+    <!--Page favorite-->
+    <string name="Aucunechansonenfavoripourlemoment">Aucune chanson en favori pour le moment</string>
+    <!--Page pause-->
+    <string name="PAUSE">Pause</string>
+    <string name="Resume">Reprendre</string>
+    <string name="Restart">Recommencer</string>
+    <string name="Settings">Paramètres</string>
+    <string name="Home">Accueil</string>
+    <!--page profil-->
+    <string name="Nomaffichage">Nom d\'affichage</string>
+    <string name="Déconnexion">Déconnexion</string>
+    <!--page inscription-->
+    <string name="INSCRIPTION">Inscription</string>
+    <string name="Nom">Nom</string>
+    <string name="Email">Email</string>
+    <string name="Déjàuncompte">Vous avez déjà un compte?</string>
+    <string name="Retouràlaconnexion">Retour à la connexion</string>
+    <!--page tutorial-->
+    <string name="Startthetutorialbyselectingatrack">Commencez le tutoriel en sémectionnanr une piste</string>
+    <string name="TESTER">Tester</string>
+    <string name="SkipTutorial">Passer le tutoriel</string>
+    <!--page logout-->
+    <string name="Areyousureyouwanttologout">Etes vous sûr de vouloir vous déconnecter?</string>
+    <string name="Oui">Oui</string>
+    <string name="Annuler">Annuler</string>
+    <string name="HighScore">Meilleur Score : 0</string>
+    <string name="best_score">Meilleur score : %1$d</string>
+    <string name="not_played_yet">Pas encore joué</string>
+    <string name="Musique">Musique</string>
+    <string name="Desactivermusique">Desactiver musique</string>
 
 </resources>

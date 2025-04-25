@@ -40,9 +40,12 @@ public class FavoritesActivity extends AppCompatActivity {
         videoView = findViewById(R.id.videoView);
         Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.piano);
         videoView.setVideoURI(videoUri);
-        videoView.start();
+        videoView.setOnPreparedListener(mp -> {
+            mp.setLooping(true);  // Active la boucle infinie
+            mp.setVolume(0f, 0f); // Désactive le son (optionnel)
+            mp.start();           // Démarre la lecture
+        });
 
-        Toast.makeText(this, "Page des favoris", Toast.LENGTH_SHORT).show();
 
         // ✅ Charger les scores AVANT d'initialiser l'adapter
         loadScores();
@@ -80,6 +83,14 @@ public class FavoritesActivity extends AppCompatActivity {
         });
         settingsButton.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (videoView != null && videoView.isPlaying()) {
+            VideoManager.getInstance().setCurrentPosition(videoView.getCurrentPosition());
+            videoView.pause();
+        }
+    }
 
     @Override
     protected void onResume() {
@@ -93,7 +104,8 @@ public class FavoritesActivity extends AppCompatActivity {
             songAdapter.notifyDataSetChanged();
         }
 
-        if (!videoView.isPlaying()) {
+        if (videoView != null) {
+            videoView.seekTo(VideoManager.getInstance().getCurrentPosition());
             videoView.start();
         }
     }

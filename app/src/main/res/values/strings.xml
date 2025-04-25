@@ -1,46 +1,94 @@
 <resources>
     <!-- Strings -->
-    <string name="app_name">TapIt</string>
-    <string name="tap_to_start">Tap to start</string>
-    <string name="cool">COOl</string>
+    <string name="english">English</string>
+    <string name="french">French</string>
+    <!-- Splash & Game -->
     <string name="resume">Resume</string>
-    <string name="pause">PAUSE</string>
+    <string name="pause">Pause</string>
     <string name="restart">Restart</string>
     <string name="settings">Settings</string>
     <string name="home">Home</string>
-    <string name="game_over">Game over</string>
-    <string name="score_placeholder">Score : </string>
-    <string name="select_song">Select a song</string>
+    <string name="game_over">Game Over</string>
+    <string name="score_placeholder">Score :</string>
+
+    <!-- Music Selection -->
     <string name="genre">Genre</string>
-    <string name="pop">POP</string>
+    <string name="pop">Pop</string>
     <string name="classical">Classical</string>
     <string name="jazz">Jazz</string>
-    <string name="hip_hop">HIP HOP</string>
+    <string name="hip_hop">Hip-hop</string>
     <string name="rock">Rock</string>
+
+    <!-- Difficulty -->
     <string name="difficulty">Difficulty</string>
     <string name="easy">Easy</string>
     <string name="medium">Medium</string>
     <string name="hard">Hard</string>
-    <string name="language">Language</string>
-    <string name="mute">Mute sound</string>
+
+    <!-- Language & Sound -->
+    <string name="Langue">Language</string>
+
+    <!-- Login/Signup -->
     <string name="login">Login</string>
     <string name="create_account">Sign up</string>
     <string name="or_login_with">Or login with</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="name">NAME</string>
-    <string name="email">EMAIL</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
     <string name="sign_up">Sign up</string>
     <string name="already_have_account">Already have an account?</string>
     <string name="login_now">Login!</string>
-    <string name="no_account_yet">Do not have an account yet?</string>
+    <string name="no_account_yet">Don’t have an account yet?</string>
     <string name="signup">Sign up</string>
 
 
     <!-- Languages -->
-    <string name="english">English</string>
-    <string name="french">French</string>
 
+    <!--page edit profil-->
+    <string name="Changer">Change</string>
+    <string name="ModifierleProfil">Edit the profile</string>
+    <string name="NomUtilisateur">Username</string>
+    <string name="VotrenomdUtilisateur">Your username</string>
+    <string name="Bio">Bio</string>
+    <string name="Enregistrer">Save</string>
+    <!--Page connexion-->
+    <string name="Connexion">Connection</string>
+    <string name="Motdepasse">Password</string>
+    <string name="Donthaveoneyet">Don\'t have one yet!</string>
+    <string name="SignUp">Sinup</string>
+    <string name="Créeruncompte">Create an account</string>
+    <string name="Profil">Profil</string>
+    <!--Page favorite-->
+    <string name="Aucunechansonenfavoripourlemoment">No favorite song at the moment</string>
+    <!--Page pause-->
+    <string name="PAUSE">Pause</string>
+    <string name="Resume">Resume</string>
+    <string name="Restart">Restart</string>
+    <string name="Settings">Settings</string>
+    <string name="Home">Home</string>
+    <!--page profil-->
+    <string name="Nomaffichage">Pseudo</string>
+    <string name="Déconnexion">Logout</string>
+    <!--page inscription-->
+    <string name="INSCRIPTION">Inscription</string>
+    <string name="Nom">Name</string>
+    <string name="Email" >Email</string>
+    <string name="Déjàuncompte">You already have an account?</string>
+    <string name="Retouràlaconnexion">Back to connection</string>
+    <!--page tutorial-->
+    <string name="Startthetutorialbyselectingatrack">Start the tutorial by selecting a track</string>
+    <string name="TESTER">Test</string>
+    <string name="SkipTutorial">Skip Tutorial</string>
+    <!--page logout-->
+    <string name="Areyousureyouwanttologout">Are you sure you want to logout?</string>
+    <string name="Oui">Yes</string>
+    <string name="Annuler">Cancel</string>
+    <string name="HighScore">High Score : 0</string>
+    <string name="best_score">Best Score: %1$d</string>
+    <string name="not_played_yet">Not played yet</string>
+    <string name="Musique">Music</string>
+    <string name="Desactivermusique">Turn off music</string>
 
 
 </resources>

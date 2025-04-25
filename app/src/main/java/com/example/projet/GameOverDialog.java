@@ -1,5 +1,7 @@
 package com.example.projet;
 
+import static java.security.AccessController.getContext;
+
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Activity;
@@ -135,11 +137,20 @@ public class GameOverDialog extends BaseActivity {
 
             saveStars(score); // ⭐ Enregistre les étoiles dès que le dialog s'affiche
 
-            Button continueButton = dialogView.findViewById(R.id.continue_button);
-            applyClickEffect(continueButton);
-            continueButton.setOnClickListener(v -> {
+            // Bouton Restart (remplace le bouton Continue)
+            Button restartButton = dialogView.findViewById(R.id.continue_button);
+            restartButton.setText(R.string.restart); // Changez le texte si nécessaire
+            applyClickEffect(restartButton);
+            restartButton.setOnClickListener(v -> {
+                // Même comportement que dans GameView
+                if (context instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) context;
+                    mainActivity.restartMusic();
+                    if (mainActivity.getGameView() != null) {
+                        mainActivity.getGameView().restartGame();
+                    }
+                }
                 dialog.dismiss();
-                ((GameView) ((Activity) context).findViewById(R.id.gameView)).restartGame();
             });
 
             Button homeButton = dialogView.findViewById(R.id.home_button);
@@ -148,6 +159,7 @@ public class GameOverDialog extends BaseActivity {
                 Intent intent = new Intent(context, HomeActivity.class);
                 context.startActivity(intent);
                 activity.finish();
+
             });
 
             dialog.show();
@@ -164,6 +176,7 @@ public class GameOverDialog extends BaseActivity {
             String key = username + "_" + songTitle;
             starPrefs.edit().putInt(key, starsEarned).apply();
         }
+
     }
 
     private void applyClickEffect(Button button) {

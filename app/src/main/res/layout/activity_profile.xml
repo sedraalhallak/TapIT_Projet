@@ -19,7 +19,7 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profil"
+            android:text="@string/Profil"
             android:textSize="28sp"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
@@ -69,29 +69,18 @@
             android:id="@+id/usernameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nom d'utilisateur"
+            android:text="@string/NomUtilisateur"
             android:textSize="24sp"
             android:textColor="#FFFFFF"
             android:textStyle="bold"/>
 
-        <!-- Nom d'affichage -->
-        <TextView
-            android:id="@+id/displayNameTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nom d'affichage"
-            android:textSize="18sp"
-            android:textColor="#CCCCCC"
-            android:layout_marginTop="8dp"/>
-
         <!-- Bio centrée -->
         <TextView
             android:fontFamily="@font/font6"
-
             android:id="@+id/bioTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bio utilisateur ici"
+            android:text="@string/Bio"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:paddingHorizontal="24dp"
@@ -107,8 +96,8 @@
             android:clickable="true"
             android:focusable="true"
             android:layout_marginTop="16dp"/>
-
     </LinearLayout>
+
 
 
 
@@ -118,7 +107,7 @@
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Déconnexion"
+        android:text="@string/Déconnexion"
         android:backgroundTint="#FF4500"
         android:textColor="#FFFFFF"
         android:textSize="16sp"

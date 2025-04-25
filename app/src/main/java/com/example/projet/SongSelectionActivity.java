@@ -84,6 +84,7 @@ public class SongSelectionActivity extends AppCompatActivity {
         loadSongs();
 
         testButton.setOnClickListener(v -> {
+
             if (selectedSong != null && selectedSong.getFilename() != null && !selectedSong.getFilename().isEmpty()) {
                 String songUrl = API_BASE_URL + "song_files/" + selectedSong.getFilename();
                 if (isValidUrl(songUrl)) {

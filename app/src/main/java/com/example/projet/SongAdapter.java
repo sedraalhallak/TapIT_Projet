@@ -178,7 +178,11 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         // Gérer le score
         int highScore = songScores.containsKey(song.getTitle()) ? songScores.get(song.getTitle()) : 0;
-        scoreTextView.setText(highScore > 0 ? "Best Score: " + highScore : "Not played yet");
+        scoreTextView.setText(
+                highScore > 0
+                        ? context.getString(R.string.best_score, highScore)
+                        : context.getString(R.string.not_played_yet)
+        );
 
         // Afficher les étoiles du score
         String stars = "☆☆☆"; // par défaut

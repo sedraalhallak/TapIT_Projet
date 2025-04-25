@@ -55,7 +55,11 @@ public class HomeActivity extends AppCompatActivity {
         // Charger la vidéo en arrière-plan
         Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.piano);
         videoView.setVideoURI(videoUri);
-        videoView.start();
+        videoView.setOnPreparedListener(mp -> {
+            mp.setLooping(true);  // Active la boucle infinie
+            mp.setVolume(0f, 0f); // Désactive le son (optionnel)
+            mp.start();           // Démarre la lecture
+        });
 
         // Initialiser la liste des chansons
         songList = new ArrayList<>();
@@ -157,13 +161,15 @@ public class HomeActivity extends AppCompatActivity {
         return songScores.containsKey(title) ? songScores.get(title) : 0;
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         ImageView profileAvatar = findViewById(R.id.profileAvatar);
         profileAvatar.setImageResource(prefs.getInt("avatarId", R.drawable.a1));
-        if (!videoView.isPlaying()) {
+        if (videoView != null) {
+            videoView.seekTo(VideoManager.getInstance().getCurrentPosition());
             videoView.start();
         }
     }
@@ -171,7 +177,10 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        videoView.pause();
+        if (videoView != null && videoView.isPlaying()) {
+            VideoManager.getInstance().setCurrentPosition(videoView.getCurrentPosition());
+            videoView.pause();
+        }
     }
 
     @Override

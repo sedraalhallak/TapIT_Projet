@@ -35,4 +35,11 @@ public class BaseActivity extends Activity {
             return context;
         }
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isFinishing()) {
+            MusicManager.release(); // Arrête la musique uniquement quand l'app est fermée
+        }
+    }
 }

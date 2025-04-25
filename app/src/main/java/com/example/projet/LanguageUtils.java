@@ -1,6 +1,7 @@
 package com.example.projet;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -10,36 +11,17 @@ import java.util.Locale;
 
 public class LanguageUtils {
 
-    public static void setLocale(Activity activity, String langCode) {
-        // Mettre à jour la langue dans les préférences partagées
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("MyPrefs", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("app_language", langCode);
-        editor.apply();
+    public static void applySavedLocale(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String locale = prefs.getString("locale", "fr");
+        setLocale(context, locale);
+    }
 
-        // Configurer la langue pour l'application
+    public static void setLocale(Context context, String langCode) {
         Locale locale = new Locale(langCode);
         Locale.setDefault(locale);
-        Configuration config = activity.getResources().getConfiguration();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            config.setLocale(locale);
-        } else {
-            config.locale = locale;
-        }
-
-        DisplayMetrics dm = activity.getResources().getDisplayMetrics();
-        activity.getResources().updateConfiguration(config, dm);
+        Configuration config = new Configuration();
+        config.setLocale(locale);
+        context.getResources().updateConfiguration(config, context.getResources().getDisplayMetrics());
     }
-
-    public static String getSavedLanguage(Activity activity) {
-        SharedPreferences prefs = activity.getSharedPreferences("MyPrefs", Activity.MODE_PRIVATE);
-        return prefs.getString("app_language", "en"); // Default is English
-    }
-    public static void applySavedLocale(Activity activity) {
-        SharedPreferences sharedPreferences = activity.getSharedPreferences("MyPrefs", Activity.MODE_PRIVATE);
-        String langCode = sharedPreferences.getString("app_language", "en"); // Anglais par défaut
-        setLocale(activity, langCode);
-    }
-
 }

@@ -6,13 +6,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class LoginActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        LanguageUtils.applySavedLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -20,6 +20,7 @@ public class LoginActivity extends BaseActivity {
         EditText usernameInput = findViewById(R.id.username); // Champ nom d'utilisateur
         EditText passwordInput = findViewById(R.id.password); // Champ mot de passe
 
+        // Bouton de connexion
         findViewById(R.id.btn_login).setOnClickListener(v -> {
             String username = usernameInput.getText().toString();
             String password = passwordInput.getText().toString();
@@ -48,5 +49,9 @@ public class LoginActivity extends BaseActivity {
             Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(intent);
         });
+
+        // Fermer l'activité au clic sur l'icône de fermeture (X)
+        ImageView closeButton = findViewById(R.id.closeButton);
+        closeButton.setOnClickListener(v -> finish()); // Ferme l'activité actuelle
     }
 }

@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         // Configuration plein écran
+
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -89,6 +90,9 @@ public class MainActivity extends BaseActivity {
 
         return songTitle;
 
+    }
+    public GameView getGameView() {
+        return gameView;
     }
 
 

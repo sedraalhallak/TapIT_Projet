@@ -25,7 +25,7 @@
             android:layout_gravity="top|start"
             android:layout_margin="30dp"
             android:background="@drawable/circle_background"
-            android:contentDescription="Profil"
+            android:contentDescription="@string/Profil"
             android:scaleType="centerCrop"
             android:src="@drawable/a1" />
     </FrameLayout>
@@ -49,7 +49,7 @@
             android:id="@+id/emptyFavoritesMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Aucune chanson en favori pour le moment"
+            android:text="@string/Aucunechansonenfavoripourlemoment"
 
             android:textSize="20sp"
             android:textColor="@android:color/white"

@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/font6"
             android:paddingBottom="2dp"
-            android:text="High Score: 0"
+            android:text="@string/HighScore"
             android:textSize="18sp" />
     </LinearLayout>
 
