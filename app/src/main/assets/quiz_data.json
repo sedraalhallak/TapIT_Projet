@@ -1,0 +1,102 @@
+[
+    {
+        "question": "Who sings the song: 'Will you still love me when I'm not young and beautiful'?",
+        "answers": ["Billie Eilish", "Taylor Swift", "Lana Del Rey", "Adele"],
+        "correctIndex": 2
+    },
+    {
+        "question": "Which city is known as the birthplace of jazz?",
+        "answers": ["New York", "New Orleans", "Los Angeles", "Chicago"],
+        "correctIndex": 1
+    },
+    {
+        "question": "From which song is this line: 'I'm in love with the shape of you'?",
+        "answers": ["Havana", "Shape of You", "Sorry", "Thinking Out Loud"],
+        "correctIndex": 1
+    },
+    {
+        "question": "Who sings the song: 'So you're a tough guy, like it really rough guy'?",
+        "answers": ["Billie Eilish", "Ariana Grande", "Katy Perry", "Dua Lipa"],
+        "correctIndex": 0
+    },
+    {
+        "question": "Which music festival is held annually in the California desert?",
+        "answers": ["Coachella", "Burning Man", "Glastonbury", "Lollapalooza"],
+        "correctIndex": 0
+    },
+    {
+        "question": "From which song is this line: 'We could have had it all'?",
+        "answers": ["Set Fire to the Rain", "Rolling in the Deep", "Hello", "Someone Like You"],
+        "correctIndex": 1
+    },
+    {
+        "question": "Who was the lead singer of Queen?",
+        "answers": ["Freddie Mercury", "David Bowie", "Elton John", "Mick Jagger"],
+        "correctIndex": 0
+    },
+    {
+        "question": "From which song is this line: 'I said, ooh, I'm blinded by the lights'?",
+        "answers": ["Blinding Lights", "Levitating", "Save Your Tears", "Stay"],
+        "correctIndex": 0
+    },
+    {
+        "question": "Which famous awards show takes place every February in the US?",
+        "answers": ["The Tonys", "The Grammys", "The Oscars", "The Emmys"],
+        "correctIndex": 1
+    },
+    {
+        "question": "Who sings the song: 'Never mind, I'll find someone like you'?",
+        "answers": ["Taylor Swift", "Ed Sheeran", "Adele", "Shakira"],
+        "correctIndex": 2
+    },
+    {
+        "question": "Who famously interrupted Taylor Swift at the 2009 VMAs?",
+        "answers": ["Kanye West", "Jay-Z", "Drake", "Eminem"],
+        "correctIndex": 0
+    },
+    {
+        "question": "From which song is this line: 'And the players gonna play, play, play, play, play'?",
+        "answers": ["You Belong With Me", "Style", "Shake It Off", "Love Story"],
+        "correctIndex": 2
+    },
+    {
+        "question": "Which band is known for the 'British Invasion' of the 1960s?",
+        "answers": ["The Rolling Stones", "The Beatles", "Led Zeppelin", "Pink Floyd"],
+        "correctIndex": 1
+    },
+    {
+        "question": "Who sings the song: 'Don't believe me, just watch!'?",
+        "answers": ["Mark Ronson ft. Bruno Mars", "Justin Timberlake", "Pharrell Williams", "Daft Punk"],
+        "correctIndex": 0
+    },
+    {
+        "question": "Where did the iconic Woodstock festival take place in 1969?",
+        "answers": ["Tennessee", "New York", "California", "Texas"],
+        "correctIndex": 1
+    },
+    {
+        "question": "From which song is this line: 'Cause all of me, loves all of you'?",
+        "answers": ["Shape of You", "Perfect", "All of Me", "Thinking Out Loud"],
+        "correctIndex": 2
+    },
+    {
+        "question": "Which female artist made history with her 2023 Renaissance World Tour?",
+        "answers": ["Lady Gaga", "Beyoncé", "Adele", "Rihanna"],
+        "correctIndex": 1
+    },
+    {
+        "question": "Who sings the line: 'I can feel your halo, you know you're my saving grace'?",
+        "answers": ["Mariah Carey", "Alicia Keys", "Beyoncé", "Rihanna"],
+        "correctIndex": 2
+    },
+    {
+        "question": "Which artist released the surprise album 'folklore' in 2020?",
+        "answers": ["Selena Gomez", "Taylor Swift", "Billie Eilish", "Adele"],
+        "correctIndex": 1
+    },
+    {
+        "question": "What is the name of BTS' fanbase?",
+        "answers": ["MOA", "ONCE", "ARMY", "BLINK"],
+        "correctIndex": 2
+    }
+]

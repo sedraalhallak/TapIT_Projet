@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/purple"
     android:padding="0dp">
-    <!-- Login Button -->
 
-    <!-- Genre Buttons -->
+    <!-- Avatar de l'utilisateur -->
     <ImageView
         android:id="@+id/profileAvatar"
         android:layout_width="80dp"
@@ -18,131 +18,82 @@
         android:contentDescription="Profil"
         android:scaleType="centerCrop"
         android:src="@drawable/a1" />
+    <!-- Intro avant de commencer le quiz -->
+    <LinearLayout
+        android:id="@+id/introLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp">
 
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/custom_back_button"
-        android:fontFamily="@font/font6"
-        android:gravity="center"
-        android:paddingStart="20dp"
-        android:paddingTop="10dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="10dp"
-        android:text="@string/genre"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="10dp">
-
-        <Button
-            android:id="@+id/genre_pop"
+            android:id="@+id/introText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pop"
-            android:layout_margin="5dp"
+            android:text="Time for a quiz!"
+            android:textSize="26sp"
             android:textColor="@android:color/white"
-            android:background="@android:color/transparent"/>
+            android:fontFamily="@font/font6"
+            android:layout_marginBottom="20dp" />
 
         <Button
-            android:id="@+id/genre_rock"
+            android:id="@+id/startQuizButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/rock"
-            android:layout_margin="5dp"
-            android:textColor="@android:color/white"
-            android:background="@android:color/transparent"/>
+            android:text="Start"
+            android:background="@drawable/custom_back_button"
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
 
-        <Button
-            android:id="@+id/genre_jazz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/jazz"
-            android:layout_margin="5dp"
-            android:textColor="@android:color/white"
-            android:background="@android:color/transparent"/>
-
-        <Button
-            android:id="@+id/genre_classical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/classical"
-            android:layout_margin="5dp"
-            android:textColor="@android:color/white"
-            android:background="@android:color/transparent"/>
-    </LinearLayout>
-
+    <!-- Timer pour chaque question -->
     <TextView
-        android:fontFamily="@font/font6"
+        android:id="@+id/globalTimerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/difficulty"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
-        android:gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/font6"
+        android:text="Temps global restant: 20"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+    <!-- Button Rejouer -->
+    <Button
+        android:id="@+id/replayButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rejouer"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
         android:background="@drawable/custom_back_button"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:textColor="@android:color/white"/>
 
+    <!-- Question du quiz -->
+    <TextView
+        android:id="@+id/quizQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Question..."
+        android:textSize="20sp"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="20dp"
+        android:padding="16dp"
+        android:fontFamily="@font/font6"
+        android:layout_gravity="center_horizontal" />
 
-
-    <!-- Difficulty Buttons -->
+    <!-- Layout des réponses du quiz -->
     <LinearLayout
+        android:id="@+id/quizAnswersLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="10dp">
-
-        <Button
-            android:id="@+id/difficulty_easy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/easy"
-            android:layout_margin="5dp"
-            android:textColor="@android:color/white"
-            android:background="@android:color/transparent"/>
-
-        <Button
-            android:id="@+id/difficulty_medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/medium"
-            android:layout_margin="5dp"
-            android:textColor="@android:color/white"
-            android:background="@android:color/transparent"/>
-
-        <Button
-            android:id="@+id/difficulty_hard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hard"
-            android:layout_margin="5dp"
-            android:textColor="@android:color/white"
-            android:background="@android:color/transparent"/>
-    </LinearLayout>
-
-    <!-- Enlève le fond -->
-
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="10dp"/>
 
     <!-- Espace vide pour pousser la barre de navigation en bas -->
     <View
@@ -150,6 +101,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
+    <!-- Barre de navigation avec icônes -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -158,6 +110,7 @@
         android:padding="5dp"
         android:background="@android:color/transparent">
 
+        <!-- Bouton Accueil -->
         <LinearLayout
             android:id="@+id/homeButton"
             android:layout_width="0dp"
@@ -172,12 +125,10 @@
                 android:layout_height="50dp"
                 android:src="@drawable/ic_home"
                 android:scaleType="centerInside"
-                android:contentDescription="Home icon"
-                />
-
-
+                android:contentDescription="Home icon"/>
         </LinearLayout>
 
+        <!-- Bouton Musique -->
         <LinearLayout
             android:id="@+id/musicButton"
             android:layout_width="0dp"
@@ -192,11 +143,10 @@
                 android:layout_height="50dp"
                 android:src="@drawable/ic_music"
                 android:scaleType="centerInside"
-                android:contentDescription="music icon" />
-
-
+                android:contentDescription="Music icon"/>
         </LinearLayout>
 
+        <!-- Bouton Favoris -->
         <LinearLayout
             android:id="@+id/favoriteButton"
             android:layout_width="0dp"
@@ -211,11 +161,10 @@
                 android:layout_height="50dp"
                 android:src="@drawable/ic_favorite"
                 android:scaleType="centerInside"
-                android:contentDescription="fav icon" />
-
-
+                android:contentDescription="Favorite icon"/>
         </LinearLayout>
 
+        <!-- Bouton Paramètres -->
         <LinearLayout
             android:id="@+id/settingsButton"
             android:layout_width="0dp"
@@ -230,9 +179,7 @@
                 android:layout_height="50dp"
                 android:src="@drawable/ic_settings"
                 android:scaleType="centerInside"
-                android:contentDescription="setting icon" />
-
-
+                android:contentDescription="Settings icon"/>
         </LinearLayout>
 
     </LinearLayout>

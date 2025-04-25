@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="20dp"
+        android:background="@drawable/dialog_logout">
+
+        <!-- Texte de confirmation -->
+        <TextView
+            android:id="@+id/logout_confirmation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tu as eu X/Y bonnes réponses !"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="8dp"/>
+
+        <!-- GIF -->
+        <ImageView
+            android:id="@+id/sadGif"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:contentDescription="Sad face GIF"
+            android:layout_gravity="center" />
+
+        <!-- Boutons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:paddingTop="20dp">
+
+            <Button
+                android:id="@+id/yes_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rejouer"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/custom_back_button"
+                android:layout_marginEnd="10dp" />
+
+            <Button
+                android:id="@+id/no_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quitter"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:background="@drawable/custom_back_button" />
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
