@@ -141,12 +141,6 @@
             android:textColor="@android:color/white"
             android:background="@android:color/transparent"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/btnTimedMode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Timed Mode"
-        android:layout_marginTop="20dp"/>
 
     <!-- Enlève le fond -->
 

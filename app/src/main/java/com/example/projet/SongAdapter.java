@@ -51,7 +51,8 @@ public class SongAdapter extends ArrayAdapter<Song> {
 
         TextView scoreTextView = convertView.findViewById(R.id.songHighScore); // Nouveau TextView pour le score
 // Afficher le score
-        int highScore = songScores.containsKey(song.getTitle()) ? songScores.get(song.getTitle()) : 0;        scoreTextView.setText(highScore > 0 ? "Meilleur: " + highScore : "Pas encore joué");
+        int highScore = songScores.containsKey(song.getTitle()) ? songScores.get(song.getTitle()) : 0;
+        scoreTextView.setText(highScore > 0 ? "Best Score: " + highScore : "Not played yet");
 
 
         TextView titleTextView = convertView.findViewById(R.id.songTitle);

@@ -53,11 +53,7 @@ public class SelectionActivity extends BaseActivity {
             setActiveButton(settingsButton);
             startActivity(new Intent(this, SettingsActivity.class));
         });
-        Button timedModeBtn = findViewById(R.id.btnTimedMode);
-        timedModeBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(SelectionActivity.this, TimedModeActivity.class);
-            startActivity(intent);
-        });
+
 
 
         NavigationHelper.setupNavigationBar(this);

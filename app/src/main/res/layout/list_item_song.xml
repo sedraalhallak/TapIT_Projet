@@ -12,31 +12,36 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="5"
         android:orientation="vertical">
 
         <TextView
+            android:fontFamily="@font/font6"
+
             android:id="@+id/songTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Titre"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
+            android:fontFamily="@font/font6"
+
             android:id="@+id/songArtist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Artiste"
-            android:textSize="14sp" />
+            android:textSize="18sp" />
         <TextView
+            android:fontFamily="@font/font6"
+
             android:id="@+id/songHighScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="High Score: 0"
-            android:textSize="14sp"
-            android:textColor="@android:color/black"
-            android:paddingBottom="8dp"/>
+            android:textSize="18sp"
+            android:paddingBottom="2dp"/>
 
 
     </LinearLayout>
