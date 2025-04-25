@@ -11,8 +11,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.RadialGradient;
-import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,13 +19,10 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
-import com.example.projet.Tile;
 
 public class GameView extends SurfaceView implements Runnable {
     private Thread gameThread;
@@ -49,8 +44,6 @@ public class GameView extends SurfaceView implements Runnable {
     private Bitmap redTileImage;  // Image pour la tuile rouge
     private Bitmap star;
     private Bitmap filledStar;
-    private ArrayList<Particle> festiveParticles = new ArrayList<>();
-    private boolean hasCelebrated = false;
     private final int SPEED_INCREASE_INTERVAL = 3000;
     private int baseSpeed = 25; // Vitesse de base
     private int speedIncreaseInterval = 5000; // Intervalle d'augmentation de vitesse (5 secondes)
@@ -94,17 +87,6 @@ public class GameView extends SurfaceView implements Runnable {
 
         addTile();
     }
-
-    private void generateFestiveParticles() {
-        int centerX = screenWidth / 2;
-        int centerY = starY + 100;
-
-        // Ajouter un grand nombre de particules pour l'effet explosif
-        for (int i = 0; i < 100; i++) { // Augmenter le nombre de particules pour un effet plus spectaculaire
-            festiveParticles.add(new Particle(centerX, centerY, true));
-        }
-    }
-
 
     @Override
     public void run() {
@@ -174,16 +156,6 @@ public class GameView extends SurfaceView implements Runnable {
         if (shouldAddTile()) {
             addTile();
         }
-        // Met à jour les particules festives
-        Iterator<Particle> iterator = festiveParticles.iterator();
-        while (iterator.hasNext()) {
-            Particle p = iterator.next();
-            p.update();
-            if (!p.isAlive()) {
-                iterator.remove();
-            }
-        }
-
     }
 
     private boolean shouldAddTile() {
@@ -211,7 +183,7 @@ public class GameView extends SurfaceView implements Runnable {
                 isDialogShown = true;
                 Activity activity = (Activity) getContext();
                 activity.runOnUiThread(() -> {
-                    new GameOverDialog(activity).show(score);
+                    new GameOverDialog(activity, ((MainActivity) activity).getSongTitle()).show(score);
                 });
             }
             canvas.drawBitmap(pauseButtonImage, screenWidth - pauseButtonImage.getWidth() - 20, 20, null);
@@ -219,9 +191,6 @@ public class GameView extends SurfaceView implements Runnable {
             drawScore(canvas);
             drawFeedback(canvas);
             drawFlash(canvas);
-            for (Particle p : festiveParticles) {
-                p.draw(canvas);
-            }
             holder.unlockCanvasAndPost(canvas);
         }
     }
@@ -229,23 +198,19 @@ public class GameView extends SurfaceView implements Runnable {
     private void drawScore(Canvas canvas) {
         float scoreX = screenWidth / 2;
         float scoreY = 450; // Position du score
-
         Paint mainPaint = new Paint();
         mainPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
         mainPaint.setTextSize(120);
         mainPaint.setColor(Color.WHITE);
         mainPaint.setTextAlign(Paint.Align.CENTER);
-
         canvas.drawText("" + score, scoreX, scoreY, mainPaint);
     }
 
     private void drawStars(Canvas canvas) {
         int maxStars = 3;
         int filledStars = Math.min(score / 2, maxStars); // Maximum 3 stars
-
         int[] starSizes = {200, 200, 200}; // Custom size for each star
         int spacing = 30;
-
         int totalWidth = starSizes[0] + starSizes[1] + starSizes[2] + (2 * spacing);
         int startX = (screenWidth / 2) - (totalWidth / 2);
         int starY = 150;
@@ -253,56 +218,12 @@ public class GameView extends SurfaceView implements Runnable {
         // Animation effect for star flickering
         long currentTime = System.currentTimeMillis();
         float opacity = (float) Math.abs(Math.sin(currentTime / 500.0)); // Flickering effect
-
         for (int i = 0; i < maxStars; i++) {
             int size = starSizes[i];
             boolean isFilled = i < filledStars;
-
-            // Make the filled star flicker by adjusting its opacity
             drawStarWithOpacity(canvas, startX + size / 2, starY + size / 2, size / 2, isFilled, opacity);
             startX += size + spacing;
         }
-
-        // 🎉 Trigger the light burst when 3 stars are filled
-        if (filledStars == 3 && !hasCelebrated) {
-            generateLightBurst(); // Generate the festive particles
-            hasCelebrated = true; // Ensure it only happens once
-        }
-    }
-
-    private void generateLightBurst() {
-        int centerX = screenWidth / 2;
-        int centerY = screenHeight / 2;
-
-        for (int i = 0; i < 250; i++) {
-            festiveParticles.add(new Particle(centerX, centerY, true));
-        }
-
-        triggerFlash();
-
-
-        //soundManager.playSoundEffect(SoundManager.EFFECT_SPARKLE);
-    }
-
-
-    // Méthode pour créer une étoile à 5 branches
-    private Path createStarPath(float centerX, float centerY, float radius) {
-        Path path = new Path();
-        int numPoints = 5; // Nombre de branches
-        double angle = Math.PI / numPoints; // Angle entre chaque point
-        for (int i = 0; i < 2 * numPoints; i++) {
-            double r = (i % 2 == 0) ? radius : radius / 2.5; // Alterner entre rayon externe et interne
-            double a = i * angle - Math.PI / 2; // Décalage pour orienter l'étoile vers le haut
-            float x = (float) (centerX + r * Math.cos(a));
-            float y = (float) (centerY + r * Math.sin(a));
-            if (i == 0) {
-                path.moveTo(x, y);
-            } else {
-                path.lineTo(x, y);
-            }
-        }
-        path.close(); // Fermer le chemin pour compléter l'étoile
-        return path;
     }
 
     private void drawStarWithOpacity(Canvas canvas, float centerX, float centerY, float radius, boolean filled, float opacity) {
@@ -310,20 +231,16 @@ public class GameView extends SurfaceView implements Runnable {
         paint.setAntiAlias(true);
         paint.setStyle(filled ? Paint.Style.FILL_AND_STROKE : Paint.Style.STROKE);
         paint.setStrokeWidth(4);
-
         if (filled) {
             paint.setColor(Color.parseColor("#FFD700"));  // Couleur or
             paint.setMaskFilter(new BlurMaskFilter(15, BlurMaskFilter.Blur.NORMAL));  // Effet lumineux
         } else {
             paint.setColor(Color.LTGRAY);
         }
-
         paint.setAlpha((int) (255 * opacity));
-
         Path path = new Path();
         int numPoints = 5;
         double angle = Math.PI / numPoints;
-
         for (int i = 0; i < 2 * numPoints; i++) {
             double r = (i % 2 == 0) ? radius : radius / 2.5;
             double a = i * angle - Math.PI / 2;
@@ -336,30 +253,7 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
         path.close();
-
         canvas.drawPath(path, paint);
-    }
-
-
-    private void drawLightRays(Canvas canvas) {
-        Paint rayPaint = new Paint();
-        rayPaint.setColor(Color.YELLOW);
-        rayPaint.setAlpha(40);
-        rayPaint.setStyle(Paint.Style.FILL);
-        int centerX = screenWidth / 2;
-        int centerY = screenHeight / 2;
-        for (int i = 0; i < 12; i++) {
-            float angle = (float) (i * Math.PI / 6);
-            float length = 1000;
-            float endX = (float) (centerX + length * Math.cos(angle));
-            float endY = (float) (centerY + length * Math.sin(angle));
-            Path ray = new Path();
-            ray.moveTo(centerX, centerY);
-            ray.lineTo(endX + 30, endY + 30);
-            ray.lineTo(endX - 30, endY - 30);
-            ray.close();
-            canvas.drawPath(ray, rayPaint);
-        }
     }
 
     private void triggerFlash() {
@@ -500,7 +394,6 @@ public class GameView extends SurfaceView implements Runnable {
         }
     }
 
-
     private void pauseGame() {
         isPlaying = false;
         isPaused = true;
@@ -548,99 +441,27 @@ public class GameView extends SurfaceView implements Runnable {
                     errorTile.isError = true;
                     tiles.add(errorTile);
                     isGameOver = true;
-
-                    // Enregistrement du score dans MainActivity
                     if (getContext() instanceof MainActivity) {
                         MainActivity mainActivity = (MainActivity) getContext();
                         String songTitle = mainActivity.getSongTitle();
                         int currentScore = score;
-
-                        // Vérifier si c'est un nouveau meilleur score
                         if (currentScore > mainActivity.getSongHighScore()) {
                             mainActivity.updateSongHighScore(songTitle, currentScore);
                         }
                     }
-
                     if (getContext() instanceof MainActivity) {
                         ((MainActivity) getContext()).stopMusic();
                     }
-
-
-
-
                     if (!isDialogShown) {
                         isDialogShown = true;
                         Activity activity = (Activity) getContext();
                         activity.runOnUiThread(() -> {
-                            new GameOverDialog(activity).show(score);
+                            new GameOverDialog(activity, ((MainActivity) activity).getSongTitle()).show(score);
                         });
                     }
                 }
             }
         }
         return true;
-    }
-
-    // Classe Particle pour les effets de particules
-    class Particle {
-        private float x, y;
-        private float dx, dy;
-        private float radius;
-        private Paint paint;
-        private int alpha;
-        private boolean isGolden;
-
-        public Particle(float x, float y, boolean isGolden) {
-            this.x = x;
-            this.y = y;
-            this.isGolden = isGolden;
-            Random random = new Random();
-
-            // 💨 Mouvement plus rapide
-            this.dx = (random.nextFloat() - 0.5f) * 30;
-            this.dy = (random.nextFloat() - 0.5f) * 30;
-
-            // ✨ Taille plus grande
-            this.radius = random.nextFloat() * 8f + 4f;
-
-            // 🟡 Couleur dorée
-            paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            paint.setColor(isGolden ? Color.rgb(255, 215, 0) : Color.WHITE);
-            paint.setStyle(Paint.Style.FILL);
-
-            // 🌫 Transparence initiale
-            this.alpha = 255;
-        }
-
-        public void update() {
-            x += dx;
-            y += dy;
-            alpha -= 4; // Durée de vie réduite
-            if (alpha < 0) alpha = 0;
-        }
-
-        public void draw(Canvas canvas) {
-            paint.setAlpha(alpha);
-
-            if (isGolden) {
-                // 🌟 Glow doré
-                RadialGradient gradient = new RadialGradient(
-                        x, y, radius * 2,
-                        Color.argb(alpha, 255, 223, 0),
-                        Color.argb(0, 255, 223, 0),
-                        Shader.TileMode.CLAMP
-                );
-                paint.setShader(gradient);
-                canvas.drawCircle(x, y, radius * 2, paint);
-                paint.setShader(null);
-            }
-
-            // 💫 Coeur de la particule
-            canvas.drawCircle(x, y, radius, paint);
-        }
-
-        public boolean isAlive() {
-            return alpha > 0;
-        }
     }
 }

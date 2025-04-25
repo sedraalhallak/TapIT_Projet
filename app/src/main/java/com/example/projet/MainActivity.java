@@ -143,6 +143,18 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    public int getStarsEarned() {
+        SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String username = prefs.getString("loggedInUsername", null);
+        if (username != null && songTitle != null) {
+            SharedPreferences starPrefs = getSharedPreferences("SongStars", MODE_PRIVATE);
+            String key = username + "_" + songTitle;
+            return starPrefs.getInt(key, 0); // 0 par défaut
+        }
+        return 0;
+    }
+
+
 
 
 

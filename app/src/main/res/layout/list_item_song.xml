@@ -10,63 +10,78 @@
 
     <!-- Bloc texte (titre + artiste) -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="92dp"
         android:layout_height="wrap_content"
         android:layout_weight="5"
         android:orientation="vertical">
 
         <TextView
-            android:fontFamily="@font/font6"
-
             android:id="@+id/songTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font6"
             android:text="Titre"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
-            android:fontFamily="@font/font6"
-
             android:id="@+id/songArtist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font6"
             android:text="Artiste"
             android:textSize="18sp" />
-        <TextView
-            android:fontFamily="@font/font6"
 
+        <TextView
             android:id="@+id/songHighScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/font6"
+            android:paddingBottom="2dp"
             android:text="High Score: 0"
-            android:textSize="18sp"
-            android:paddingBottom="2dp"/>
-
-
+            android:textSize="18sp" />
     </LinearLayout>
 
-    <!-- Boutons -->
-    <ImageButton
-        android:id="@+id/favoriteButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:scaleType="centerInside"
-        android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_favorite"
-        android:contentDescription="Bouton Favori" />
+    <!-- Conteneur pour les étoiles et les boutons (ils sont alignés horizontalement) -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-    <ImageButton
-        android:id="@+id/playButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:scaleType="centerInside"
-        android:adjustViewBounds="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_play"
-        android:contentDescription="Lire la chanson" />
+        <!-- Étoiles décalées à gauche -->
 
+        <!-- Boutons -->
+        <TextView
+            android:id="@+id/songStars"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/font6"
+            android:gravity="center_vertical"
+            android:text="☆☆☆"
+            android:textColor="#FFD700"
+            android:textSize="40sp" />
+
+        <ImageButton
+            android:id="@+id/favoriteButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_favorite"
+            android:contentDescription="Bouton Favori" />
+
+        <ImageButton
+            android:id="@+id/playButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_play"
+            android:contentDescription="Lire la chanson" />
+    </LinearLayout>
 </LinearLayout>

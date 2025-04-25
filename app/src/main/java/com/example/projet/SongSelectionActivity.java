@@ -60,7 +60,7 @@ public class SongSelectionActivity extends AppCompatActivity {
             skipButton.setVisibility(View.VISIBLE);
             skipButton.setAlpha(0f);
             skipButton.animate().alpha(1f).setDuration(500);
-        }, 3000);
+        }, 2000);
 
 // 🟣 OnClick avec animation + redirection
         skipButton.setOnClickListener(v -> {
