@@ -36,6 +36,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 COLUMN_SCORE + " INTEGER DEFAULT 0)";
 
         db.execSQL(createTable);
+
+
     }
 
     @Override
