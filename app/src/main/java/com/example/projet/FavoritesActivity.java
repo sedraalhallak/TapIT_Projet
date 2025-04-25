@@ -18,12 +18,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 public class FavoritesActivity extends AppCompatActivity {
+
     private VideoView videoView;
     private ListView favoriteListView;
     private SongAdapter songAdapter;
     private List<Song> favoriteSongs;
     private SoundManager soundManager;
+
+    // ✅ Déclaré en haut pour qu'il soit utilisé partout
     private Map<String, Integer> songScores = new HashMap<>();
 
     @Override
@@ -31,7 +36,7 @@ public class FavoritesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
 
-        // Initialisation de la vidéo d’arrière-plan
+        // ✅ Lancer la vidéo d’arrière-plan
         videoView = findViewById(R.id.videoView);
         Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.piano);
         videoView.setVideoURI(videoUri);
@@ -39,11 +44,14 @@ public class FavoritesActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Page des favoris", Toast.LENGTH_SHORT).show();
 
-        // Initialisation des favoris
+        // ✅ Charger les scores AVANT d'initialiser l'adapter
+        loadScores();
+
+        // ✅ Initialiser les vues
         favoriteListView = findViewById(R.id.favoriteListView);
-        TextView emptyMessage = findViewById(R.id.emptyFavoritesMessage);
         soundManager = new SoundManager(this);
         favoriteSongs = FavoriteManager.getFavorites(this);
+        TextView emptyMessage = findViewById(R.id.emptyFavoritesMessage);
 
         if (favoriteSongs.isEmpty()) {
             emptyMessage.setVisibility(View.VISIBLE);
@@ -51,13 +59,11 @@ public class FavoritesActivity extends AppCompatActivity {
             emptyMessage.setVisibility(View.GONE);
         }
 
-        loadScores(); // Charger les scores
-
-        // Initialisation de l'adapter
+        // ✅ Initialisation de l’adapter avec les scores
         songAdapter = new SongAdapter(this, favoriteSongs, soundManager, songScores);
         favoriteListView.setAdapter(songAdapter);
 
-        // Navigation
+        // ✅ Navigation
         LinearLayout homeButton = findViewById(R.id.homeButton);
         LinearLayout musicButton = findViewById(R.id.musicButton);
         LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
@@ -78,24 +84,40 @@ public class FavoritesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadScores(); // Recharger les scores
+
+        // ✅ Recharger les scores à chaque fois
+        loadScores();
 
         if (songAdapter != null) {
-            songAdapter.updateScores(songScores); // Assure-toi que cette méthode existe
+            songAdapter.updateScores(songScores);
             songAdapter.notifyDataSetChanged();
+        }
+
+        if (!videoView.isPlaying()) {
+            videoView.start();
         }
     }
 
-    // Charger les scores depuis SharedPreferences
+    // ✅ Chargement des scores depuis SharedPreferences
     private void loadScores() {
-        songScores.clear();
-        String username = getCurrentUsername();
-        SharedPreferences prefs = getSharedPreferences("SongScores_" + username, MODE_PRIVATE);
+        SharedPreferences userPrefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        String username = userPrefs.getString("loggedInUsername", "defaultUser");
+
+        SharedPreferences prefs = getSharedPreferences("SongScores", MODE_PRIVATE);
         Map<String, ?> allEntries = prefs.getAll();
+        songScores.clear();
+
         for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            songScores.put(entry.getKey(), (Integer) entry.getValue());
+            if (entry.getKey().startsWith(username + "_")) {
+                String songTitle = entry.getKey().substring((username + "_").length());
+                Object value = entry.getValue();
+                if (value instanceof Integer) {
+                    songScores.put(songTitle, (Integer) value);
+                }
+            }
         }
     }
+
 
     private String getCurrentUsername() {
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -115,7 +137,8 @@ public class FavoritesActivity extends AppCompatActivity {
         buttons.add(settingsButton);
 
         for (LinearLayout button : buttons) {
-            button.setBackground(null);
+            button.setBackground(null); // remove visual residue
+
             if (button == activeButton) {
                 button.setAlpha(1.0f);
                 button.setBackgroundResource(R.drawable.nav_button_background_selected);
