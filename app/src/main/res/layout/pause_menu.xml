@@ -6,7 +6,6 @@
     android:background="@android:color/transparent"
     android:padding="16dp">
 
-    <!-- Style commun pour tous les boutons -->
     <Button
         android:id="@+id/resume_button"
         android:fontFamily="@font/font6"
