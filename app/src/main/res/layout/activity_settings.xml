@@ -64,7 +64,6 @@
             android:layout_width="wrap_content"
             android:layout_height="66dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
             android:background="@drawable/custom_back_button"
             android:fontFamily="@font/font6"
             android:gravity="center"
@@ -74,6 +73,7 @@
             android:paddingBottom="12dp"
             android:text="@string/Changer"
             android:textColor="@color/white" />
+
     </LinearLayout>
 
 

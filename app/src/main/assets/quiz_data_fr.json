@@ -1,0 +1,102 @@
+[
+  {
+    "question": "Qui chante la chanson : 'Will you still love me when I'm not young and beautiful' ?",
+    "answers": ["Billie Eilish", "Taylor Swift", "Lana Del Rey", "Adele"],
+    "correctIndex": 2
+  },
+  {
+    "question": "Quelle ville est connue comme le berceau du jazz ?",
+    "answers": ["New York", "La Nouvelle-Orléans", "Los Angeles", "Chicago"],
+    "correctIndex": 1
+  },
+  {
+    "question": "De quelle chanson est tirée cette ligne : 'I'm in love with the shape of you' ?",
+    "answers": ["Havana", "Shape of You", "Sorry", "Thinking Out Loud"],
+    "correctIndex": 1
+  },
+  {
+    "question": "Qui chante la chanson : 'So you're a tough guy, like it really rough guy' ?",
+    "answers": ["Billie Eilish", "Ariana Grande", "Katy Perry", "Dua Lipa"],
+    "correctIndex": 0
+  },
+  {
+    "question": "Quel festival de musique a lieu chaque année dans le désert californien ?",
+    "answers": ["Coachella", "Burning Man", "Glastonbury", "Lollapalooza"],
+    "correctIndex": 0
+  },
+  {
+    "question": "De quelle chanson est tirée cette ligne : 'We could have had it all' ?",
+    "answers": ["Set Fire to the Rain", "Rolling in the Deep", "Hello", "Someone Like You"],
+    "correctIndex": 1
+  },
+  {
+    "question": "Qui était le chanteur principal du groupe Queen ?",
+    "answers": ["Freddie Mercury", "David Bowie", "Elton John", "Mick Jagger"],
+    "correctIndex": 0
+  },
+  {
+    "question": "De quelle chanson est tirée cette ligne : 'I said, ooh, I'm blinded by the lights' ?",
+    "answers": ["Blinding Lights", "Levitating", "Save Your Tears", "Stay"],
+    "correctIndex": 0
+  },
+  {
+    "question": "Quel célèbre gala de récompenses a lieu chaque février aux États-Unis ?",
+    "answers": ["Les Tonys", "Les Grammys", "Les Oscars", "Les Emmys"],
+    "correctIndex": 1
+  },
+  {
+    "question": "Qui chante la chanson : 'Never mind, I'll find someone like you' ?",
+    "answers": ["Taylor Swift", "Ed Sheeran", "Adele", "Shakira"],
+    "correctIndex": 2
+  },
+  {
+    "question": "Qui a interrompu Taylor Swift aux VMAs de 2009 ?",
+    "answers": ["Kanye West", "Jay-Z", "Drake", "Eminem"],
+    "correctIndex": 0
+  },
+  {
+    "question": "De quelle chanson est tirée cette ligne : 'And the players gonna play, play, play, play, play' ?",
+    "answers": ["You Belong With Me", "Style", "Shake It Off", "Love Story"],
+    "correctIndex": 2
+  },
+  {
+    "question": "Quel groupe est connu pour l'« invasion britannique » des années 1960 ?",
+    "answers": ["The Rolling Stones", "The Beatles", "Led Zeppelin", "Pink Floyd"],
+    "correctIndex": 1
+  },
+  {
+    "question": "Qui chante la chanson : 'Don't believe me, just watch!' ?",
+    "answers": ["Mark Ronson ft. Bruno Mars", "Justin Timberlake", "Pharrell Williams", "Daft Punk"],
+    "correctIndex": 0
+  },
+  {
+    "question": "Où a eu lieu le célèbre festival de Woodstock en 1969 ?",
+    "answers": ["Tennessee", "New York", "Californie", "Texas"],
+    "correctIndex": 1
+  },
+  {
+    "question": "De quelle chanson est tirée cette ligne : 'Cause all of me, loves all of you' ?",
+    "answers": ["Shape of You", "Perfect", "All of Me", "Thinking Out Loud"],
+    "correctIndex": 2
+  },
+  {
+    "question": "Quelle artiste féminine a marqué l'histoire avec sa tournée Renaissance World Tour en 2023 ?",
+    "answers": ["Lady Gaga", "Beyoncé", "Adele", "Rihanna"],
+    "correctIndex": 1
+  },
+  {
+    "question": "Qui chante la ligne : 'I can feel your halo, you know you're my saving grace' ?",
+    "answers": ["Mariah Carey", "Alicia Keys", "Beyoncé", "Rihanna"],
+    "correctIndex": 2
+  },
+  {
+    "question": "Quel artiste a sorti l'album surprise 'folklore' en 2020 ?",
+    "answers": ["Selena Gomez", "Taylor Swift", "Billie Eilish", "Adele"],
+    "correctIndex": 1
+  },
+  {
+    "question": "Quel est le nom de la fanbase de BTS ?",
+    "answers": ["MOA", "ONCE", "ARMY", "BLINK"],
+    "correctIndex": 2
+  }
+]

@@ -27,16 +27,15 @@ import java.util.List;
 import java.util.Random;
 
 public class SelectionActivity extends BaseActivity {
-    private Button replayButton;
 
-    private CountDownTimer countDownTimer;
-    private CountDownTimer globalTimer;  // Chrono global pour l'ensemble du quiz
-    private int globalTimeRemaining = 30;  // Temps total du quiz (20 secondes)
+    private Button replayButton;
+    private CountDownTimer globalTimer;
+    private int globalTimeRemaining = 30;
     private List<QuizQuestion> quizList;
     private QuizQuestion currentQuestion;
     private TextView quizQuestion;
     private LinearLayout quizAnswersLayout;
-    private TextView globalTimerTextView;  // TextView pour afficher le chrono global
+    private TextView globalTimerTextView;
     private int score = 0;
     private int questionCounter = 0;
     private final int totalQuestions = 5;
@@ -45,10 +44,10 @@ public class SelectionActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         LanguageUtils.applySavedLocale(this);
         super.onCreate(savedInstanceState);
-        Log.d("DEBUG", "L'activité " + getClass().getSimpleName() + " a été lancée.");
         setContentView(R.layout.activity_selection);
 
-        // Initialiser les éléments d'interface utilisateur
+        Log.d("DEBUG", "L'activité " + getClass().getSimpleName() + " a été lancée.");
+
         Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale);
 
         LinearLayout homeButton = findViewById(R.id.homeButton);
@@ -56,7 +55,6 @@ public class SelectionActivity extends BaseActivity {
         LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
         LinearLayout settingsButton = findViewById(R.id.settingsButton);
 
-        // Configurer les boutons de navigation
         homeButton.setOnClickListener(v -> {
             v.startAnimation(clickAnimation);
             setActiveButton(homeButton);
@@ -70,8 +68,7 @@ public class SelectionActivity extends BaseActivity {
 
         favoriteButton.setOnClickListener(v -> {
             Toast.makeText(this, "Clic Favoris", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(SelectionActivity.this, FavoritesActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, FavoritesActivity.class));
         });
 
         settingsButton.setOnClickListener(v -> {
@@ -84,39 +81,20 @@ public class SelectionActivity extends BaseActivity {
         setActiveButton(musicButton);
         ProfileUtils.setupProfileAvatar(this, R.id.profileAvatar);
 
-       /* quizQuestion = findViewById(R.id.quizQuestion);
-        quizAnswersLayout = findViewById(R.id.quizAnswersLayout);
-
-        // Récupérer le TextView pour afficher le chrono global
-        globalTimerTextView = findViewById(R.id.globalTimerTextView);
-
-        // Charger les questions à partir du fichier JSON
-        loadQuizQuestions();
-
-        // Démarrer le chrono global pour 20 secondes
-        startGlobalTimer(globalTimeRemaining);
-
-        // Afficher la première question
-        showRandomQuestion();
-        replayButton = findViewById(R.id.replayButton);*/
         quizQuestion = findViewById(R.id.quizQuestion);
         quizAnswersLayout = findViewById(R.id.quizAnswersLayout);
         globalTimerTextView = findViewById(R.id.globalTimerTextView);
         replayButton = findViewById(R.id.replayButton);
 
-        // Cacher les éléments du quiz
         quizQuestion.setVisibility(View.GONE);
         quizAnswersLayout.setVisibility(View.GONE);
         globalTimerTextView.setVisibility(View.GONE);
 
-        // Montrer l'intro
         LinearLayout introLayout = findViewById(R.id.introLayout);
         Button startQuizButton = findViewById(R.id.startQuizButton);
 
         startQuizButton.setOnClickListener(v -> {
             introLayout.setVisibility(View.GONE);
-
-            // Montrer les éléments du quiz
             quizQuestion.setVisibility(View.VISIBLE);
             quizAnswersLayout.setVisibility(View.VISIBLE);
             globalTimerTextView.setVisibility(View.VISIBLE);
@@ -125,42 +103,32 @@ public class SelectionActivity extends BaseActivity {
             startGlobalTimer(globalTimeRemaining);
             showRandomQuestion();
         });
-
     }
+
     private void showResultsDialog() {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_quiz_result, null);
-        ImageView quizGif = dialogView.findViewById(R.id.sadGif);  // Change l'ID si nécessaire
+        ImageView quizGif = dialogView.findViewById(R.id.sadGif);
         TextView resultText = dialogView.findViewById(R.id.logout_confirmation_text);
         Button replayBtn = dialogView.findViewById(R.id.yes_button);
         Button quitBtn = dialogView.findViewById(R.id.no_button);
 
-        // Définir le texte du résultat
-        resultText.setText("Tu as eu " + score + "/" + totalQuestions + " bonnes réponses ! 🎉");
+        resultText.setText("You got " + score + "/" + totalQuestions + " correct answers!");
 
-        // Charger un GIF selon le résultat
-        int gifRes = (score >= 3) ? R.drawable.happy : R.drawable.sad; // à adapter selon ton projet
-        Glide.with(this)
-                .asGif()
-                .load(gifRes)
-                .into(quizGif);
+        int gifRes = (score >= 3) ? R.drawable.happy : R.drawable.sad;
+        Glide.with(this).asGif().load(gifRes).into(quizGif);
 
-        // Créer le dialog personnalisé
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setView(dialogView)
-                .create();
+        AlertDialog dialog = new AlertDialog.Builder(this).setView(dialogView).create();
 
-        // Rejouer
         replayBtn.setOnClickListener(view -> {
             animateButtonClick(view);
             score = 0;
             questionCounter = 0;
-            globalTimeRemaining = 20;
+            globalTimeRemaining = 30;
             startGlobalTimer(globalTimeRemaining);
             showRandomQuestion();
             dialog.dismiss();
         });
 
-        // Quitter
         quitBtn.setOnClickListener(view -> {
             animateButtonClick(view);
             view.postDelayed(() -> {
@@ -170,16 +138,9 @@ public class SelectionActivity extends BaseActivity {
         });
 
         dialog.show();
-
-        // Ajuster la taille du Dialog
-        dialog.getWindow().setLayout(
-                LinearLayout.LayoutParams.WRAP_CONTENT,  // Largeur : contenu seulement
-                LinearLayout.LayoutParams.WRAP_CONTENT   // Hauteur : contenu seulement
-        );
-
+        dialog.getWindow().setLayout(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
     }
-
 
     private void animateButtonClick(View button) {
         button.animate()
@@ -194,19 +155,12 @@ public class SelectionActivity extends BaseActivity {
                 .start();
     }
 
-
-
     private void setActiveButton(LinearLayout activeButton) {
-        LinearLayout homeButton = findViewById(R.id.homeButton);
-        LinearLayout musicButton = findViewById(R.id.musicButton);
-        LinearLayout favoriteButton = findViewById(R.id.favoriteButton);
-        LinearLayout settingsButton = findViewById(R.id.settingsButton);
-
         List<LinearLayout> buttons = new ArrayList<>();
-        buttons.add(homeButton);
-        buttons.add(musicButton);
-        buttons.add(favoriteButton);
-        buttons.add(settingsButton);
+        buttons.add(findViewById(R.id.homeButton));
+        buttons.add(findViewById(R.id.musicButton));
+        buttons.add(findViewById(R.id.favoriteButton));
+        buttons.add(findViewById(R.id.settingsButton));
 
         for (LinearLayout button : buttons) {
             button.setBackground(null);
@@ -222,38 +176,48 @@ public class SelectionActivity extends BaseActivity {
 
     private void loadQuizQuestions() {
         try {
-            // Lire les questions à partir du fichier JSON
-            InputStreamReader reader = new InputStreamReader(getAssets().open("quiz_data.json"));
+            // Récupérer la langue actuelle
+            SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+            String currentLang = prefs.getString("locale", "fr");
+
+            String filename;
+            if ("fr".equals(currentLang)) {
+                filename = "quiz_data_fr.json"; // Si français
+            } else {
+                filename = "quiz_data.json"; // Sinon anglais par défaut
+            }
+
+            InputStreamReader reader = new InputStreamReader(getAssets().open(filename));
             Type questionListType = new TypeToken<List<QuizQuestion>>() {}.getType();
             quizList = new Gson().fromJson(reader, questionListType);
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(this, "Erreur de chargement des questions", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void startGlobalTimer(int seconds) {
         globalTimer = new CountDownTimer(seconds * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                // Afficher le temps restant pour le quiz entier
                 globalTimeRemaining = (int) (millisUntilFinished / 1000);
-                globalTimerTextView.setText("Temps global restant: " + globalTimeRemaining);
+                globalTimerTextView.setText("Time remaining : " + globalTimeRemaining + "s");
             }
 
             @Override
             public void onFinish() {
-                // Lorsque le temps global est écoulé, afficher les résultats
-                globalTimerTextView.setText("Temps écoulé !");
-                showResultsDialog(); // Afficher la boîte de dialogue
+                globalTimerTextView.setText("Time elapsed !");
+                showResultsDialog();
             }
         };
-        globalTimer.start();  // Démarrer le chrono global
+        globalTimer.start();
     }
 
     private void showRandomQuestion() {
         quizAnswersLayout.removeAllViews();
         Random random = new Random();
-        currentQuestion = quizList.get(random.nextInt(quizList.size()));  // Choix aléatoire d'une question
+        currentQuestion = quizList.get(random.nextInt(quizList.size()));
 
         quizQuestion.setText(currentQuestion.question);
 
@@ -263,28 +227,22 @@ public class SelectionActivity extends BaseActivity {
             answerButton.setTextColor(getResources().getColor(android.R.color.white));
             answerButton.setBackgroundResource(R.drawable.custom_back_button);
 
-            // Définir des marges pour espacer verticalement les boutons
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
-            params.setMargins(0, 10, 0, 10); // marges haut et bas
+            params.setMargins(0, 10, 0, 10);
             answerButton.setLayoutParams(params);
-
-// Ajouter du padding pour que le texte respire
             answerButton.setPadding(30, 20, 30, 20);
-
-            answerButton.setLayoutParams(params);
 
             int finalI = i;
             answerButton.setOnClickListener(v -> {
                 if (finalI == currentQuestion.correctIndex) {
-                    score++;  // Bonne réponse
+                    score++;
                     Toast.makeText(this, "🎉", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "❌", Toast.LENGTH_SHORT).show();
                 }
-
                 questionCounter++;
                 nextQuestion();
             });
@@ -293,29 +251,21 @@ public class SelectionActivity extends BaseActivity {
         }
     }
 
-
     private void nextQuestion() {
         if (questionCounter < totalQuestions) {
-            showRandomQuestion();  // Afficher la question suivante
+            showRandomQuestion();
         } else {
-            displayResults();  // Afficher les résultats si c'est la dernière question
+            displayResults();
         }
     }
 
     private void displayResults() {
-        // Stop global timer
         if (globalTimer != null) {
             globalTimer.cancel();
         }
-
-        // Masquer le bouton "Rejouer" avant d'afficher le pop-up
-        Button replayButton = findViewById(R.id.replayButton);
-        replayButton.setVisibility(View.GONE);  // Cacher le bouton "Rejouer" avant d'afficher le pop-up
-
-        // Afficher la boîte de dialogue des résultats
-        showResultsDialog(); // Afficher le pop-up pour les résultats
+        replayButton.setVisibility(View.GONE);
+        showResultsDialog();
     }
-
 
     @Override
     protected void onResume() {
@@ -325,21 +275,18 @@ public class SelectionActivity extends BaseActivity {
         profileAvatar.setImageResource(prefs.getInt("avatarId", R.drawable.a1));
     }
 
-    // Classe représentant une question du quiz
     private static class QuizQuestion {
         String question;
         String[] answers;
         int correctIndex;
-        String audioFile; // Optionnel pour les questions avec audio
+        String audioFile;
 
-        // Constructeur pour les questions sans audio
         public QuizQuestion(String question, String[] answers, int correctIndex) {
             this.question = question;
             this.answers = answers;
             this.correctIndex = correctIndex;
         }
 
-        // Constructeur pour les questions avec audio
         public QuizQuestion(String question, String[] answers, int correctIndex, String audioFile) {
             this.question = question;
             this.answers = answers;

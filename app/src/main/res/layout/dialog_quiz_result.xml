@@ -44,7 +44,7 @@
                 android:id="@+id/yes_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rejouer"
+                android:text="@string/Replay"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
                 android:background="@drawable/custom_back_button"
@@ -54,7 +54,7 @@
                 android:id="@+id/no_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Quitter"
+                android:text="@string/Exit"
                 android:textSize="18sp"
                 android:textColor="#FFFFFF"
                 android:background="@drawable/custom_back_button" />

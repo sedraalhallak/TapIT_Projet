@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name">TapIt</string>
+
     <!-- App -->
     <string name="english">Anglais</string>
     <string name="french">Français</string>
@@ -85,5 +87,15 @@
     <string name="not_played_yet">Pas encore joué</string>
     <string name="Musique">Musique</string>
     <string name="Desactivermusique">Desactiver musique</string>
+
+    <string name="TimeForAQuiz">  Quiz!</string>
+    <string name="Start">Démarrer</string>
+    <string name="Replay">Rejouer</string>
+    <string name="Question">Questions...</string>
+    <string name="TempsRest">Temps global restant: 20</string>
+
+    <string name="reponse">Tu as eu X/Y bonnes réponses !</string>
+    <string name="Exit">Quitter</string>
+
 
 </resources>
