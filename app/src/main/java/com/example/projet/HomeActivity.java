@@ -48,6 +48,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
 
+
+
         videoView = findViewById(R.id.videoView);
         songListView = findViewById(R.id.songListView);
         soundManager = new SoundManager(this);

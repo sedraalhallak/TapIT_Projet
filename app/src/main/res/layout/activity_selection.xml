@@ -7,6 +7,7 @@
     android:background="@drawable/purple"
     android:padding="0dp">
 
+
     <!-- Avatar de l'utilisateur -->
     <ImageView
         android:id="@+id/profileAvatar"
@@ -47,6 +48,7 @@
             android:background="@drawable/custom_back_button"
             android:textColor="@android:color/white"/>
     </LinearLayout>
+
 
 
     <!-- Timer pour chaque question -->

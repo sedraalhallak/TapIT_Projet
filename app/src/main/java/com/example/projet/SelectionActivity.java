@@ -46,6 +46,9 @@ public class SelectionActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
 
+
+
+
         Log.d("DEBUG", "L'activité " + getClass().getSimpleName() + " a été lancée.");
 
         Animation clickAnimation = AnimationUtils.loadAnimation(this, R.anim.click_scale);
