@@ -1,0 +1,26 @@
+from sqlalchemy.orm import Session
+from models import Song, Favorite, Score
+from schemas import SongCreate, ScoreCreate
+
+def create_song(db: Session, song: SongCreate):
+    db_song = Song(**song.dict())
+    db.add(db_song)
+    db.commit()
+    db.refresh(db_song)
+    return db_song
+
+def get_songs(db: Session):
+    return db.query(Song).all()
+
+def get_favorites(db: Session):
+    return db.query(Favorite).all()
+
+def add_score(db: Session, score: ScoreCreate):
+    db_score = Score(**score.dict())
+    db.add(db_score)
+    db.commit()
+    db.refresh(db_score)
+    return db_score
+
+def get_scores(db: Session):
+    return db.query(Score).all()
