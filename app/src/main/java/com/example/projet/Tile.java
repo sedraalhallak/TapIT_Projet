@@ -2,6 +2,9 @@ package com.example.projet;
 
 
 public class Tile {
+    boolean isPressed = false;
+
+
     public int x, y, width, height;
     public boolean isError = false;
     public boolean isTransparent = false;

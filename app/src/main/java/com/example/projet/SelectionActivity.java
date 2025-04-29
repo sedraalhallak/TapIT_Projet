@@ -179,15 +179,14 @@ public class SelectionActivity extends BaseActivity {
 
     private void loadQuizQuestions() {
         try {
-            // Récupérer la langue actuelle
             SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
             String currentLang = prefs.getString("locale", "fr");
 
             String filename;
             if ("fr".equals(currentLang)) {
-                filename = "quiz_data_fr.json"; // Si français
+                filename = "quiz_data_fr.json"; // Fr
             } else {
-                filename = "quiz_data.json"; // Sinon anglais par défaut
+                filename = "quiz_data.json"; // En
             }
 
             InputStreamReader reader = new InputStreamReader(getAssets().open(filename));

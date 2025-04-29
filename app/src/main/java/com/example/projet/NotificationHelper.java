@@ -9,7 +9,7 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 public class NotificationHelper {
-    private static final String CHANNEL_ID = "settings_channel";  // Utilisez le même ID ici
+    private static final String CHANNEL_ID = "settings_channel";
 
     public static void createNotificationChannel(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -26,7 +26,6 @@ public class NotificationHelper {
     }
 
     public static void showRealNotification(Context context, String title, String message) {
-        // Quand on clique, ouvrir HomeActivity
         Intent intent = new Intent(context, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(
@@ -39,8 +38,8 @@ public class NotificationHelper {
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setContentIntent(pendingIntent) // ← ouvrir HomeActivity quand on clique
-                .setAutoCancel(true); // ← supprimer la notif après clic
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager != null) {
